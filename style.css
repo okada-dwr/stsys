@@ -1,0 +1,46 @@
+
+body{
+    font-size: 10px;
+}
+
+.explanation{
+    margin-top: 50px;
+    font-size: 20px;
+    
+}
+.explanation span{
+    color: red;
+    text-decoration:underline;
+}
+#Exam_details{
+    margin-left: 130px;
+}
+#Exam_details_left{
+    float: left;
+    width: 50%; /* 要素の幅を50%に定義 */
+}
+#Exam_details_right{
+    float: left;
+    width: 50%; /* 要素の幅を50%に定義 */
+}
+.Exam_details_center{
+    text-align: center;
+}
+.crane{
+    font-size: 1.7rem;
+}
+.pay_explanation_left{
+    float: left;
+    width: 50%; /* 要素の幅を50%に定義 */
+}
+.pay_explanation_right{
+    float: right;
+    width: 50%; /* 要素の幅を50%に定義 */
+}
+.area-tr{
+    background-color: rgba(110, 184, 36, 0.815);
+}
+.course_type{
+    text-decoration:underline;
+    background-color: rgba(255, 248, 220, 0.836);
+}
