@@ -96,18 +96,18 @@ try {
     // DB接続
     $pdo = new PDO(
         // ホスト名、データベース名
-        //'mysql:host=us-cdbr-east-04.cleardb.com;dbname=heroku_ab9a84ac854b6bc;',
+        'mysql:host=us-cdbr-east-04.cleardb.com;dbname=heroku_ab9a84ac854b6bc;',
         // ユーザー名
-        //'b6133783b4692d',
+        'b6133783b4692d',
         // パスワード
-        //'16eee8bc',
+        '16eee8bc',
 
-        // ホスト名、データベース名
-        'mysql:host=localhost;dbname=stsys;',
-        // ユーザー名
-        'root',
-        // パスワード
-        'shinei4005',
+        // // ホスト名、データベース名
+        // 'mysql:host=localhost;dbname=stsys;',
+        // // ユーザー名
+        // 'root',
+        // // パスワード
+        // 'shinei4005',
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
     );
