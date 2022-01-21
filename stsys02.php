@@ -4,18 +4,18 @@ try {
     // DB接続
     $pdo = new PDO(
         // ホスト名、データベース名
-        //'mysql:host=us-cdbr-east-04.cleardb.com;dbname=heroku_ab9a84ac854b6bc;',
+        'mysql:host=us-cdbr-east-05.cleardb.net ;dbname=heroku_5e78f26ff50403d? ;',
         // ユーザー名
-        //'b6133783b4692d',
+        'b2c2e6853ab5ee',
         // パスワード
-        //'16eee8bc',
+        '2f35b6a9',
 
-        // ホスト名、データベース名
-        'mysql:host=localhost;dbname=stsys;',
-        // ユーザー名
-        'root',
-        // パスワード
-        'shinei4005',
+        // // ホスト名、データベース名
+        // 'mysql:host=localhost;dbname=stsys;',
+        // // ユーザー名
+        // 'root',
+        // // パスワード
+        // 'shinei4005',
         // レコード列名をキーとして取得させる
 
         // レコード列名をキーとして取得させる
