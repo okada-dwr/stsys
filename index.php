@@ -24,9 +24,11 @@ try {
     );
   
 
-    // 管理者の予約情報
-    $sql_course = $pdo->prepare('SELECT * FROM st_course_item_mst WHERE del_flg=0  ORDER BY course_code');
-    $sql_course->execute();
+        //会場
+    $sql_place = $pdo->prepare('SELECT * FROM com_place_mst WHERE del_flg=0  ORDER BY place_code');
+    $sql_place->execute();
+    $rowCount_anser = $sql_place->rowCount() - 1;
+
 
     //会場名
     $s = 0; //カウントに使う
