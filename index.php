@@ -96,7 +96,7 @@ try {
     // DB接続
     $pdo = new PDO(
         // ホスト名、データベース名
-        'mysql:host=us-cdbr-east-05.cleardb.net ;dbname=heroku_5e78f26ff50403d? ;',
+        'mysql:host=us-cdbr-east-05.cleardb.net;dbname=heroku_5e78f26ff50403d?;',
         // ユーザー名
         'b2c2e6853ab5ee',
         // パスワード
