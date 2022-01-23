@@ -43,3 +43,63 @@ body{
     text-decoration:underline;
     background-color: rgba(255, 248, 220, 0.836);
 }
+#pay_explanation{
+    margin-top: 100px;
+    margin-left: 100px;
+}
+/* stsys2 */
+.row_table,
+.row_table td,
+.row_table th {
+  border: 1px solid #cbced2;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.row_table th {
+  background: #01214d;
+  color: #fff;
+  padding: 4px 12px;
+  display: block;
+  width: 100%
+}
+
+.row_table td {
+  background: #f5f6f8;
+  padding: 4px 12px;
+  display: block;
+  width: 100%;
+}
+
+.table_01 {
+    margin: 20px auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  .table_01 th {
+    background: #FFBB1E;
+    border: solid 1px #ccc;
+    color: #fff;
+    padding: 10px;
+  }
+  .table_01 td {
+    border: solid 1px #ccc;
+    padding: 10px;
+  }
+  
+  @media screen and (max-width: 640px) {
+    .last td:last-child {
+      border-bottom: solid 1px #ccc;
+      width: 100%;
+    }
+    .table_01 {
+      width: 80%;
+    }
+    .table_01 th,
+    .table_01 td {
+      border-bottom: none;
+      display: block;
+      width: 100%;
+    }
+  } 
+/* yokonarabi */
