@@ -22,7 +22,7 @@ try {
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
     );
 
-    if (isset($_POST['request'])) {
+   if (isset($_POST['request'])) {
 
         // $list = ['product_code', 'product_name', 'number', 'unit_price', 'price'];
         // $answer = [];
@@ -54,56 +54,6 @@ try {
         $stmt->execute();
     } elseif (isset($_POST['no_read'])) {
 
-        //     //伝票NO
-        //     $slip_number = $_POST['slip_number'];
-
-        //     // SQL文をセット
-        //     $stmt = $pdo->prepare('SELECT indicate FROM sales_details WHERE no=:slip_number');
-
-        //     // 値をセット
-        //     $stmt->bindValue(':slip_number', $slip_number);
-
-        //     // SQL実行
-        //     $stmt->execute();
-        //     $username = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        //     if ($username['indicate'] = 0) {
-        //         // SQL文をセット
-        //         $stmt = $pdo->prepare('SELECT * FROM sales_details WHERE no=:slip_number');
-
-        //         // 値をセット
-        //         $stmt->bindValue(':slip_number', $slip_number);
-
-        //         // SQL実行
-        //         $stmt->execute();
-        //         $username = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        //         $_SESSION['no'] = $username['no'];
-        //         $_SESSION['product_code'] = $username['product_code'];
-        //         $_SESSION['product_name'] = $username['product_name'];
-        //         $_SESSION['number'] = $username['number'];
-        //         $_SESSION['unit_price'] = $username['unit_price'];
-        //         $_SESSION['price'] = $username['price'];
-        //     } else {
-        //         $_SESSION['no'] = 0;
-        //         $_SESSION['product_code'] = 0;
-        //         $_SESSION['product_name'] = "";
-        //         $_SESSION['number'] = 0;
-        //         $_SESSION['unit_price'] = 0;
-        //         $_SESSION['price'] = 0;
-        //     }
-        // } elseif (isset($_POST['delete'])) {
-        //     $no = $_POST['no'];
-        //     $indicate = 1;
-        //     // SQL文をセット
-        //     $stmt = $pdo->prepare('UPDATE sales_details SET indicate=:indicate WHERE no=:no');
-
-        //     // 値をセット
-        //     $stmt->bindValue(':no', $no);
-        //     $stmt->bindValue(':indicate', $indicate);
-
-        //     // SQL実行
-        //     $stmt->execute();
     }
 } catch (PDOException $e) {
     // エラー発生
@@ -125,6 +75,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -149,11 +100,30 @@ try {
                 </p>
             </div>
         </div>
-
+        <table class="table_01">
+  <tr>
+    <th>見出し01</th>
+    <td>内容_1-1</td>
+    <td>内容_1-2</td>
+    <td>内容_1-3</td>
+  </tr>
+  <tr>
+    <th>見出し02</th>
+    <td>内容_2-1</td>
+    <td>内容_2-2</td>
+    <td>内容_2-3</td>
+  </tr>
+  <tr class="last">
+    <th>見出し03</th>
+    <td>内容_3-1</td>
+    <td>内容_3-2</td>
+    <td>内容_3-3</td>
+  </tr>
+</table>
         <form action="stsys02.php" method="POST">
-            <table border="1">
+            <table class="table_01" border="1">
                 <tr>
-                    <td>申込書郵送の有無</td>
+                    <th>申込書郵送の有無</th>
                     <td><select name="mail_flg">
                             <option value=""></option>
                             <option value="1">有</option>
@@ -210,7 +180,7 @@ try {
                         <input type="text" name="fax" size="8" placeholder="例）0773755591">
                     </td>
                 </tr>
-                <tr>
+                <tr class="last">
                     <td>mailアドレス</td>
                     <td>
                         <input type="text" name="mail_address" size="8" placeholder="例）xxxx@gmail.com">
