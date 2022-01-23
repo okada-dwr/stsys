@@ -22,7 +22,7 @@ try {
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
     );
 
-   if (isset($_POST['request'])) {
+    if (isset($_POST['request'])) {
 
         // $list = ['product_code', 'product_name', 'number', 'unit_price', 'price'];
         // $answer = [];
@@ -75,7 +75,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
@@ -100,28 +100,9 @@ try {
                 </p>
             </div>
         </div>
-        <table class="table_01">
-  <tr>
-    <th>見出し01</th>
-    <td>内容_1-1</td>
-    <td>内容_1-2</td>
-    <td>内容_1-3</td>
-  </tr>
-  <tr>
-    <th>見出し02</th>
-    <td>内容_2-1</td>
-    <td>内容_2-2</td>
-    <td>内容_2-3</td>
-  </tr>
-  <tr class="last">
-    <th>見出し03</th>
-    <td>内容_3-1</td>
-    <td>内容_3-2</td>
-    <td>内容_3-3</td>
-  </tr>
-</table>
+
         <form action="stsys02.php" method="POST">
-            <table class="table_01" border="1">
+            <table class="table_01">
                 <tr>
                     <th>申込書郵送の有無</th>
                     <td><select name="mail_flg">
@@ -150,44 +131,44 @@ try {
                 <tr>
                     <td>郵便番号(会社または個人)</td>
                     <td>
-                        <input type="text" name="post_no" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,'','adress','adress');">
+                        <input type="text" name="post_no" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,'','adress','adress');">
                         <!--〒<input type="text" size="8" maxlength="3" placeholder="例）624>-<input type=" text" size="8" maxlength="4" placeholder="例）0951">-->
                     </td>
                 </tr>
                 <tr>
                     <td>住所1(番地まで)</td>
                     <td>
-                        <input type="text" name="address1" size="60" placeholder="例）京都府舞鶴市上福井117番地">
+                        <input type="text" name="address1" placeholder="例）京都府舞鶴市上福井117番地">
                         <!--〒<input type="text" size="8" placeholder="例）京都府舞鶴市上福井１１７">-->
                     </td>
                 </tr>
                 <tr>
                     <td>住所2(マンション名)</td>
                     <td>
-                        <input type="text" name="address2" size="60" placeholder="例）京都府舞鶴市上福井117番地">
+                        <input type="text" name="address2" placeholder="例）京都府舞鶴市上福井117番地">
                         <!--〒<input type="text" size="8" placeholder="例）京都府舞鶴市上福井１１７">-->
                     </td>
                 </tr>
                 <tr>
                     <td>電話番号(会社または個人)</td>
                     <td>
-                        <input type="text" name="tel" size="8" placeholder="例）0773750652">
+                        <input type="text" name="tel" placeholder="例）0773750652">
                     </td>
                 </tr>
                 <tr>
                     <td>FAX番号(会社または個人)</td>
                     <td>
-                        <input type="text" name="fax" size="8" placeholder="例）0773755591">
+                        <input type="text" name="fax"placeholder="例）0773755591">
                     </td>
                 </tr>
                 <tr class="last">
                     <td>mailアドレス</td>
                     <td>
-                        <input type="text" name="mail_address" size="8" placeholder="例）xxxx@gmail.com">
+                        <input type="text" name="mail_address" placeholder="例）xxxx@gmail.com">
                     </td>
                 </tr>
             </table>
-            <table border="1">
+            <table class="table_01">
                 <tr>
                     <td>助成金の有無</td>
                     <td><select name="sub_flg">
@@ -203,7 +184,7 @@ try {
             //}
             ?>
 
-            <table border="1">
+            <table class="table_01">
                 <tr>
                     <th>受講者指名</th>
                     <th>生年月日</th>
