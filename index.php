@@ -99,19 +99,10 @@ try {
         'b2c2e6853ab5ee',
         '2f35b6a9',
 
-        // // ホスト名、データベース名
-        // 'mysql:host=us-cdbr-east-05.cleardb.net;dbname=heroku_5e78f26ff50403d;',
-        // // ユーザー名
-        // 'b2c2e6853ab5ee',
-        // // パスワード
-        // '2f35b6a9',
-
-        // // ホスト名、データベース名
-        // 'mysql:host=localhost;dbname=stsys;',
-        // // ユーザー名
+        // 'mysql:dbname=stsys;host=localhost;charset=utf8',
         // 'root',
-        // // パスワード
         // 'shinei4005',
+
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
     );
@@ -245,41 +236,35 @@ try {
             $insert_day = 0;
             $count = $start_day[$i][5] - $start_day[$i][4]; //月マタギか判断
             if ($count < 0) { //月マタギなら
-                switch ($month_db) {
-                    case '01' or '03' or '05' or '07' or '08' or '10' or '12':
-                        $count2 = 7; //配列の７番目から日付入れる
-                        $higawari = 31 - $start_day[$i][4];
-                        if ($higawari === 0) { //最終日の場合 1月なら31日とか
-                            for ($z = 0; $z < $start_day[$i][5]; $z++) { //来月分だけ追加する
-                                $coun1 += 1;
-                                $start_day[$i][$count2] =  array($start_day[$i][4] => 1 + $coun1 - 1); //結合される部分作成(8日なら9日と10日が結合される
-                                $count2 += 1;
-                                $insert_day += 1;
-                            }
-                        } else { //最終日ではない場合 1月なら30日とか
-                            $count2 = 7; //配列の７番目から日付入れる
-                            for ($z = 0; $z < $higawari; $z++) { //来月分と今月最終日まで追加する
-                                $coun1 += 1;
-                                $start_day[$i][$count2] =   array($start_day[$i][4] => $start_day[$i][4] + $coun1); //結合される部分作成(8日なら9日と10日が結合される
-                                $count2 += 1;
-                            }
-                            $coun1 = 1;
-                            for ($z = 0; $z <  $start_day[$i][5]; $z++) {
-                                $start_day[$i][$count2] =  array($start_day[$i][4] => 1 + $coun1 - 1); //結合される部分作成(8日なら9日と10日が結合される
-                                $count2 += 1;
-                                $coun1 += 1;
-                                $insert_day += 1;
-                            }
-                        }
-                        break;
-                    case '02':
-                        break;
-                    case '04' or '06' or '09' or '11':
-                        break;
-                    default:
+                $count2 = 7; //配列の７番目から日付入れる
+                $higawari = $day_count - $start_day[$i][4]; //月末か月末の手前か判断
+                if ($higawari === 0) { //月末の場合 1月なら31日とか
+                    for ($z = 0; $z < $start_day[$i][5]; $z++) { //来月分だけ追加する
+                        $coun1 += 1;
+                        $start_day[$i][$count2] =  array($start_day[$i][4] => 1 + $coun1 - 1); //結合される部分作成(8日なら9日と10日が結合される
+                        $count2 += 1;
+                        $insert_day += 1;
+                    }
+                } else { //月末ではない場合 1月なら30日とか
+                    if ($day === 29) {
+                        $day = $day;
+                    }
+                    $count2 = 7; //配列の７番目から日付入れる
+                    for ($z = 0; $z < $higawari; $z++) { //来月分と今月最終日まで追加する
+                        $coun1 += 1;
+                        $start_day[$i][$count2] =   array($start_day[$i][4] => $start_day[$i][4] + $coun1); //結合される部分作成(8日なら9日と10日が結合される
+                        $count2 += 1;
+                    }
+                    $coun1 = 1;
+                    for ($z = 0; $z <  $start_day[$i][5]; $z++) {
+                        $start_day[$i][$count2] =  array($start_day[$i][4] => 1 + $coun1 - 1); //結合される部分作成(8日なら9日と10日が結合される
+                        $count2 += 1;
+                        $coun1 += 1;
+                        $insert_day += 1;
+                    }
                 }
             } else { //月マタギではない
-                $count2 = 7; //配列の７番目から日付入れる
+                $count2 = 7; //配列の７番目から結合する日付を入れる（startday=3,end=5なら4,5を追加）
                 for ($z = 0; $z < $count; $z++) {
                     $coun1 += 1;
                     $start_day[$i][$count2] =  array($start_day[$i][4] => $start_day[$i][4] + $coun1); //結合される部分作成(8日なら9日と10日が結合される
@@ -344,13 +329,9 @@ try {
             }
         }
 
-
-
-
         $final_count = 0;
         //$dayが結合される日付か確認する(0:飛ばさない 1:飛ばす)
         foreach ($start_day_final_dummy as $start_day1) {
-
             $ketugou_count = count($start_day1); //結合数を数える
             $skip_check = 0;    //スキップに使う変数の初期化(0:飛ばさない 1:飛ばす)
             $slice_array = array_slice($start_day1, 7);
@@ -380,9 +361,9 @@ try {
 
                                 $hairetu_count = array_column($start_day1, $Key);
                                 $finish_key_count = count($hairetu_count); //結合数を数える
-                                if ($day === 10) {
-                                    $day = $day;
-                                }
+                                // if ($day === 10) {
+                                //     $day = $day;
+                                // }
                                 //人数表示する。
                                 $reset = 1; //予約日先頭なら1を入れる
                                 $slice_array1 = array_slice($start_day1, 6);
@@ -398,13 +379,12 @@ try {
                                     }
                                 }
                             }
-                            // }
                         }
                     }
                 }
             }
             if ($reset === 1) { //予約日先頭ならセル結合を入れる
-                if ($day === 10) {
+                if ($day === 29) {
                     $day = $day;
                 }
                 if ($td_check[$final_count] === 0) {
@@ -428,9 +408,6 @@ try {
             $p += 1;
             $final_count += 1;
         }
-        // }
-
-        // データベース読み取り終わり→配列２行目を読み込む
 
         // 日付作成**********************************************************************************
         $week .= '<td>' . $day;
@@ -439,40 +416,48 @@ try {
 
     }
 
-    //月マタギの予約があれば来月の日付分を作成する（配列の最後<td>に追加する）
-    // $i = 0;
-    // foreach ($start_day100 as $start_day1) {
-    //     $slice_array = array_slice($start_day1, 7);
-    //     foreach ($slice_array as $start_day2) { //7=>3:4
-    //         foreach ($start_day2 as $Key => $start_day3) { //3=>4
-    //             if ($start_day3 - $key < 0) { //1日-31日の場合0より小さいので来月の日と分かる
-    //                 $start_day100[$i][count($start_day100[$final_count]) - 1] .= '<td>';
-    //             }
-    //         }
-    //     }
-    //     $i += 1;
-    // }
+    //来月の日付がある際（１月なら２月１日とか）、曜日作成の必要があるため、一番多い日付を
+    $youbi_raigetu = 0;
+    $youbi_raigetu_backup = 0;
+    foreach ($start_day_final as $start_day_final10) {
+        $slice_array1 = array_slice($start_day_final10, 7);
 
-    if ($insert_day <> 0) {
-        for ($i = 1; $i <= $insert_day; $i++) {
-            //それぞれの日付をY-m-d形式で表示例：2020-01-23
-            //タイムスタンプを作成(表示例）：1638284400
-            if ($month === "12") {
-                $year += 1;
-                $month = 0;
+        //<td>が含まれるとforeachエラーになるので最後の行はとらないように処理する
+        $hairetu_count1 = count($slice_array1) - 1;
+        $slice_array = array_slice($slice_array1, 0, $hairetu_count1);
+
+        foreach ($slice_array as $key => $slice_array11) {
+            foreach ($slice_array11 as $key => $slice_array12) {
+                if (strlen($key) <> 5) { //$KEYが10000桁なら人数である
+                    if ($slice_array12 - $key < 0) {
+                        $youbi_raigetu += 1;
+                    }
+                }
             }
-            $timestamp = strtotime($year . '-' . $month + 1 . '-' .  $i);
-            //曜日を数字で取得 0:日 1:月 2:火 3:水 4:木 5:金 6:土
-            $youbi = date('w',  $timestamp);
-
-            youbi_create($youbi);
-
-            $week .= '<td>' . $i;
-            $week .= '</td>';
-            //  $week_none .= '<td>';
-            //   $week_none .= '</td>';
+            //もし前の来月日付の数より大きければ$youbi_raigetu_backupに入れる（最終的に使うやつ）
+            if ($youbi_raigetu > $youbi_raigetu_backup) {
+                $youbi_raigetu_backup = $youbi_raigetu;
+            }
         }
+        $youbi_raigetu = 0;
     }
+    for ($i = 1; $i <= $youbi_raigetu_backup; $i++) {
+        //それぞれの日付をY-m-d形式で表示例：2020-01-23
+        //タイムスタンプを作成(表示例）：1638284400
+        if ($month === "12") {
+            $year += 1;
+            $month = 0;
+        }
+        $timestamp = strtotime($year . '-' . $month + 1 . '-' .  $i);
+        //曜日を数字で取得 0:日 1:月 2:火 3:水 4:木 5:金 6:土
+        $youbi = date('w',  $timestamp);
+
+        youbi_create($youbi);
+
+        $week .= '<td>' . $i;
+        $week .= '</td>';
+    }
+    $youbi_raigetu = 0;
 } catch (PDOException $e) {
     // エラー発生
     echo $e->getMessage();
@@ -499,18 +484,31 @@ foreach ($course_day as  $course_day1) {
 
 $td_ad = 0;
 $td_already = 0;
+//来月の日付がある際（１月なら２月１日とか）、無い検定項目のセルも追加する必要がある（空白になるため）
 foreach ($course_day as $course_day2) {
-    if (count($course_day2) < 5) {
-        for ($i = 0; $i < $day_count; $i++) {
-            if ($td_already === 0) {
-                $course_day[$td_ad][4] = '<td></td>';
-                $td_already = 1;
-            } else {
-                $course_day[$td_ad][4] .= '<td></td>';
+    if (count($course_day2) > 4) {
+        $slice_array1 = array_slice($course_day2, 7);
+        //<td>が含まれるとforeachエラーになるので最後の行はとらないように処理する
+        $hairetu_count1 = count($slice_array1) - 1;
+        $slice_array = array_slice($slice_array1, 0, $hairetu_count1);
+
+        foreach ($slice_array as $key => $slice_array11) {
+            foreach ($slice_array11 as $key => $slice_array12) {
+                if (strlen($key) <> 5) { //$KEYが10000桁なら人数であるので飛ばす
+                    if ($slice_array12 - $key < 0) {
+                        $youbi_raigetu += 1;
+                    }
+                }
             }
         }
-        $td_already = 0;
+        if ($youbi_raigetu < $youbi_raigetu_backup) {
+            for ($i = 0; $i < $youbi_raigetu_backup - $youbi_raigetu; $i++) {
+                $course_day[$td_ad][count($course_day[$td_ad]) - 1] .= '<td></td>';
+            }
+            $youbi_raigetu = 0;
+        }
     }
+    $youbi_raigetu = 0;
     $td_ad += 1;
 }
 
@@ -604,10 +602,6 @@ function display_to_Holidays($date, $Holidays_array)
         return $holidays;
     }
 }
-
-
-
-
 
 ?>
 
@@ -749,31 +743,16 @@ function display_to_Holidays($date, $Holidays_array)
                     $course_day
                 );
 
-
+                //カレンダー表示
                 foreach ($course_day as $course_day3) {
-                    $test_after = $course_day3[0];
-                    if ($test_before === 0) {
-                        $test_after = $course_day3[0];
-                        $test_name = $course_day3[1];
-
-                        //会場表示
-                        echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
-                        $test_before = $test_after;
-                        //検定名表示
-                        echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
-                        //日付表示
-                        echo $course_day3[count($course_day3) - 1] . '</tr>';
-                    } elseif ($test_after <> $test_before) {
-                        $test_name = $course_day3[1];
-                        //会場表示
-                        echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
-                        $test_before = $test_after;
-                        //検定名表示
-                        echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
-                        //日付表示
-                        echo $course_day3[count($course_day3) - 1] . '</tr>';
+                    //予約ないやつは非表示
+                    if (count($course_day3) < 5) {
                     } else {
-                        if ($test_after <> $test_before) { //最初ではなくて、違う場合
+                        $test_after = $course_day3[0];
+                        if ($test_before === 0) {
+                            $test_after = $course_day3[0];
+                            $test_name = $course_day3[1];
+
                             //会場表示
                             echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
                             $test_before = $test_after;
@@ -781,91 +760,35 @@ function display_to_Holidays($date, $Holidays_array)
                             echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
                             //日付表示
                             echo $course_day3[count($course_day3) - 1] . '</tr>';
-                        } else { //最初ではなくて、一緒の場合
+                        } elseif ($test_after <> $test_before) {
+                            $test_name = $course_day3[1];
+                            //会場表示
+                            echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
+                            $test_before = $test_after;
                             //検定名表示
                             echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
                             //日付表示
                             echo $course_day3[count($course_day3) - 1] . '</tr>';
-                            $test_before = $test_after;
+                        } else {
+                            if ($test_after <> $test_before) { //最初ではなくて、違う場合
+                                //会場表示
+                                echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
+                                $test_before = $test_after;
+                                //検定名表示
+                                echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
+                                //日付表示
+                                echo $course_day3[count($course_day3) - 1] . '</tr>';
+                            } else { //最初ではなくて、一緒の場合
+                                //検定名表示
+                                echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
+                                //日付表示
+                                echo $course_day3[count($course_day3) - 1] . '</tr>';
+                                $test_before = $test_after;
+                            }
                         }
                     }
                 }
                 ?>
-
-                <!-- 
-                <tr>
-                    <?php
-                    // echo '<td class="course_type" colspan="' .  $count_youbi + 2 . '">技能講習</td>'
-                    ?>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <h3 style="font-size: 1.0rem;">小型移動式クレーン K1、K2</h3>
-                    </td>
-
-
-                    <?php
-                    // echo $start_day100[0][count($start_day100[0]) - 1];
-                    ?>
-
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <h3 style="font-size: 1.0rem;">車両系建設機械(整地等) S2</h3>
-                    </td>
-                    <?php
-                    // echo $start_day100[1][count($start_day100[1]) - 1];
-                    ?>
-                </tr>
-                <tr>
-                    <?php
-                    // echo '<td colspan="' .  $count_youbi + 2 . '"></td>'
-                    ?>
-                </tr>
-                <tr>
-                    <?php
-                    // echo '<td class="course_type" colspan="' .  $count_youbi + 2 . '">特別教育</td>'
-                    ?>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <h3 style="font-size: 1.0rem;">クレーン</h3>
-                    </td>
-                    <?php
-                    // echo $start_day100[2][count($start_day100[2]) - 1];
-                    ?>
-                </tr>
-                <tr>
-                    <?php
-                    // echo '<td class="course_type" colspan="' .  $count_youbi + 2 . '">安全教育</td>'
-                    ?>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <h3 style="font-size: 1.0rem;">刈払機</h3>
-                    </td>
-                    <?php
-                    // echo $start_day100[3][count($start_day100[3]) - 1];
-                    ?>
-                </tr>
-                <!-- <tr class="area-tr">
-                    <?php
-                    // echo '<td colspan="' .  $count_youbi + 2 . '">福知山</td>'
-                    ?>
-                </tr> -->
-                <!-- <tr> -->
-                <?php
-                // echo '<td class="course_type" colspan="' .  $count_youbi + 2 . '">技能講習</td>'
-                ?>
-                <!-- </tr>/ -->
-                <!-- <tr> -->
-                <!-- <td rowspan="2" colspan="2"> -->
-                <!-- <h3 style="font-size: 1.0rem;">小型移動式クレーン K1、K2</h3> -->
-                <!-- </td> -->
-                <?php
-                // echo $start_day100[0][count($start_day100[0]) - 1];
-                ?>
-                <!-- </tr> -->
             </table>
         </form>
     </div>
