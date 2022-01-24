@@ -95,12 +95,16 @@ try {
 
     // DB接続
     $pdo = new PDO(
-        // ホスト名、データベース名
-        'mysql:host=us-cdbr-east-05.cleardb.net;dbname=heroku_5e78f26ff50403d;',
-        // ユーザー名
+        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
         'b2c2e6853ab5ee',
-        // パスワード
         '2f35b6a9',
+
+        // // ホスト名、データベース名
+        // 'mysql:host=us-cdbr-east-05.cleardb.net;dbname=heroku_5e78f26ff50403d;',
+        // // ユーザー名
+        // 'b2c2e6853ab5ee',
+        // // パスワード
+        // '2f35b6a9',
 
         // // ホスト名、データベース名
         // 'mysql:host=localhost;dbname=stsys;',
