@@ -10,7 +10,8 @@ $Holidays_array = getHolidays($year);
 
 $prev_show = 1; //前月の表示・非表示判断フラグ(<<前月マーク)
 $today_show = date('Ym'); //前月の表示・非表示判断に使う(<<前月マーク)
-
+$button_name_count = 0;
+$button_name = "";
 //前月・次月リンクが選択された場合は、GETパラメーターから年月を取得
 if (isset($_GET['ym'])) {
     $ym = $_GET['ym'];
@@ -95,13 +96,13 @@ try {
 
     // DB接続
     $pdo = new PDO(
-        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-        'b2c2e6853ab5ee',
-        '2f35b6a9',
+        // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+        // 'b2c2e6853ab5ee',
+        // '2f35b6a9',
 
-        // 'mysql:dbname=stsys;host=localhost;charset=utf8',
-        // 'root',
-        // 'shinei4005',
+        'mysql:dbname=stsys;host=localhost;charset=utf8',
+        'root',
+        'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -383,14 +384,28 @@ try {
                     }
                 }
             }
+            // $button_name_count = 0;
+            // $button_name = "";
             if ($reset === 1) { //予約日先頭ならセル結合を入れる
-                if ($day === 29) {
+                // if ($day === 29) {
+                //     $day = $day;
+                // }
+                $button_value = "";
+                $button_name = 'stsys1_click' . $button_name_count;
+                $button_name_count += 1;
+                if ($button_name_count === 4) {
                     $day = $day;
                 }
-                if ($td_check[$final_count] === 0) {
-                    $start_day_final[$final_count][count($start_day_final[$final_count])] = '<td class="course_type" colspan="' . $finish_key_count + 1 . '"><button type="submit" name="stsys1_click">' . $limited_num_final . '</button>';
+                if ((int)$limited_num_final === 0) { //登録人数が０ならボタン押せなくする
+                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="0" disabled>x</button>';
                 } else {
-                    $start_day_final[$final_count][count($start_day_final[$final_count]) - 1] .= '<td class="course_type" colspan="' . $finish_key_count + 1 . '"><button type="submit" name="stsys1_click">' . $limited_num_final . '</button>';
+                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="' . $limited_num_final . '">' . $limited_num_final . '</button>';
+                }
+                //ボタン作成
+                if ($td_check[$final_count] === 0) {
+                    $start_day_final[$final_count][count($start_day_final[$final_count])] = '<td class="course_type" colspan="' . $finish_key_count + 1 . '">' . $button_value;
+                } else {
+                    $start_day_final[$final_count][count($start_day_final[$final_count]) - 1] .= '<td class="course_type" colspan="' . $finish_key_count + 1 . '">' . $button_value;
                 }
                 $td_check[$final_count]  = 1;
             } elseif ($reset === 0 and $skip_check === 0) { //予約日先頭でないから普通に作成
@@ -677,10 +692,36 @@ function display_to_Holidays($date, $Holidays_array)
             </p>
         </div>
     </div>
+    <?php
+    $f = 1;
 
+    // echo '"stsys1_click' . $f . '"';
+    ?>
     <!--曜日表示^---------------------------------------------------------------------------------------------------------------------------------------------------->
     <div class="container">
-        <form method="post" action="stsys02.php">
+        <form method="post" action="stsys02.php" onSubmit="return checkSubmit()">
+
+            <script type="text/javascript">
+                function ckBtn(button) {
+                    // alert('id=' + button.id);
+                    var name = button.getAttribute('name');
+                    var button_person = document.getElementsByName(name);
+                    var button_person_list = [];
+                    for (var i = 0; i < button_person.length; i++) {
+                        button_person_list[i] = (button_person[i].value);
+                    }
+                    var number_person = document.getElementsByName("number_person");
+                    var number_person_list = [];
+                    for (var i = 0; i < number_person.length; i++) {
+                        number_person_list[i] = (number_person[i].value);
+                    }
+                    if (button_person_list[0] - number_person_list[0] < 0) {
+                        alert("登録可能人数を超えています"); //確認メッセージに対する答えを取得
+                        event.preventDefault();
+                    }
+                }
+            </script>
+
             <table class="table table-bordered">
                 <tr>
                     <!-- 人数を押されたら人数、コース名、期間をstsys２.phpに送る -->
