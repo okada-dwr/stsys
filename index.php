@@ -1,4 +1,5 @@
 <?php
+session_start();
 //タイムゾーンを設定
 date_default_timezone_set('Asia/Tokyo');
 
@@ -359,12 +360,40 @@ try {
                             if ($day === $Key) { //予約日先頭かそうでないか判断する
                                 $yoyakubi_ari = 1; //予約日先頭なら1を入れる
                                 //キーの同じものの数をカウント $key=3なら3=>4と3=>5をとる
-
+                                if ($day === 10) {
+                                    $day = $day;
+                                }
+                                //結合日を取得
                                 $hairetu_count = array_column($start_day1, $Key);
                                 $finish_key_count = count($hairetu_count); //結合数を数える
-                                // if ($day === 10) {
-                                //     $day = $day;
-                                // }
+
+                                // 2021/11/3～2021/11/5		
+                                $month1 = $month;
+                                $year1 = $year;
+                                if (substr($month1, 0, 1) === "0") {
+                                    $month1 = substr($month1, 1, 1);
+                                }
+                                $stsys2_start_day = $year . '/' . $month1 . '/' .  $Key;
+
+                                //end_dayが月マタギなら来月にする、12月末ならyearを来年にする
+                                if ($hairetu_count[count($hairetu_count) - 1] - $Key < 0) {
+                                    //12月なら1月にして、来年にする
+                                    if ($month === "12") {
+                                        $month1 = 1;
+                                        $year1 = $year + 1;
+                                        $stsys2_end_day = $year1 . '/' .  $month1  . '/' . $hairetu_count[count($hairetu_count) - 1];
+
+                                        //12月以外の月マタギは月を来月にする
+                                    } else {
+                                        $month1 += 1;
+                                        $stsys2_end_day = $year1 . '/' .  $month1  . '/' . $hairetu_count[count($hairetu_count) - 1];
+                                    }
+                                } else {
+                                    $stsys2_end_day = $year1 . '/' .  $month1  . '/' . (int)$Key + $finish_key_count;
+                                }
+
+                                $stsys2_day = $stsys2_start_day . '~' . $stsys2_end_day;
+
                                 //人数表示する。
                                 $reset = 1; //予約日先頭なら1を入れる
                                 $slice_array1 = array_slice($start_day1, 6);
@@ -390,16 +419,21 @@ try {
                 // if ($day === 29) {
                 //     $day = $day;
                 // }
+
+                //
                 $button_value = "";
                 $button_name = 'stsys1_click' . $button_name_count;
                 $button_name_count += 1;
+                $course_code_button = $start_day_final[$final_count][2]; //コースコード
+                $course_name_button = $start_day_final[$final_count][3]; //コース名
+
                 if ($button_name_count === 4) {
                     $day = $day;
                 }
                 if ((int)$limited_num_final === 0) { //登録人数が０ならボタン押せなくする
-                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="0" disabled>x</button>';
+                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="0",' . $course_code_button . ',' . $course_name_button . ' disabled>x</button>';
                 } else {
-                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="' . $limited_num_final . '">' . $limited_num_final . '</button>';
+                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="' . $limited_num_final . ',' . $course_code_button . ',' . $course_name_button . ',' . $stsys2_day . '">' . $limited_num_final . '</button>';
                 }
                 //ボタン作成
                 if ($td_check[$final_count] === 0) {
@@ -631,6 +665,7 @@ function display_to_Holidays($date, $Holidays_array)
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <style>
         .container {
             font-family: 'Noto Sans', sans-serif;
@@ -699,25 +734,66 @@ function display_to_Holidays($date, $Holidays_array)
     ?>
     <!--曜日表示^---------------------------------------------------------------------------------------------------------------------------------------------------->
     <div class="container">
-        <form method="post" action="stsys02.php" onSubmit="return checkSubmit()">
-
+        <form method="post" action="stsys02.php">
             <script type="text/javascript">
                 function ckBtn(button) {
-                    // alert('id=' + button.id);
+
+                    //押されたボタンの予約可能人数を取得
                     var name = button.getAttribute('name');
                     var button_person = document.getElementsByName(name);
                     var button_person_list = [];
                     for (var i = 0; i < button_person.length; i++) {
                         button_person_list[i] = (button_person[i].value);
                     }
+                    button_person_list[0] = button_person_list[0].split(','); // , 区切りで
+
+                    //ユーザー選択人数を取得
                     var number_person = document.getElementsByName("number_person");
                     var number_person_list = [];
                     for (var i = 0; i < number_person.length; i++) {
                         number_person_list[i] = (number_person[i].value);
                     }
-                    if (button_person_list[0] - number_person_list[0] < 0) {
-                        alert("登録可能人数を超えています"); //確認メッセージに対する答えを取得
+
+                    //人数チェック
+                    if (button_person_list[0][0] - number_person_list[0] < 0) {
+                        alert("登録可能人数を超えています");
                         event.preventDefault();
+                    } else {
+
+                        //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
+                        $.ajax({
+                                type: "POST", //　GETでも可
+                                url: "index.php", //　送り先
+                                data: {
+                                    'データ': '<?= $button_name_count - 1 ?>',
+                                    // 'データ1': button_person_list[0][1],
+                                    // 'データ2': button_person_list[0][2],
+                                }, //　渡したいデータをオブジェクトで渡す
+                                dataType: "json", //　データ形式を指定
+                                scriptCharset: 'utf-8' //　文字コードを指定
+                            })
+                            .then(
+                                function(param) { //　paramに処理後のデータが入って戻ってくる
+                                    // console.log(param); //　帰ってきたら実行する処理
+                                },
+                                function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
+                                    // console.log(XMLHttpRequest); //　エラー内容表示
+                                });
+
+                        <?php
+                        $data = filter_input(INPUT_POST, 'データ'); // 送ったデータを受け取る（GETで送った場合は、INPUT_GET）
+                        $_SESSION["button_person"] = $data;
+
+                        // $data1 = filter_input(INPUT_POST, 'データ1'); // 送ったデータを受け取る（GETで送った場合は、INPUT_GET）
+                        // $_SESSION["course_code"] = $data1;
+
+                        // $data2 = filter_input(INPUT_POST, 'データ2'); // 送ったデータを受け取る（GETで送った場合は、INPUT_GET）
+                        // $_SESSION["course_name"] = $data2;
+
+                        $param = $data;
+                        echo json_encode($param); //　echoするとデータを返せる（JSON形式に変換して返す）
+
+                        ?>
                     }
                 }
             </script>
