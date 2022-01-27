@@ -424,6 +424,8 @@ try {
                 $button_value = "";
                 $button_name = 'stsys1_click' . $button_name_count;
                 $button_name_count += 1;
+                $place_code_button = $start_day_final[$final_count][0]; //コースコード
+                $place_name_button = $start_day_final[$final_count][1]; //コースコード
                 $course_code_button = $start_day_final[$final_count][2]; //コースコード
                 $course_name_button = $start_day_final[$final_count][3]; //コース名
 
@@ -433,7 +435,7 @@ try {
                 if ((int)$limited_num_final === 0) { //登録人数が０ならボタン押せなくする
                     $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="0",' . $course_code_button . ',' . $course_name_button . ' disabled>x</button>';
                 } else {
-                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="' . $limited_num_final . ',' . $course_code_button . ',' . $course_name_button . ',' . $stsys2_day . '">' . $limited_num_final . '</button>';
+                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="' . $limited_num_final . ',' . $course_code_button . ',' . $course_name_button . ',' . $stsys2_day . ',' . $place_code_button . ',' . $place_name_button . '">' . $limited_num_final . '</button>';
                 }
                 //ボタン作成
                 if ($td_check[$final_count] === 0) {
