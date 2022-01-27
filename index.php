@@ -101,9 +101,9 @@ try {
         'b2c2e6853ab5ee',
         '2f35b6a9',
 
-        // 'mysql:dbname=stsys;host=localhost;charset=utf8',
-        // 'root',
-        // 'shinei4005',
+//         'mysql:dbname=stsys;host=localhost;charset=utf8',
+//         'root',
+//         '',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -669,7 +669,7 @@ function display_to_Holidays($date, $Holidays_array)
     <link rel="stylesheet" href="/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <style>
-        .container {
+        /* .container {
             font-family: 'Noto Sans', sans-serif;
             margin-top: 80px;
         }
@@ -708,7 +708,7 @@ function display_to_Holidays($date, $Holidays_array)
 
         .green {
             color: green;
-        }
+        } */
     </style>
 </head>
 
@@ -721,7 +721,7 @@ function display_to_Holidays($date, $Holidays_array)
 
     <div class="title1">
         <h1 style="text-align: center;text-decoration:underline;">予約表示画面</h1>
-        <div class="explanation" style="margin-left: 130px;margin-right: 130px;border:1px solid;padding-left:5px;">
+        <div class="explanation">
             <p>カレンダーには、「予約枠の数」を表示しております。「ｘ」は満席。<br>受講人数項目に人数を指定し、予約日を選択してください。
                 <br><br>※<span>予約したい予定日</span>の【X席】を選択してください。
                 <br>※<span>複数の講習を受講する場面</span>は、お手数をおかけしますが<span>1講習申込をした後、再度こちらの画面から予約していただきますよう</span>
