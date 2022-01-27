@@ -1,53 +1,175 @@
-body{
-    font-size: 10px;
+body {
+  font-size: 10px;
 }
 
-.explanation{
-    margin-top: 50px;
-    font-size: 20px;
-    
+.explanation {
+  margin-top: 50px;
+  /* font-size: 20px; */
+  margin-left: 130px;
+  margin-right: 130px;
+  border: 1px solid;
+  /* padding-left: 5px; */
 }
-.explanation span{
-    color: red;
-    text-decoration:underline;
+.explanation span {
+  color: red;
+  text-decoration: underline;
 }
-#Exam_details{
-    margin-left: 130px;
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  border-top: 1px solid #ddd;
 }
-#Exam_details_left{
-    float: left;
-    width: 50%; /* 要素の幅を50%に定義 */
+/* カレンダー */
+.container {
+  font-family: "Noto Sans", sans-serif;
+  margin-top: 80px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
-#Exam_details_right{
-    float: left;
-    width: 50%; /* 要素の幅を50%に定義 */
+.h1,
+.h2,
+.h3,
+h1,
+h2,
+h3 {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
-.Exam_details_center{
-    text-align: center;
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
 }
-.crane{
-    font-size: 1.7rem;
+
+.container {
+  font-family: "Noto Sans", sans-serif;
+  margin-top: 80px;
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
 }
-.pay_explanation_left{
-    float: left;
-    width: 50%; /* 要素の幅を50%に定義 */
+
+@media (min-width: 1200px) {
+  .container {
+    /* width: none !important; */
+  }
 }
-.pay_explanation_right{
-    float: right;
-    width: 50%; /* 要素の幅を50%に定義 */
+
+@media (min-width: 992px) {
+  .container {
+    /* width: none !important; */
+  }
 }
-.area-tr{
-    background-color: rgba(110, 184, 36, 0.815);
+
+@media (min-width: 768px) {
+  .container {
+    /* width: none !important; */
+  }
 }
-.course_type{
-    text-decoration:underline;
-    background-color: rgba(255, 248, 220, 0.836);
+
+h3 {
+  /* margin-bottom: 30px; */
 }
-#pay_explanation{
-    margin-top: 100px;
-    margin-left: 100px;
+
+.table-bordered th {
+  /* height: 50px; */
+  text-align: center;
+}
+
+.table-bordered td {
+  /* height: 30px; */
+  text-align: center;
+}
+
+.today {
+  background: orange;
+}
+
+th:nth-of-type(1),
+td:nth-of-type(1) {
+  color: black;
+}
+
+th:nth-of-type(7),
+td:nth-of-type(7) {
+  color: blue;
+}
+
+.holiday {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+/* カレンダー 終わり*/
+
+#Exam_details {
+  margin-left: 130px;
+}
+#Exam_details_left {
+  float: left;
+  width: 50%; /* 要素の幅を50%に定義 */
+}
+#Exam_details_right {
+  float: left;
+  width: 50%; /* 要素の幅を50%に定義 */
+}
+.Exam_details_center {
+  text-align: center;
+}
+.crane {
+  font-size: 1.7rem;
+}
+.pay_explanation_left {
+  float: left;
+  width: 50%; /* 要素の幅を50%に定義 */
+}
+.pay_explanation_right {
+  float: right;
+  width: 50%; /* 要素の幅を50%に定義 */
+}
+.area-tr {
+  background-color: rgba(110, 184, 36, 0.815);
+}
+.course_type {
+  text-decoration: underline;
+  background-color: rgba(255, 248, 220, 0.836);
+}
+#pay_explanation {
+  margin-top: 100px;
+  margin-left: 100px;
 }
 /* stsys2 */
+.explanation {
+  margin-left: 80px;
+  margin-right: 80px;
+  border: 1px solid;
+  padding-left: 5px;
+  font-size: 0.5rem;
+}
+
 .row_table,
 .row_table td,
 .row_table th {
@@ -61,7 +183,7 @@ body{
   color: #fff;
   padding: 4px 12px;
   display: block;
-  width: 100%
+  width: 100%;
 }
 
 .row_table td {
@@ -72,49 +194,75 @@ body{
 }
 
 .table_01 {
-    margin: 20px auto;
-    border-collapse: collapse;
-    border-spacing: 0;
+  margin: 20px auto;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 .table_01 th {
-    background: #FFBB1E;
-    border: solid 1px #ccc;
-    color: #fff;
-    padding: 10px;
+  background: #ffbb1e;
+  border: solid 1px #ccc;
+  color: #fff;
+  padding: 10px;
 }
 .table_01 td {
-    border: solid 1px #ccc;
-    padding: 10px;
+  border: solid 1px #ccc;
+  padding: 10px;
 }
-.message_box{
-    width: 20%;
-    padding: 5px 10px;
+.message_box {
+  padding: 5px 10px;
+  border: solid 2px #acee12;
+  align-content: center;
+  border-radius: 0.2em;
+  font-size: 0.5rem;
+}
+form {
+  margin-left: 80px;
+  margin-right: 80px;
+  font-size: 0.9rem;
+}
+.table_01 {
+  margin-top: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 0.5rem;
+}
+input {
+  font-size: 0.5rem;
+}
+select {
+  font-size: 0.5rem;
+}
+
+@media screen and (max-width: 640px) {
+  form {
     margin: 0 auto;
+  }
+  .explanation {
+    margin: 0 auto;
+    border: 1px solid;
+    width: 90%;
+  }
+  .message_box {
+    padding: 5px 10px;
     border: solid 2px #acee12;
-    align-content: center;
     border-radius: 0.2em;
+  }
+  img {
+    text-align: center;
+    width: 300px;
+  }
+  .last td:last-child {
+    border-bottom: solid 1px #ccc;
+    /* width: 100%; */
+  }
+  .table_01 {
+    width: 80%;
+  }
+  .table_01 th,
+  .table_01 td {
+    border-bottom: none;
+    display: block;
+  }
 }
-
-
-
-
-
-
-
-
-  @media screen and (max-width: 640px) {
-    .last td:last-child {
-      border-bottom: solid 1px #ccc;
-      width: 100%;
-    }
-    .table_01 {
-      width: 80%;
-    }
-    .table_01 th,
-    .table_01 td {
-      border-bottom: none;
-      display: block;
-      width: 100%;
-    }
-  } 
 /* yokonarabi */
