@@ -20,9 +20,9 @@ try {
         'b2c2e6853ab5ee',
         '2f35b6a9',
 
-        // 'mysql:dbname=stsys;host=localhost;charset=utf8',
-        // 'root',
-        // 'shinei4005',
+//         'mysql:dbname=stsys;host=localhost;charset=utf8',
+//         'root',
+//         '',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -113,6 +113,9 @@ try {
     try {
         if (isset($_POST['request'])) {
 
+            //データベース書き込みを人数分作成（６人なら６行登録）
+            for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
+            }
             $mail_flg = $_POST['mail_flg'];
             $inc_name = $_POST['inc_name'];
             $app_name = $_POST['app_name'];
@@ -124,13 +127,6 @@ try {
             $fax = $_POST['fax'];
             $mail_address = $_POST['mail_address'];
             $sub_flg = $_POST['sub_flg'];
-            $students = $_POST['students'];
-            $birthday = $_POST['birthday'];
-            $sex = $_POST['sex'];
-            $kojin_tel = $_POST['kojin_tel'];
-            $phone_tel = $_POST['phone_tel'];
-            $kojin_post_no = $_POST['kojin_post_no'];
-            $kojin_address = $_POST['kojin_address'];
             $course_code = $_SESSION["button_value"][1];
             $course_name = $_SESSION["button_value"][2];
             $place_code = $_SESSION["button_value"][4];
@@ -140,41 +136,61 @@ try {
             $end_date = $date[1];
 
             // SQL文をセット
-            $stmt = $pdo->prepare('INSERT INTO st_reserve (mail_flg,inc_name,app_name,app_name_kana,' .
-                'post_no,address1,address2,tel,fax,mail_address,sub_flg,students,birthday,sex,' .
-                'kojin_tel,phone_tel,kojin_post_no,kojin_address,course_code,course_name,' .
-                'place_code,place_name,start_date,end_date)' .
-                'VALUES(:mail_flg,:inc_name,:app_name,:app_name_kana,:post_no,:address1,:address2,' .
-                ':tel,:fax,:mail_address,:sub_flg,:students,:birthday,:sex,:kojin_tel,:phone_tel,' .
-                ':kojin_post_no,:kojin_address,:course_code,:course_name,:place_code,:place_name,' .
-                ':start_date,:end_date)');
-            $stmt->bindValue(':mail_flg', $mail_flg);
-            $stmt->bindValue(':inc_name', $inc_name);
-            $stmt->bindValue(':app_name', $app_name);
-            $stmt->bindValue(':app_name_kana', $app_name_kana);
-            $stmt->bindValue(':post_no', $post_no);
-            $stmt->bindValue(':address1', $address1);
-            $stmt->bindValue(':address2', $address2);
-            $stmt->bindValue(':tel', $tel);
-            $stmt->bindValue(':fax', $fax);
-            $stmt->bindValue(':mail_address', $mail_address);
-            $stmt->bindValue(':sub_flg', $sub_flg);
-            $stmt->bindValue(':students', $students);
-            $stmt->bindValue(':birthday', $birthday);
-            $stmt->bindValue(':sex', $sex);
-            $stmt->bindValue(':kojin_tel', $kojin_tel);
-            $stmt->bindValue(':phone_tel', $phone_tel);
-            $stmt->bindValue(':kojin_post_no', $kojin_post_no);
-            $stmt->bindValue(':kojin_address', $kojin_address);
-            $stmt->bindValue(':course_code', $course_code);
-            $stmt->bindValue(':course_name', $course_name);
-            $stmt->bindValue(':place_code', $place_code);
-            $stmt->bindValue(':place_name', $place_name);
-            $stmt->bindValue(':start_date', $start_date);
-            $stmt->bindValue(':end_date', $end_date);
+            //データベース書き込みを人数分作成（６人なら６行登録）
+            for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
 
-            // SQL実行
-            $stmt->execute();
+
+
+                $stmt = $pdo->prepare('INSERT INTO st_reserve (mail_flg,inc_name,app_name,app_name_kana,' .
+                    'post_no,address1,address2,tel,fax,mail_address,sub_flg,students,birthday,sex,' .
+                    'kojin_tel,phone_tel,kojin_post_no,kojin_address,course_code,course_name,' .
+                    'course_sub_code,place_code,place_name,start_date,end_date)' .
+                    'VALUES(:mail_flg,:inc_name,:app_name,:app_name_kana,:post_no,:address1,:address2,' .
+                    ':tel,:fax,:mail_address,:sub_flg,:students,:birthday,:sex,:kojin_tel,:phone_tel,' .
+                    ':kojin_post_no,:kojin_address,:course_code,:course_name,:course_sub_code,' .
+                    ':place_code,:place_name,' .
+                    ':start_date,:end_date)');
+
+                $students = $_POST['students' . $i];
+                $birthday = $_POST['birthday' . $i];
+                $sex = $_POST['sex' . $i];
+                $kojin_tel = $_POST['kojin_tel' . $i];
+                $phone_tel = $_POST['phone_tel' . $i];
+                $kojin_post_no = $_POST['kojin_post_no' . $i];
+                $kojin_address = $_POST['kojin_address' . $i];
+                $course_sub_code = $_POST['course_sub_code' . $i];
+                // $course_sub_name = $_POST['course_sub_name' . $i];
+
+                $stmt->bindValue(':mail_flg', $mail_flg);
+                $stmt->bindValue(':inc_name', $inc_name);
+                $stmt->bindValue(':app_name', $app_name);
+                $stmt->bindValue(':app_name_kana', $app_name_kana);
+                $stmt->bindValue(':post_no', $post_no);
+                $stmt->bindValue(':address1', $address1);
+                $stmt->bindValue(':address2', $address2);
+                $stmt->bindValue(':tel', $tel);
+                $stmt->bindValue(':fax', $fax);
+                $stmt->bindValue(':mail_address', $mail_address);
+                $stmt->bindValue(':sub_flg', $sub_flg);
+                $stmt->bindValue(':students', $students);
+                $stmt->bindValue(':birthday', $birthday);
+                $stmt->bindValue(':sex', $sex);
+                $stmt->bindValue(':kojin_tel', $kojin_tel);
+                $stmt->bindValue(':phone_tel', $phone_tel);
+                $stmt->bindValue(':kojin_post_no', $kojin_post_no);
+                $stmt->bindValue(':kojin_address', $kojin_address);
+                $stmt->bindValue(':course_code', $course_code);
+                $stmt->bindValue(':course_name', $course_name);
+                $stmt->bindValue(':course_sub_code', $course_sub_code);
+                // $stmt->bindValue(':course_name', $course_sub_name);
+                $stmt->bindValue(':place_code', $place_code);
+                $stmt->bindValue(':place_name', $place_name);
+                $stmt->bindValue(':start_date', $start_date);
+                $stmt->bindValue(':end_date', $end_date);
+
+                // SQL実行
+                $stmt->execute();
+            }
             $_SESSION["mode"]  = "send";
         }
     }
@@ -216,7 +232,7 @@ try {
     <body id=""> 　　　　
         　　　　<div class="title1">
             <h1 style="text-align: center;text-decoration:underline;">技能講習予約申込画面</h1>
-            <div class="explanation" style="margin-left: 80px;margin-right: 80px;border:1px solid;padding-left:5px;">
+            <div class="explanation">
                 <p>下記は必ず一読お願いいたします。</p>
                 <p>➀&nbsp;下記<span>赤字の必須項目</span>を入力または選択し、「登録」ボタンを押下してください。</p>
                 <p>➁&nbsp;自動で入力されている項目「希望コース」「受講日」は、<span>ご確認だけお願いします。</span></p>
@@ -318,17 +334,18 @@ try {
                     <th>受講期間</th>
                 </tr>
                 <?php
+                //人数分テキストボックスを表示する。
                 for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
                     echo '<tr>
-                    <td><input name="students" type=text placeholder=例）志摩太郎></td>
-                    <td><input name="birthday" type=text placeholder=例）生年月日></td>
-                    <td><select name="sex"><option value=""></option>' . $_SESSION["sex_final"] . '
-                    <td><input name="kojin_tel" type=text placeholder=例）個人電話番号></td>
-                    <td><input name="phone_tel" type=text placeholder=例）携帯番号></td>
-                    <td><input type=text name="kojin_post_no" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress");></td>
-                    <td><input name="kojin_address" type=text placeholder=例）住所></td>
+                    <td><input name="students' . $i . '" type=text placeholder=例）志摩太郎></td>
+                    <td><input name="birthday' . $i . '" type=text placeholder=例）生年月日></td>
+                    <td><select name="sex' . $i . '"><option value=""></option>' . $_SESSION["sex_final"] . '
+                    <td><input name="kojin_tel' . $i . '" type=text placeholder=例）個人電話番号></td>
+                    <td><input name="phone_tel' . $i . '" type=text placeholder=例）携帯番号></td>
+                    <td><input type=text name="kojin_post_no' . $i . '" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress");></td>
+                    <td><input name="kojin_address' . $i . '" type=text placeholder=例）住所></td>
                     <td>' . $_SESSION["button_value"][2] . '</td> 
-                    <td><select name="course_sub_code"><option value=""></option>' . $_SESSION["course_sub_code_final"] . '
+                    <td><select name="course_sub_code' . $i . '"><option value=""></option>' . $_SESSION["course_sub_code_final"] . '
                     <td>' . $_SESSION["button_value"][3] . '</td>
                 </tr>';
                 }
