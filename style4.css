@@ -1,0 +1,360 @@
+html{
+  font-size: 62.5%;
+}
+body{
+  font-family:'メイリオ', 'Meiryo', sans-serif;
+}
+h1{
+  font-size: 1.6rem;
+  text-align: center;
+  text-decoration: underline;
+}
+/*flex*/
+.flex{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+}
+.flex1{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 38px;
+}
+
+input[type="text"] {
+  border: 0;
+}
+input[type="text"]:focus {
+  border: 0;
+}
+input[type="text"],
+input[type="date"],
+select {
+    outline: none;
+}
+
+form{
+  margin-top: 30px;
+}
+th{
+  background-color: #eeeeee6e;
+  font-size: 1.4rem;
+  font-weight: normal;
+  white-space: nowrap;
+}
+tr{
+  font-size: 1.4rem;
+}
+.text_center{
+  text-align: center;
+}
+/*赤字*/
+.color_red{
+  color: red;
+}
+/*文字を小さく*/
+.small_text {
+  font-size: 10px;
+}
+/*ボーダー取り消し*/
+.border_no{
+  border: 0;
+}
+
+#course_code{
+  border: 0;
+}
+/*全体*/
+.main_container {
+  width:98%;
+  margin:0 auto;
+}
+
+/*上記メニュー全体*/
+form td{
+  padding: 3px 0;
+  line-height: 1.1;
+}
+
+/*講習名*/
+.course_table{
+  width: 20%;
+}
+.course_tr{
+  width: 100%;
+  text-align: center;
+}
+.course_table tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: 75%;
+}
+.course_table tbody tr td:nth-child(1) {
+  width: 25%;
+  background: #e8e8e8;
+}
+
+/*会場選択*/
+.place_table{
+  width: 20%;
+}
+.place_tr{
+  width: 100%;
+  text-align: center;
+}
+.place_table tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: 70%;
+}
+.place_table tbody tr td:nth-child(1) {
+  width: 30%;
+  background: #e8e8e8;
+}
+
+/*講習期間*/
+.day_table{
+  width: 35%;
+}
+.day_table tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: 13%;
+}
+.day_table tbody tr td:nth-child(1) {
+  width: 60%;
+  background: #e8e8e8;
+}
+.day_table tbody tr td:nth-child(3) {
+  border: initial;
+  width: 14%;
+}
+
+/*制限人数*/
+.limited_table{
+  width: 15%;
+}
+.limited_tr{
+  width: 100%;
+  text-align: center;
+}
+.limited_table tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: 60%;
+}
+.limited_table tbody tr td:nth-child(1){
+  width: 40%;
+  background: #e8e8e8;
+}
+
+/*備考*/
+.biko_table{
+  width: 81.6%;
+}
+.biko_tr{
+  width: 98.5%;
+}
+.biko_table tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: 90%;
+}
+.biko_table tbody tr td:nth-child(1) {
+  width: 10%;
+  background: #e8e8e8;
+}
+
+/*ボタン*/
+.btn{
+  width: 8%;
+  padding: 3px 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: none;
+}
+.btn--orange,
+a.btn--orange {
+  color: #fff;
+  background-color: #005eeb;
+}
+.btn--orange:hover,
+a.btn--orange:hover {
+  color: #fff;
+  background: #007ff5;
+}
+
+/*登録情報管理画面へ*/
+.guide_text {
+  display: flex;
+  justify-content: space-between;
+}
+.guide_text_link{
+  font-size: 12px;
+  margin: 3rem 5.5rem 0 0px;
+}
+.guide_text_link a{
+
+}
+/*講習機関一覧*/
+.guide_text_tlt{
+  font-size: 2.0rem;
+  margin: 3rem 0 5px;
+  font-weight: bold;
+}
+/*テーブル*/
+.stsys4_table{
+  width: 100%;
+  margin: 0px auto;
+}
+.stsys4_th{
+  background-color: #b0c1de9e;
+  width:10%;
+  padding: 2px;
+}
+.stsys4_th:nth-child(1){
+  width: 5%;
+}
+.stsys4_th:nth-child(2){
+  width: 20%;
+}
+.stsys4_th:nth-child(6){
+  width: 5%;
+}
+.stsys4_th:nth-child(7){
+  width: 40%;
+}
+.stsys4_table tbody tr td{
+  padding: 2px;
+}
+
+/*注意点*/
+.caution_text {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+/* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:500px) and (max-width:800px) {
+
+}
+/* スマホ縦対応  */
+@media screen and (max-width:499px) { 
+  .flex{
+    display: block;
+  }
+  .flex1{
+    display: block;
+    margin-top: 10px;
+  }
+
+  /*上記メニュー全体*/
+  form .flex table {
+    margin-bottom: 10px;
+  }
+  
+  /*講習名*/
+.course_table{
+  width: 80%;
+}
+.course_table tbody tr td {
+  width: auto;
+}
+.course_table tbody tr td:nth-child(1) {
+  width: 90px;
+}
+
+/*会場選択*/
+.place_table{
+  width: 80%;
+}
+.place_table tbody tr td {
+  width: auto;
+}
+.place_table tbody tr td:nth-child(1) {
+  width: 90px;
+}
+
+/*講習期間*/
+.day_table{
+  width: auto;
+  white-space: nowrap;
+}
+.day_table tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: 13%;
+}
+.day_table tbody tr td:nth-child(1) {
+  width: 90px;
+  background: #e8e8e8;
+}
+.day_table tbody tr td:nth-child(3) {
+  border: initial;
+  width: 14%;
+}
+.day_table tbody tr td input {
+  width: 120px;
+}
+
+/*制限人数*/
+.limited_table{
+  width: 80%;
+}
+.limited_tr{
+  width: 100%;
+  text-align: center;
+}
+.limited_table tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: auto;
+}
+.limited_table tbody tr td:nth-child(1){
+  width: 90px;
+  background: #e8e8e8;
+}
+
+/*備考*/
+.biko_table{
+  width: 100%;
+}
+.biko_tr{
+  width: 98%;
+}
+.biko_table tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: auto;
+}
+.biko_table tbody tr td:nth-child(1) {
+  width: 90px;
+  background: #e8e8e8;
+}
+
+/*ボタン*/
+.btn{
+  width: 90px;
+  margin-top:20px;
+}
+
+  /*テーブル*/
+  .stsys4_table_main {
+    overflow: scroll;
+  }
+  .stsys4_table {
+    white-space: nowrap;
+  }
+  .stsys4_table tbody tr td:nth-child(7){
+    white-space: initial;
+    min-width: 200px;
+  }
+
+  /*リンク*/
+  .guide_text_link {
+    margin:10px;
+    display: flex;
+    align-items: flex-end;
+  }
+}
