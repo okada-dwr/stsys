@@ -97,13 +97,13 @@ try {
 
     // DB接続
     $pdo = new PDO(
-        // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-        // 'b2c2e6853ab5ee',
-        // '2f35b6a9',
+        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+        'b2c2e6853ab5ee',
+        '2f35b6a9',
 
-        'mysql:dbname=stsys;host=localhost;charset=utf8',
-        'root',
-        'shinei4005',
+        // 'mysql:dbname=stsys;host=localhost;charset=utf8',
+        // 'root',
+        // 'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -686,7 +686,7 @@ function display_to_Holidays($date, $Holidays_array)
             <form method="post" action="stsys02.php">
                 <script type="text/javascript">
                     function ckBtn(button) {
-    
+
                         //押されたボタンの予約可能人数を取得
                         var name = button.getAttribute('name');
                         var button_person = document.getElementsByName(name);
@@ -695,20 +695,20 @@ function display_to_Holidays($date, $Holidays_array)
                             button_person_list[i] = (button_person[i].value);
                         }
                         button_person_list[0] = button_person_list[0].split(','); // , 区切りで
-    
+
                         //ユーザー選択人数を取得
                         var number_person = document.getElementsByName("number_person");
                         var number_person_list = [];
                         for (var i = 0; i < number_person.length; i++) {
                             number_person_list[i] = (number_person[i].value);
                         }
-    
+
                         //人数チェック
                         if (button_person_list[0][0] - number_person_list[0] < 0) {
                             alert("登録可能人数を超えています");
                             event.preventDefault();
                         } else {
-    
+
                             //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
                             $.ajax({
                                     type: "POST", //　GETでも可
@@ -728,18 +728,18 @@ function display_to_Holidays($date, $Holidays_array)
                                     function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
                                         // console.log(XMLHttpRequest); //　エラー内容表示
                                     });
-    
+
                             <?php
                             $data = filter_input(INPUT_POST, 'データ'); // 送ったデータを受け取る（GETで送った場合は、INPUT_GET）
                             $_SESSION["button_person"] = $data;
                             $param = $data;
                             echo json_encode($param); //　echoするとデータを返せる（JSON形式に変換して返す）
-    
+
                             ?>
                         }
                     }
                 </script>
-    
+
                 <table class="table table-bordered">
                     <tr>
                         <!-- 人数を押されたら人数、コース名、期間をstsys２.phpに送る -->
@@ -757,7 +757,7 @@ function display_to_Holidays($date, $Holidays_array)
                                 <option value="10">10人</option>
                             </select></td>
                     </tr>
-    
+
                     <!-- 日付表示 -->
                     <tr>
                         <td rowspan="2" colspan="2">
@@ -769,27 +769,27 @@ function display_to_Holidays($date, $Holidays_array)
                         echo $week;
                         ?>
                     </tr>
-    
+
                     <!-- 曜日表示 -->
                     <tr>
                         <?php
                         echo $youbi_kana;
                         ?>
                     </tr>
-    
+
                     <!-- 会場表示 -->
-    
+
                     <?php
                     $test_after = 0;
                     $test_before = 0;
                     $type_after = 0;
                     $type_before = 0;
-    
+
                     //配列を会場コード順に並び替え
                     $sort_key_team = array_column($course_day, 0);
                     $sort_key_team1 = array_column($course_day, 2);
                     //並べ替えのキー（ソートキー）とする項目を配列として取り出す
-    
+
                     //次の通りソートキーを指定して二次元配列を並び替える。
                     //第一ソートキー：team（文字列の降順で並び替え）
                     //第二ソートキー：age （数値の昇順で並び替え）
@@ -803,7 +803,7 @@ function display_to_Holidays($date, $Holidays_array)
                         SORT_STRING,
                         $course_day
                     );
-    
+
                     function Sub_code_Read($course_code_check)
                     {
                         // DB接続
@@ -811,17 +811,17 @@ function display_to_Holidays($date, $Holidays_array)
                             // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
                             // 'b2c2e6853ab5ee',
                             // '2f35b6a9',
-    
+
                             'mysql:dbname=stsys;host=localhost;charset=utf8',
                             'root',
                             'shinei4005',
-    
+
                             // レコード列名をキーとして取得させる
                             [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
                         );
                         $sql_reserve = $pdo->prepare('SELECT course_type FROM st_course_item_mst WHERE del_flg=0 AND course_code=' . $course_code_check);
                         $sql_reserve->execute();
-    
+
                         $s = 0; //カウントに使う
                         //検定項目登録{couse_code=>day})
                         foreach ($sql_reserve as $sql_reserve1) {
@@ -830,7 +830,7 @@ function display_to_Holidays($date, $Holidays_array)
                         }
                         return $sql_reserve_array[0];
                     }
-    
+
                     //カレンダー表示
                     //$course_day3の中身↓
                     //0:場所コード、1:場所名、2:コースコード、3:コース名、4:Start_day、5:End_day、6:可能人数
@@ -844,12 +844,12 @@ function display_to_Holidays($date, $Holidays_array)
                                 //会場表示
                                 echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
                                 $test_before = $test_after; //最初のコードをbackupする→次のコードと比べる用
-    
+
                                 //教育表示
                                 $type_name = Sub_code_Read($course_day3[2]); //コースコード
                                 echo '  <tr class="sub-tr"><td colspan="' .  $count_youbi + 2 . '">' . $type_name[0]  . '</td> </tr>';
                                 $type_after = $type_name;
-    
+
                                 //検定名表示
                                 echo '<tr> <td colspan="2"><h3>' . $course_day3[3] . '</h3> </td>';
                                 //日付表示
@@ -859,15 +859,15 @@ function display_to_Holidays($date, $Holidays_array)
                                 $test_name = $course_day3[1];
                                 echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
                                 $test_before = $test_after;
-    
+
                                 //教育表示
                                 $type_name = Sub_code_Read($course_day3[2]); //コースコード
                                 echo '  <tr class="sub-tr"><td colspan="' .  $count_youbi + 2 . '">' . $type_name[0]  . '</td> </tr>';
                                 $type_after = $type_name;
-    
+
                                 //検定名表示
                                 echo '<tr> <td colspan="2"><h3>' . $course_day3[3] . '</h3> </td>';
-    
+
                                 //日付表示
                                 echo $course_day3[count($course_day3) - 1] . '</tr>';
                             } else { //最初ではなくて、一緒の会場
@@ -878,7 +878,7 @@ function display_to_Holidays($date, $Holidays_array)
                                     echo '  <tr class="sub-tr"><td colspan="' .  $count_youbi + 2 . '">' . $type_name[0]  . '</td> </tr>';
                                     $type_after = $type_name;
                                 }
-    
+
                                 //検定名表示
                                 echo '<tr> <td colspan="2"><h3>' . $course_day3[3] . '</h3> </td>';
                                 //日付表示
@@ -892,7 +892,7 @@ function display_to_Holidays($date, $Holidays_array)
             </form>
         </div>
         <!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
-    
+
         <div id="Exam_details">
             <!-- <div id="Exam_details_left"> -->
             <div class="crane">
@@ -940,7 +940,7 @@ function display_to_Holidays($date, $Holidays_array)
                 </table>
             </div>
         </div>
-    
+
         <div id="Exam_details">
             <div class="crane">
                 <p>●車両系建設機械（整地等）</p>
@@ -975,7 +975,7 @@ function display_to_Holidays($date, $Holidays_array)
                 </table>
             </div>
         </div>
-    
+
         <div id="Exam_details">
             <div class="crane">
                 <p>●不整地運搬車</p>
@@ -1002,7 +1002,7 @@ function display_to_Holidays($date, $Holidays_array)
                 </table>
             </div>
         </div>
-    
+
         <div id="Exam_details">
             <div class="crane">
                 <p>●玉掛</p>
@@ -1033,8 +1033,8 @@ function display_to_Holidays($date, $Holidays_array)
                 </table>
             </div>
         </div>
-    
-    
+
+
         <div id="pay_explanation">
             <div class="pay_explanation_flex">
                 <div class="pay_explanation_box">
@@ -1045,7 +1045,7 @@ function display_to_Holidays($date, $Holidays_array)
                     <b>受講資格</b>
                     <p>●満18歳以上の男女(個人の方でも受講できます。学歴は不問です。)</p>
                     <p>●各コースの受講資格欄に該当される方</p>
-        
+
                 </div>
                 <div class="pay_explanation_box">
                     <b>その他</b>
