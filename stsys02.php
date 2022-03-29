@@ -16,13 +16,13 @@ $button_value = [];
 try {
     // DB接続
     $pdo = new PDO(
-        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-        'b2c2e6853ab5ee',
-        '2f35b6a9',
+        // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+        // 'b2c2e6853ab5ee',
+        // '2f35b6a9',
 
-        // 'mysql:dbname=stsys;host=localhost;charset=utf8',
-        // 'root',
-        // 'shinei4005',
+        'mysql:dbname=stsys;host=localhost;charset=utf8',
+        'root',
+        'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -286,7 +286,7 @@ try {
                 </tr>
                 <tr>
                     <td><span class="color_red">会社名または個人情報<br>
-                            ※【会社名】または「個人名」を入力してください</span></td>
+                    ※【会社名】または「個人名」を入力してください</span></td>
                     <td><input type="text" name="inc_name" placeholder="例） 志摩機械 株式会社">
                     </td>
                 </tr>
@@ -296,39 +296,39 @@ try {
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="color_red">申込者氏名フリガナ</span></td>
+                    <td><span class="color_red">申込者氏名<br class="view_sp">フリガナ</span></td>
                     <td><input type="text" name="app_name_kana" placeholder="例）シマタロウ">
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="color_red">郵便番号(会社または個人)</span></td>
+                    <td><span class="color_red">郵便番号<br class="view_sp">(会社または個人)</span></td>
                     <td>
                         <input type="text" name="post_no" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,'','adress','adress');">
                         <!--〒<input type="text" size="8" maxlength="3" placeholder="例）624>-<input type=" text" size="8" maxlength="4" placeholder="例）0951">-->
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="color_red">住所1(番地まで)</span></td>
+                    <td><span class="color_red">住所1<br class="view_sp">(番地まで)</span></td>
                     <td>
                         <input type="text" name="address1" placeholder="例）京都府舞鶴市上福井117番地">
                         <!--〒<input type="text" size="8" placeholder="例）京都府舞鶴市上福井１１７">-->
                     </td>
                 </tr>
                 <tr>
-                    <td>住所2(マンション名)</td>
+                    <td>住所2<br class="view_sp">(マンション名)</td>
                     <td>
                         <input type="text" name="address2" placeholder="例）京都府舞鶴市上福井117番地">
                         <!--〒<input type="text" size="8" placeholder="例）京都府舞鶴市上福井１１７">-->
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="color_red">電話番号(会社または個人)</span></td>
+                    <td><span class="color_red">電話番号<br class="view_sp">(会社または個人)</span></td>
                     <td>
                         <input type="text" name="tel" placeholder="例）0773750652">
                     </td>
                 </tr>
                 <tr>
-                    <td>FAX番号(会社または個人)</td>
+                    <td>FAX番号<br class="view_sp">(会社または個人)</td>
                     <td>
                         <input type="text" name="fax" placeholder="例）0773755591">
                     </td>
@@ -345,46 +345,47 @@ try {
                     <td><span class="color_red">助成金の有無</span></td>
                     <td><select name="sub_flg">
                             <?php echo '<option value=""></option>' . $money_final ?>
-                        </select>※助成金を受けるかの有無を選択してください。 (有：受ける　無：受けない)
+                        </select>※助成金を受けるかの有無を選択してください。<br class="view_sp">(有：受ける　無：受けない)
                     </td>
                 </tr>
             </table>
             <!-- 受講者入力 -->
-            <table class="table_02">
-                <tr>
-                    <th><span class="color_red">受講者指名</span></th>
-                    <th><span class="color_red">生年月日</span></th>
-                    <th><span class="color_red">性別</span></th>
-                    <th><span class="color_red">個人電話番号</span></th>
-                    <th>携帯番号</th>
-                    <th colspan="2"><span class="color_red">住所</span></th>
-                    <th>講習内容</th>
-                    <th><span class="color_red">希望コース</span></th>
-                    <th>受講期間</th>
-                </tr>
-                <?php
-                //人数分テキストボックスを表示する。
-                for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
-                    echo '<tr>
-                    <td><input name="students' . $i . '" type=text placeholder=例）志摩太郎></td>
-                    <td><input name="birthday' . $i . '" type=text placeholder=例）生年月日></td>
-                    <td><select name="sex' . $i . '"><option value=""></option>' . $sex_final . '
-                    <td><input name="kojin_tel' . $i . '" type=text placeholder=例）個人電話番号></td>
-                    <td><input name="phone_tel' . $i . '" type=text placeholder=例）携帯番号></td>
-                    <td><input type=text name="kojin_post_no' . $i . '" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress");></td>
-                    <td><input name="kojin_address' . $i . '" type=text placeholder=例）住所></td>
-                    <td>' . $_SESSION["button_value"][2] . '</td> 
-                    <td><select name="course_sub_code' . $i . '"><option value=""></option>' . $course_sub_code_final . '
-                    <td>' . $_SESSION["button_value"][3] . '</td>
-                </tr>';
-                }
-                ?>
-            </table>
+            <div class="table_02_main">
+                <table class="table_02">
+                    <tr>
+                        <th><span class="color_red">受講者指名</span></th>
+                        <th><span class="color_red">生年月日</span></th>
+                        <th><span class="color_red">性別</span></th>
+                        <th><span class="color_red">個人電話番号</span></th>
+                        <th>携帯番号</th>
+                        <th colspan="2"><span class="color_red">住所</span></th>
+                        <th>講習内容</th>
+                        <th><span class="color_red">希望コース</span></th>
+                        <th>受講期間</th>
+                    </tr>
+                    <?php
+                    //人数分テキストボックスを表示する。
+                    for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
+                        echo '<tr>
+                        <td><input name="students' . $i . '" type=text placeholder=例）志摩太郎></td>
+                        <td><input name="birthday' . $i . '" type=text placeholder=例）生年月日></td>
+                        <td><select name="sex' . $i . '"><option value=""></option>' . $sex_final . '
+                        <td><input name="kojin_tel' . $i . '" type=text placeholder=例）個人電話番号></td>
+                        <td><input name="phone_tel' . $i . '" type=text placeholder=例）携帯番号></td>
+                        <td><input type=text name="kojin_post_no' . $i . '" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress");></td>
+                        <td><input name="kojin_address' . $i . '" type=text placeholder=例）住所></td>
+                        <td>' . $_SESSION["button_value"][2] . '</td> 
+                        <td><select name="course_sub_code' . $i . '"><option value=""></option>' . $course_sub_code_final . '
+                        <td>' . $_SESSION["button_value"][3] . '</td>
+                    </tr>';}
+                    ?>
+                </table>
+            </div>
             <div class="example-r">
                 <button type="submit" name="request">申請</button>
 
                 <!-- <button type="submit"><a href="pdf/sample.pdf" name="request" download="sample.pdf">申請</a></button> -->
-                <button class="btn_return"><a href="index.php">戻る</a></button>
+                <button><a href="index.php">戻る</a></button>
             </div>
             <?php
             if ($_SESSION["mode"] === "send") {
@@ -399,7 +400,7 @@ try {
         <div class="explanation_image">
             <div class="explanation_image_child">
                 <div class="explanation_image_text">
-                    <p><span class="color_red">技能講習の場合(上記、入力情報の場合)</span><br>
+                    <p><span class="color_red">技能講習の場合<br class="view_sp">(上記、入力情報の場合)</span><br>
                         表面
                     </p>
                 </div>
@@ -408,7 +409,7 @@ try {
             <div class="explanation_image_child">
                 <div class="explanation_image_text">
                     <p><span class="color_red">特別教育受講申込書の場合</span><br>
-                        クレーンの場合
+                    クレーンの場合
                     </p>
                 </div>
                 <img src="img/stsys2_2.PNG" alt="特別教育受講申込書">
@@ -422,8 +423,7 @@ try {
             <div class="explanation_image_child">
                 <div class="explanation_image_text">
                     <p><span class="color_red">各コースのご案内(小型移動式クレーン K1の場合)<br>
-                            ⇒コースが混在の場合、2枚発行</spna>
-                    </p>
+                    ⇒コースが混在の場合、2枚発行</spna></p>
                 </div>
                 <img src="img/stsys2_4.PNG" alt="小型移動式クレーン運転技能講習のご案内（K1コース）">
             </div>
