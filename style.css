@@ -4,6 +4,26 @@ html{
 body {
     /* font-size: 10px; */
   }
+  /*改行*/
+  /* タブレット横＆ＰＣ対応 */
+@media screen and (min-width:801px){
+  .view_sp {
+    display: none;
+  }
+}
+/* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:500px) and (max-width:800px) {
+  .view_sp {
+    display: none;
+  }
+}
+/* スマホ縦対応  */
+@media screen and (max-width:499px) { 
+  .view_pc {
+    display: none;
+  }
+}
+
   .main_container {
     width:91%;
     margin:0 auto;
@@ -186,10 +206,10 @@ body {
     position: absolute;
     bottom: 0px;
     margin-bottom: 10px;
-    font-size: 1.9rem;
+    font-size: 1.8rem;
   }
   .form_explanation {
-    font-size: 2.2rem;
+    font-size: 2.0rem;
     margin: 20px auto 30px;
     font-weight: bold;
   }
@@ -233,8 +253,38 @@ body {
   .container1 form table {
     white-space: nowrap;
   }
+  .table > thead > tr > th,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > tbody > tr > td,
+  .table > tfoot > tr > td {
+    padding: 3px;
+    line-height: 1;
+  }
+  .table-bordered {
+    zoom: .8;
+  }
   /*下記の表*/
+  #Exam_details {
+    display: block;
+  }
+  .crane {
+    width: 100%;
+    margin: 0 auto;
+}
   .crane_child th {
     white-space: nowrap;
+  }
+  /*注意点*/
+  .pay_explanation_flex {
+    display: block;
+  }
+  .pay_explanation_box {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .pay_explanation_strong {
+    position: initial;
   }
 }
