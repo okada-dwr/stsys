@@ -54,14 +54,14 @@ if (isset($_GET['ym'])) {
     //echo $today_show, '<', $ym_show;
 
     if ($today_show < $ym_show) { //ユーザー選択日付が今日の日付より大きい場合、前月遷移を表示する。
-        $prev_show = '<h3 style="font-size: 1.0rem;"><a href="?ym=' . $prev . '">&lt;&lt;前月 </a>' . $html_title . '<a href="?ym=' . $next . '"> 来月&gt;&gt;</a></h3>';
+        $prev_show = '<h3"><a href="?ym=' . $prev . '">&lt;&lt;前月 </a>' . $html_title . '<a href="?ym=' . $next . '"> 来月&gt;&gt;</a></h3>';
     } else {   //ユーザー選択日付が今日の日付と同じ場合、前月遷移を表示しない。
-        $prev_show =  '<h3 style="font-size: 1.0rem;">' . $html_title . '<a href="?ym=' . $next . '"> 来月&gt;&gt;</a></h3>';
+        $prev_show =  '<h3>' . $html_title . '<a href="?ym=' . $next . '"> 来月&gt;&gt;</a></h3>';
     }
 } else { //ユーザー選択日付が今日の日付と同じ場合、前月遷移を表示しない。
     //今月の年月を表示
     $ym = date('Y-m');
-    $prev_show = '<h3 style="font-size: 1.0rem;">' . $html_title . '<a href="?ym=' . $next . '"> 来月&gt;&gt;</a></h3>';
+    $prev_show = '<h3>' . $html_title . '<a href="?ym=' . $next . '"> 来月&gt;&gt;</a></h3>';
 }
 
 //該当月の日数を取得
@@ -97,13 +97,13 @@ try {
 
     // DB接続
     $pdo = new PDO(
-        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-        'b2c2e6853ab5ee',
-        '2f35b6a9',
+        // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+        // 'b2c2e6853ab5ee',
+        // '2f35b6a9',
 
-//         'mysql:dbname=stsys;host=localhost;charset=utf8',
-//         'root',
-//         '',
+        'mysql:dbname=stsys;host=localhost;charset=utf8',
+        'root',
+        'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -205,9 +205,6 @@ try {
 
     //$dayはfor関数で１日づつ増えていく
     for ($day = 1; $day <= $day_count; $day++, $youbi++) {
-        // if ($day === 19) {
-        //     $day = $day;
-        // }
 
         //それぞれの日付をY-m-d形式で表示例：2020-01-23
         $date = $ym . '-' . $day; //"2021-12-1"
@@ -267,10 +264,16 @@ try {
                 }
             } else { //月マタギではない
                 $count2 = 7; //配列の７番目から結合する日付を入れる（startday=3,end=5なら4,5を追加）
-                for ($z = 0; $z < $count; $z++) {
-                    $coun1 += 1;
-                    $start_day[$i][$count2] =  array($start_day[$i][4] => $start_day[$i][4] + $coun1); //結合される部分作成(8日なら9日と10日が結合される
-                    $count2 += 1;
+                if ($count === 0) { //例えば１日だけの講習は$countが0になる
+                    // $coun1 += 1;
+                    $start_day[$i][$count2] =  array($start_day[$i][4] => $start_day[$i][4]); //結合される部分作成(8日なら9日と10日が結合される
+                    // $count2 += 1;
+                } else {
+                    for ($z = 0; $z < $count; $z++) {
+                        $coun1 += 1;
+                        $start_day[$i][$count2] =  array($start_day[$i][4] => $start_day[$i][4] + $coun1); //結合される部分作成(8日なら9日と10日が結合される
+                        $count2 += 1;
+                    }
                 }
             }
             $z = 0;
@@ -360,9 +363,9 @@ try {
                             if ($day === $Key) { //予約日先頭かそうでないか判断する
                                 $yoyakubi_ari = 1; //予約日先頭なら1を入れる
                                 //キーの同じものの数をカウント $key=3なら3=>4と3=>5をとる
-                                if ($day === 10) {
-                                    $day = $day;
-                                }
+                                // if ($day === 10) {
+                                //     $day = $day;
+                                // }
                                 //結合日を取得
                                 $hairetu_count = array_column($start_day1, $Key);
                                 $finish_key_count = count($hairetu_count); //結合数を数える
@@ -374,7 +377,9 @@ try {
                                     $month1 = substr($month1, 1, 1);
                                 }
                                 $stsys2_start_day = $year . '/' . $month1 . '/' .  $Key;
-
+                                if ($day === 5) {
+                                    $day = $day;
+                                }
                                 //end_dayが月マタギなら来月にする、12月末ならyearを来年にする
                                 if ($hairetu_count[count($hairetu_count) - 1] - $Key < 0) {
                                     //12月なら1月にして、来年にする
@@ -388,6 +393,9 @@ try {
                                         $month1 += 1;
                                         $stsys2_end_day = $year1 . '/' .  $month1  . '/' . $hairetu_count[count($hairetu_count) - 1];
                                     }
+                                } elseif ($Key === (int)$hairetu_count[0]) { //１日だけの講習なら
+                                    $stsys2_end_day = $year1 . '/' .  $month1  . '/' . (int)$Key;
+                                    $finish_key_count = -1;
                                 } else {
                                     $stsys2_end_day = $year1 . '/' .  $month1  . '/' . (int)$Key + $finish_key_count;
                                 }
@@ -413,14 +421,8 @@ try {
                     }
                 }
             }
-            // $button_name_count = 0;
-            // $button_name = "";
-            if ($reset === 1) { //予約日先頭ならセル結合を入れる
-                // if ($day === 29) {
-                //     $day = $day;
-                // }
 
-                //
+            if ($reset === 1) { //予約日先頭ならセル結合を入れる
                 $button_value = "";
                 $button_name = 'stsys1_click' . $button_name_count;
                 $button_name_count += 1;
@@ -429,14 +431,12 @@ try {
                 $course_code_button = $start_day_final[$final_count][2]; //コースコード
                 $course_name_button = $start_day_final[$final_count][3]; //コース名
 
-                if ($button_name_count === 4) {
-                    $day = $day;
-                }
                 if ((int)$limited_num_final === 0) { //登録人数が０ならボタン押せなくする
                     $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="0",' . $course_code_button . ',' . $course_name_button . ' disabled>x</button>';
                 } else {
-                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="' . $limited_num_final . ',' . $course_code_button . ',' . $course_name_button . ',' . $stsys2_day . ',' . $place_code_button . ',' . $place_name_button . '">' . $limited_num_final . '</button>';
+                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="' . $limited_num_final . ',' . $course_code_button . ',' . $course_name_button . ',' . $stsys2_day . ',' . $place_code_button . ',' . $place_name_button . '">' . $limited_num_final . '席' . '</button>';
                 }
+
                 //ボタン作成
                 if ($td_check[$final_count] === 0) {
                     $start_day_final[$final_count][count($start_day_final[$final_count])] = '<td class="course_type" colspan="' . $finish_key_count + 1 . '">' . $button_value;
@@ -459,12 +459,10 @@ try {
             $p += 1;
             $final_count += 1;
         }
-
         // 日付作成**********************************************************************************
         $week .= '<td>' . $day;
         $week .= '</td>';
         // *************************************************************************************************
-
     }
 
     //来月の日付がある際（１月なら２月１日とか）、曜日作成の必要があるため、一番多い日付を
@@ -503,6 +501,7 @@ try {
         //曜日を数字で取得 0:日 1:月 2:火 3:水 4:木 5:金 6:土
         $youbi = date('w',  $timestamp);
 
+        //はみ出し分の曜日作成
         youbi_create($youbi);
 
         $week .= '<td>' . $i;
@@ -522,9 +521,6 @@ try {
 $d = 0;
 foreach ($course_day as  $course_day1) {
     foreach ($start_day_final as $start_day_final1) {
-        // if ($d === 3) {
-        //     $d = $d;
-        // }
         if ($course_day1[0] === $start_day_final1[0] and $course_day1[2] === $start_day_final1[2]) {
             $course_day[$d] = $start_day_final1;
             break;
@@ -533,9 +529,10 @@ foreach ($course_day as  $course_day1) {
     $d += 1;
 }
 
+//来月の日付がある際（１月なら２月１日とか）、無い検定項目のセルも追加する必要がある（空白になるため）
+//例えばクレーンが31~2日の場合、他の検定の分もはみ出る来月分の1~2日のセルを作らないといけない
 $td_ad = 0;
 $td_already = 0;
-//来月の日付がある際（１月なら２月１日とか）、無い検定項目のセルも追加する必要がある（空白になるため）
 foreach ($course_day as $course_day2) {
     if (count($course_day2) > 4) {
         $slice_array1 = array_slice($course_day2, 7);
@@ -563,6 +560,7 @@ foreach ($course_day as $course_day2) {
     $td_ad += 1;
 }
 
+//曜日作成ルーチン
 function youbi_create($youbi)
 {
     global $youbi_kana;
@@ -642,22 +640,20 @@ function display_to_Holidays($date, $Holidays_array)
 {
     //※引数1は日付"Y-m-d"型、引数に2は祝日の配列データ
     //display_to_Holidays("Y-m-d","Y-m-d") →引数1の日付と引数2の日付が一致すればその日の祝日名を取得する
-
     if (array_key_exists($date, $Holidays_array)) {
         //array_key_exists関数を使用
         //$dateが$Holidays_arrayに存在するか確認
         //各日付と祝日の配列データを照らし合わせる
-
         $holidays = "<br/>" . $Holidays_array[$date];
         //祝日が見つかれば祝日名を$holidaysに入れておく
         return $holidays;
     }
 }
-
 ?>
 
-<!-----------カレンダープログラム--------------->
-
+<!------------------------------------------------------------------------------------->
+<!-----------カレンダーHTMLスタート------------------------------------------------------------->
+<!------------------------------------------------------------------------------------->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -668,48 +664,6 @@ function display_to_Holidays($date, $Holidays_array)
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <style>
-        /* .container {
-            font-family: 'Noto Sans', sans-serif;
-            margin-top: 80px;
-        }
-
-        h3 {
-            margin-bottom: 30px;
-        }
-
-        .table-bordered th {
-            height: 50px;
-            text-align: center;
-        }
-
-        .table-bordered td {
-            height: 30px;
-            text-align: center;
-        }
-
-        .today {
-            background: orange;
-        }
-
-        th:nth-of-type(1),
-        td:nth-of-type(1) {
-            color: black;
-        }
-
-        th:nth-of-type(7),
-        td:nth-of-type(7) {
-            color: blue;
-        }
-
-        .holiday {
-            color: red;
-        }
-
-        .green {
-            color: green;
-        } */
-    </style>
 </head>
 
 <body id="">
@@ -717,220 +671,245 @@ function display_to_Holidays($date, $Holidays_array)
     <a href="stsys02.php">stsys02</a>
     <a href="stsys03.php">stsys03</a>
     <a href="stsys04.php">stsys04</a>
-
-
-    <div class="title1">
-        <h1 style="text-align: center;text-decoration:underline;">予約表示画面</h1>
-        <div class="explanation">
-            <p>カレンダーには、「予約枠の数」を表示しております。「ｘ」は満席。<br>受講人数項目に人数を指定し、予約日を選択してください。
-                <br><br>※<span>予約したい予定日</span>の【X席】を選択してください。
-                <br>※<span>複数の講習を受講する場面</span>は、お手数をおかけしますが<span>1講習申込をした後、再度こちらの画面から予約していただきますよう</span>
-                、よろしくお願いいたします。<br>※<span>キャンセルする場合</span>は、お手数おかけし申し訳ありませんが<span>「0773-76-0652」　高岸　</span>までご連絡ください。
-            </p>
+    <div class="main_container">
+        <div class="title1">
+            <h1 style="text-align: center;text-decoration:underline;">予約表示画面</h1>
+            <div class="explanation">
+                <p>カレンダーには、「予約枠の数」を表示しております。「ｘ」は満席。<br>受講人数項目に人数を指定し、予約日を選択してください。</p>
+                <p>➀<span class="underline_red">予約したい予定日</span>の<span class="underline_black">【X席】</span>を選択してください。</p>
+                <p>➁<span class="underline_red">複数の講習を受講する場面</span>は、お手数をおかけしますが<span class="underline_red">1講習申込をした後、再度こちらの画面から予約していただきますよう</span>、よろしくお願いいたします。</p>
+                <p>➂<span class="underline_red">キャンセルする場合</span>は、お手数おかけし申し訳ありませんが<span class="color_red">「0773-76-0652」　高岸　</span>までご連絡ください。</p>
+            </div>
         </div>
-    </div>
-    <?php
-    $f = 1;
-
-    // echo '"stsys1_click' . $f . '"';
-    ?>
-    <!--曜日表示^---------------------------------------------------------------------------------------------------------------------------------------------------->
-    <div class="container">
-        <form method="post" action="stsys02.php">
-            <script type="text/javascript">
-                function ckBtn(button) {
-
-                    //押されたボタンの予約可能人数を取得
-                    var name = button.getAttribute('name');
-                    var button_person = document.getElementsByName(name);
-                    var button_person_list = [];
-                    for (var i = 0; i < button_person.length; i++) {
-                        button_person_list[i] = (button_person[i].value);
-                    }
-                    button_person_list[0] = button_person_list[0].split(','); // , 区切りで
-
-                    //ユーザー選択人数を取得
-                    var number_person = document.getElementsByName("number_person");
-                    var number_person_list = [];
-                    for (var i = 0; i < number_person.length; i++) {
-                        number_person_list[i] = (number_person[i].value);
-                    }
-
-                    //人数チェック
-                    if (button_person_list[0][0] - number_person_list[0] < 0) {
-                        alert("登録可能人数を超えています");
-                        event.preventDefault();
-                    } else {
-
-                        //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
-                        $.ajax({
-                                type: "POST", //　GETでも可
-                                url: "index.php", //　送り先
-                                data: {
-                                    'データ': '<?= $button_name_count - 1 ?>',
-                                    // 'データ1': button_person_list[0][1],
-                                    // 'データ2': button_person_list[0][2],
-                                }, //　渡したいデータをオブジェクトで渡す
-                                dataType: "json", //　データ形式を指定
-                                scriptCharset: 'utf-8' //　文字コードを指定
-                            })
-                            .then(
-                                function(param) { //　paramに処理後のデータが入って戻ってくる
-                                    // console.log(param); //　帰ってきたら実行する処理
-                                },
-                                function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
-                                    // console.log(XMLHttpRequest); //　エラー内容表示
-                                });
-
-                        <?php
-                        $data = filter_input(INPUT_POST, 'データ'); // 送ったデータを受け取る（GETで送った場合は、INPUT_GET）
-                        $_SESSION["button_person"] = $data;
-
-                        // $data1 = filter_input(INPUT_POST, 'データ1'); // 送ったデータを受け取る（GETで送った場合は、INPUT_GET）
-                        // $_SESSION["course_code"] = $data1;
-
-                        // $data2 = filter_input(INPUT_POST, 'データ2'); // 送ったデータを受け取る（GETで送った場合は、INPUT_GET）
-                        // $_SESSION["course_name"] = $data2;
-
-                        $param = $data;
-                        echo json_encode($param); //　echoするとデータを返せる（JSON形式に変換して返す）
-
-                        ?>
-                    }
-                }
-            </script>
-
-            <table class="table table-bordered">
-                <tr>
-                    <!-- 人数を押されたら人数、コース名、期間をstsys２.phpに送る -->
-                    <td>受講人数（※10名まで）</td>
-                    <td><select name="number_person">
-                            <option value="1">1人</option>
-                            <option value="2">2人</option>
-                            <option value="3">3人</option>
-                            <option value="4">4人</option>
-                            <option value="5">5人</option>
-                            <option value="6">6人</option>
-                            <option value="7">7人</option>
-                            <option value="8">8人</option>
-                            <option value="9">9人</option>
-                            <option value="10">10人</option>
-                        </select></td>
-                </tr>
-
-                <!-- 日付表示 -->
-                <tr>
-                    <td rowspan="2" colspan="2">
-                        <?php
-                        echo $prev_show;
-                        ?>
-                    </td>
-                    <?php
-                    echo $week;
-                    ?>
-                </tr>
-
-                <!-- 曜日表示 -->
-                <tr>
-                    <?php
-                    echo $youbi_kana;
-                    ?>
-                </tr>
-
-                <!-- 会場表示 -->
-
-                <?php
-                $test_after = 0;
-                $test_before = 0;
-
-                //配列を会場コード順に並び替え
-                $sort_key_team = array_column($course_day, 0);
-                $sort_key_team1 = array_column($course_day, 2);
-                //並べ替えのキー（ソートキー）とする項目を配列として取り出す
-
-                //次の通りソートキーを指定して二次元配列を並び替える。
-                //第一ソートキー：team（文字列の降順で並び替え）
-                //第二ソートキー：age （数値の昇順で並び替え）
-                //第三ソートキー：id  （文字列の昇順で並び替え）
-                array_multisort(
-                    $sort_key_team,
-                    SORT_ASC,
-                    SORT_STRING,
-                    $sort_key_team1,
-                    SORT_ASC,
-                    SORT_STRING,
-                    $course_day
-                );
-
-                //カレンダー表示
-                foreach ($course_day as $course_day3) {
-                    //予約ないやつは非表示
-                    if (count($course_day3) < 5) {
-                    } else {
-                        $test_after = $course_day3[0];
-                        if ($test_before === 0) {
-                            $test_after = $course_day3[0];
-                            $test_name = $course_day3[1];
-
-                            //会場表示
-                            echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
-                            $test_before = $test_after;
-                            //検定名表示
-                            echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
-                            //日付表示
-                            echo $course_day3[count($course_day3) - 1] . '</tr>';
-                        } elseif ($test_after <> $test_before) {
-                            $test_name = $course_day3[1];
-                            //会場表示
-                            echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
-                            $test_before = $test_after;
-                            //検定名表示
-                            echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
-                            //日付表示
-                            echo $course_day3[count($course_day3) - 1] . '</tr>';
+        <!--曜日表示^---------------------------------------------------------------------------------------------------------------------------------------------------->
+        <div class="container1">
+            <form method="post" action="stsys02.php">
+                <script type="text/javascript">
+                    function ckBtn(button) {
+    
+                        //押されたボタンの予約可能人数を取得
+                        var name = button.getAttribute('name');
+                        var button_person = document.getElementsByName(name);
+                        var button_person_list = [];
+                        for (var i = 0; i < button_person.length; i++) {
+                            button_person_list[i] = (button_person[i].value);
+                        }
+                        button_person_list[0] = button_person_list[0].split(','); // , 区切りで
+    
+                        //ユーザー選択人数を取得
+                        var number_person = document.getElementsByName("number_person");
+                        var number_person_list = [];
+                        for (var i = 0; i < number_person.length; i++) {
+                            number_person_list[i] = (number_person[i].value);
+                        }
+    
+                        //人数チェック
+                        if (button_person_list[0][0] - number_person_list[0] < 0) {
+                            alert("登録可能人数を超えています");
+                            event.preventDefault();
                         } else {
-                            if ($test_after <> $test_before) { //最初ではなくて、違う場合
+    
+                            //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
+                            $.ajax({
+                                    type: "POST", //　GETでも可
+                                    url: "index.php", //　送り先
+                                    data: {
+                                        'データ': '<?= $button_name_count - 1 ?>',
+                                        // 'データ1': button_person_list[0][1],
+                                        // 'データ2': button_person_list[0][2],
+                                    }, //　渡したいデータをオブジェクトで渡す
+                                    dataType: "json", //　データ形式を指定
+                                    scriptCharset: 'utf-8' //　文字コードを指定
+                                })
+                                .then(
+                                    function(param) { //　paramに処理後のデータが入って戻ってくる
+                                        // console.log(param); //　帰ってきたら実行する処理
+                                    },
+                                    function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
+                                        // console.log(XMLHttpRequest); //　エラー内容表示
+                                    });
+    
+                            <?php
+                            $data = filter_input(INPUT_POST, 'データ'); // 送ったデータを受け取る（GETで送った場合は、INPUT_GET）
+                            $_SESSION["button_person"] = $data;
+                            $param = $data;
+                            echo json_encode($param); //　echoするとデータを返せる（JSON形式に変換して返す）
+    
+                            ?>
+                        }
+                    }
+                </script>
+    
+                <table class="table table-bordered">
+                    <tr>
+                        <!-- 人数を押されたら人数、コース名、期間をstsys２.phpに送る -->
+                        <td colspan="2">受講人数（※10名まで）</td>
+                        <td class="table_num" colspan="1000"><select name="number_person">
+                                <option value="1">1人</option>
+                                <option value="2">2人</option>
+                                <option value="3">3人</option>
+                                <option value="4">4人</option>
+                                <option value="5">5人</option>
+                                <option value="6">6人</option>
+                                <option value="7">7人</option>
+                                <option value="8">8人</option>
+                                <option value="9">9人</option>
+                                <option value="10">10人</option>
+                            </select></td>
+                    </tr>
+    
+                    <!-- 日付表示 -->
+                    <tr>
+                        <td rowspan="2" colspan="2">
+                            <?php
+                            echo $prev_show;
+                            ?>
+                        </td>
+                        <?php
+                        echo $week;
+                        ?>
+                    </tr>
+    
+                    <!-- 曜日表示 -->
+                    <tr>
+                        <?php
+                        echo $youbi_kana;
+                        ?>
+                    </tr>
+    
+                    <!-- 会場表示 -->
+    
+                    <?php
+                    $test_after = 0;
+                    $test_before = 0;
+                    $type_after = 0;
+                    $type_before = 0;
+    
+                    //配列を会場コード順に並び替え
+                    $sort_key_team = array_column($course_day, 0);
+                    $sort_key_team1 = array_column($course_day, 2);
+                    //並べ替えのキー（ソートキー）とする項目を配列として取り出す
+    
+                    //次の通りソートキーを指定して二次元配列を並び替える。
+                    //第一ソートキー：team（文字列の降順で並び替え）
+                    //第二ソートキー：age （数値の昇順で並び替え）
+                    //第三ソートキー：id  （文字列の昇順で並び替え）
+                    array_multisort(
+                        $sort_key_team,
+                        SORT_ASC,
+                        SORT_STRING,
+                        $sort_key_team1,
+                        SORT_ASC,
+                        SORT_STRING,
+                        $course_day
+                    );
+    
+                    function Sub_code_Read($course_code_check)
+                    {
+                        // DB接続
+                        $pdo = new PDO(
+                            // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+                            // 'b2c2e6853ab5ee',
+                            // '2f35b6a9',
+    
+                            'mysql:dbname=stsys;host=localhost;charset=utf8',
+                            'root',
+                            'shinei4005',
+    
+                            // レコード列名をキーとして取得させる
+                            [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+                        );
+                        $sql_reserve = $pdo->prepare('SELECT course_type FROM st_course_item_mst WHERE del_flg=0 AND course_code=' . $course_code_check);
+                        $sql_reserve->execute();
+    
+                        $s = 0; //カウントに使う
+                        //検定項目登録{couse_code=>day})
+                        foreach ($sql_reserve as $sql_reserve1) {
+                            $sql_reserve_array[$s] = [$sql_reserve1['course_type']];
+                            $s += 1;
+                        }
+                        return $sql_reserve_array[0];
+                    }
+    
+                    //カレンダー表示
+                    //$course_day3の中身↓
+                    //0:場所コード、1:場所名、2:コースコード、3:コース名、4:Start_day、5:End_day、6:可能人数
+                    foreach ($course_day as $course_day3) {
+                        //予約ないやつは配列の数が5以下なので非表示
+                        if (count($course_day3) > 5) {
+                            $test_after = $course_day3[0];
+                            if ($test_before === 0) { //初表示
+                                $test_after = $course_day3[0]; //最初のコードを入れる
+                                $test_name = $course_day3[1];
                                 //会場表示
                                 echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
-                                $test_before = $test_after;
+                                $test_before = $test_after; //最初のコードをbackupする→次のコードと比べる用
+    
+                                //教育表示
+                                $type_name = Sub_code_Read($course_day3[2]); //コースコード
+                                echo '  <tr class="sub-tr"><td colspan="' .  $count_youbi + 2 . '">' . $type_name[0]  . '</td> </tr>';
+                                $type_after = $type_name;
+    
                                 //検定名表示
-                                echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
+                                echo '<tr> <td colspan="2"><h3>' . $course_day3[3] . '</h3> </td>';
                                 //日付表示
                                 echo $course_day3[count($course_day3) - 1] . '</tr>';
-                            } else { //最初ではなくて、一緒の場合
+                            } elseif ($test_after <> $test_before) { //最初ではなくて、違う会場
+                                //会場表示
+                                $test_name = $course_day3[1];
+                                echo '  <tr class="area-tr"><td colspan="' .  $count_youbi + 2 . '">' . $test_name  . '</td> </tr>';
+                                $test_before = $test_after;
+    
+                                //教育表示
+                                $type_name = Sub_code_Read($course_day3[2]); //コースコード
+                                echo '  <tr class="sub-tr"><td colspan="' .  $count_youbi + 2 . '">' . $type_name[0]  . '</td> </tr>';
+                                $type_after = $type_name;
+    
                                 //検定名表示
-                                echo '<tr> <td colspan="2"><h3 style="font-size: 1.0rem;">' . $course_day3[3] . '</h3> </td>';
+                                echo '<tr> <td colspan="2"><h3>' . $course_day3[3] . '</h3> </td>';
+    
+                                //日付表示
+                                echo $course_day3[count($course_day3) - 1] . '</tr>';
+                            } else { //最初ではなくて、一緒の会場
+                                //教育表示
+                                $type_name = Sub_code_Read($course_day3[2]); //コースコード
+                                $type_before = $type_name;
+                                if ($type_after <> $type_before) { //教育が違えば表示
+                                    echo '  <tr class="sub-tr"><td colspan="' .  $count_youbi + 2 . '">' . $type_name[0]  . '</td> </tr>';
+                                    $type_after = $type_name;
+                                }
+    
+                                //検定名表示
+                                echo '<tr> <td colspan="2"><h3>' . $course_day3[3] . '</h3> </td>';
                                 //日付表示
                                 echo $course_day3[count($course_day3) - 1] . '</tr>';
                                 $test_before = $test_after;
                             }
                         }
                     }
-                }
-                ?>
-            </table>
-        </form>
-    </div>
-    <!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-
-    <div id="Exam_details">
-        <div id="Exam_details_left">
+                    ?>
+                </table>
+            </form>
+        </div>
+        <!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    
+        <div id="Exam_details">
+            <!-- <div id="Exam_details_left"> -->
             <div class="crane">
                 <p>●小型式移動式クレーン</p>
                 <table class="crane_child" border="1">
                     <tr>
-                        <th>コース名</th>
-                        <th>受講資格</th>
-                        <th>料金</th>
+                        <th class="course_th" colspan="2">コース名</th>
+                        <th class="subject_th">受講資格</th>
+                        <th class="price_th">料金</th>
                     </tr>
-                    <tr>
+                    <tr class="crane_child_box">
                         <td class="Exam_details_center">K1</td>
                         <td class="Exam_details_center">20h</td>
-                        <td>全科目</td>
+                        <td>●全科目</td>
                         <td class="Exam_details_center">35,000</td>
                     </tr>
-                    <tr>
+                    <tr class="crane_child_box">
                         <td class="Exam_details_center">K2</td>
                         <td class="Exam_details_center">16h</td>
                         <td>●クレーン等の運転免許所有者<br>●床上操作式クレーン運転技術講習終了者<br>玉掛け技術講習終了者</td>
@@ -938,81 +917,47 @@ function display_to_Holidays($date, $Holidays_array)
                     </tr>
                 </table>
             </div>
-            <br>
-            <div class="crane">
-                <p>●車両系建設機械（整地等）</p>
-                <table class="crane_child" border="1">
-                    <tr>
-                        <td class="Exam_details_center">S2</td>
-                        <td class="Exam_details_center">14h</td>
-                        <td>●大型特殊自動車免許保持者<br>●不整地運搬車運転技術講習修了者<br>●普通・準中型・中型・大型免許所有者で、3t未満の<br>
-                            車両系建設機械(整地等)特別教育終了者で且つ、<br>運転経験3ヶ月以上の方<br>(事業主の照明が必要)</td>
-                        <td class="Exam_details_center">35,000</td>
-                    </tr>
-                </table>
-            </div>
-            <br>
-            <div class="crane">
-                <p>●不整地運搬車</p>
-                <table class="crane_child" border="1">
-                    <tr>
-                        <td class="Exam_details_center">F1</td>
-                        <td class="Exam_details_center">11h</td>
-                        <td>●大型特殊自動車免許保持者<br>●車両系建設機械(整地等・解体用)運転技術講習修了者<br>●普通・準中型・中型・大型免許所有者で、3t未満の<br>
-                            車両系建設機械(整地等)特別教育終了者で且つ、<br>運転経験3ヶ月以上の方<br>(事業主の照明が必要)
-                        </td>
-                        <td class="Exam_details_center">35,000</td>
-                    </tr>
-                </table>
-            </div>
-            <br>
-            <div class="crane">
-                <p>●玉掛</p>
-                <table class="crane_child" border="1">
-                    <tr>
-                        <td class="Exam_details_center">T1</td>
-                        <td class="Exam_details_center">19h</td>
-                        <td>●未経験者</td>
-                        <td class="Exam_details_center">23,000</td>
-                    </tr>
-                    <tr>
-                        <td class="Exam_details_center">T2</td>
-                        <td class="Exam_details_center">15h</td>
-                        <td>●クレーン等の運転免許所有者<br>●床上操作式クレーン運転技術講習終了者<br>●小型移動式クレーン技術講習終了者</td>
-                        <td class="Exam_details_center">21,000</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        <div id="Exam_details_right">
             <div class="crane">
                 <p>●フォークリフト</p>
                 <table class="crane_child" border="1">
                     <tr>
-                        <th>コース名</th>
-                        <th>受講資格</th>
-                        <th>料金</th>
+                        <th class="course_th" colspan="2">コース名</th>
+                        <th class="subject_th">受講資格</th>
+                        <th class="price_th">料金</th>
                     </tr>
-                    <tr>
+                    <tr class="crane_child_box">
                         <td class="Exam_details_center">R3</td>
-                        <td class="Exam_details_center">31h</td>
-                        <td>●大型特殊自動者免許(ｶﾀﾋﾟﾗ付限定)又は、普通準中型、<br>中型、大型自動車免許所持者</td>
-                        <td class="Exam_details_center">41,000</td>
-                    </tr>
-                    <tr>
                         <td class="Exam_details_center">R4</td>
-                        <td class="Exam_details_center">11h</td>
-                        <td>●大型特殊自動者免許所持者(ｶﾀﾋﾟﾗ付限定は資格不可)</td>
-                        <td class="Exam_details_center">22,000</td>
+                        <td>●全科目</td>
+                        <td class="Exam_details_center">35,000</td>
+                    </tr>
+                    <tr class="crane_child_box">
+                        <td class="Exam_details_center">K2</td>
+                        <td class="Exam_details_center">16h</td>
+                        <td>●クレーン等の運転免許所有者<br>●床上操作式クレーン運転技術講習終了者<br>玉掛け技術講習終了者</td>
+                        <td class="Exam_details_center">30,000</td>
                     </tr>
                 </table>
             </div>
-            <br>
+        </div>
+    
+        <div id="Exam_details">
+            <div class="crane">
+                <p>●車両系建設機械（整地等）</p>
+                <table class="crane_child" border="1">
+                    <tr class="crane_child_box">
+                        <td class="Exam_details_center">S2</td>
+                        <td class="Exam_details_center">14h</td>
+                        <td>●大型特殊自動車免許保持者<br>●不整地運搬車運転技術講習修了者<br>●普通・準中型・中型・大型免許所有者で、3t未満の<br>
+                            車両系建設機械(整地等)特別教育終了者で且つ、<br>運転経験3ヶ月以上の方<br>(事業主の照明が必要)</td>
+                        <td class="Exam_details_center">40,000</td>
+                    </tr>
+                </table>
+            </div>
             <div class="crane">
                 <p>●高所作業車</p>
                 <table class="crane_child" border="1">
-                    <tr>
+                    <tr class="crane_child_box">
                         <td class="Exam_details_center">H1</td>
                         <td class="Exam_details_center">14h</td>
                         <td>●大型特殊自動者免許、普通準中型、中型、大型自動車免許
@@ -1021,7 +966,7 @@ function display_to_Holidays($date, $Holidays_array)
                             　能講習修了者<br>●不整地運搬車運転技能講習修了者</td>
                         <td class="Exam_details_center">43,000</td>
                     </tr>
-                    <tr>
+                    <tr class="crane_child_box">
                         <td class="Exam_details_center">H2</td>
                         <td class="Exam_details_center">12h</td>
                         <td>●大型特殊自動者免許所持者(ｶﾀﾋﾟﾗ付限定は資格不可)</td>
@@ -1029,11 +974,26 @@ function display_to_Holidays($date, $Holidays_array)
                     </tr>
                 </table>
             </div>
-            <br>
+        </div>
+    
+        <div id="Exam_details">
             <div class="crane">
-                <p>●フォークリフト</p>
+                <p>●不整地運搬車</p>
                 <table class="crane_child" border="1">
-                    <tr>
+                    <tr class="crane_child_box">
+                        <td class="Exam_details_center">F1</td>
+                        <td class="Exam_details_center">11h</td>
+                        <td>●大型特殊自動車免許保持者<br>●車両系建設機械(整地等・解体用)運転技術講習修了者<br>●普通・準中型・中型・大型免許所有者で、3t未満の<br>
+                            車両系建設機械(整地等)特別教育終了者で且つ、<br>運転経験3ヶ月以上の方<br>(事業主の照明が必要)
+                        </td>
+                        <td class="Exam_details_center">37,000</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="crane">
+                <p>●ガス溶接</p>
+                <table class="crane_child" border="1">
+                    <tr class="crane_child_box">
                         <td class="Exam_details_center">G</td>
                         <td class="Exam_details_center">13h</td>
                         <td>●ガス溶接装置を用いて、溶接・溶断または加熱の作業を</td>
@@ -1041,41 +1001,64 @@ function display_to_Holidays($date, $Holidays_array)
                     </tr>
                 </table>
             </div>
-            <br>
+        </div>
+    
+        <div id="Exam_details">
             <div class="crane">
-                <p>●フォークリフト</p>
+                <p>●玉掛</p>
                 <table class="crane_child" border="1">
-                    <tr>
-                        <td class="Exam_details_center">A</td>
-                        <td class="Exam_details_center">5h</td>
-                        <td>●ガス溶接装置を用いて、溶接・溶断または加熱の作業をする方</td>
+                    <tr class="crane_child_box">
+                        <td class="Exam_details_center">T1</td>
+                        <td class="Exam_details_center">19h</td>
+                        <td>●未経験者</td>
+                        <td class="Exam_details_center">23,000</td>
+                    </tr>
+                    <tr class="crane_child_box">
+                        <td class="Exam_details_center">T2</td>
+                        <td class="Exam_details_center">15h</td>
+                        <td>●クレーン等の運転免許所有者<br>●床上操作式クレーン運転技術講習終了者<br>●小型移動式クレーン技術講習終了者</td>
                         <td class="Exam_details_center">21,000</td>
                     </tr>
                 </table>
             </div>
+            <div class="crane">
+                <p>●ガス溶接</p>
+                <table class="crane_child" border="1">
+                    <tr class="crane_child_box">
+                        <td class="Exam_details_center">A</td>
+                        <td class="Exam_details_center">5h</td>
+                        <td>●ガス溶接装置を用いて、溶接・溶断または加熱の作業を</td>
+                        <td class="Exam_details_center">17,000</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    
+    
+        <div id="pay_explanation">
+            <div class="pay_explanation_flex">
+                <div class="pay_explanation_box">
+                    <b>受講料の支払について</b>
+                    <p>●受講料は受講日までに、こちらから送付する<span class="underline_red">「運転技能講習のご案内」</span>に記載されている、<br>口座へ振込みをお願いいたします。なお、手数料はお客様負担になります。</p>
+                    <p>●現金の場合は、初日に持参いただきますよう、よろしくお願いいたします。<br>※講習開始後の受講料は返金できませんので、ご注意ください。</p>
+                    <br>
+                    <b>受講資格</b>
+                    <p>●満18歳以上の男女(個人の方でも受講できます。学歴は不問です。)</p>
+                    <p>●各コースの受講資格欄に該当される方</p>
+        
+                </div>
+                <div class="pay_explanation_box">
+                    <b>その他</b>
+                    <p>●<span class="underline_red">定員があります</span>ので、ご注意ください。</p>
+                    <p>●受講開始後の返金はできません。</p>
+                    <p>●日程等、予告なく変更する場合があります。必ず画面上のカレンダーを確認してください。</p>
+                    <p>※料金には、テキスト代・消費税を含みます。</p>
+                    <b class="pay_explanation_strong">申請は、受講日の2日前までに申請してください。</b>
+                </div>
+            </div>
+            <p class="form_explanation">何かご不明点や、わからないことがありましたら問い合わせお願いいたします。（Tel：0773-75-0652）
         </div>
     </div>
-    <div id="pay_explanation">
-        <div class="pay_explanation_left" style="font-size: 2rem;">
-            <b>受講料の支払について</b>
-            <p>●受講料は受講日までに、こちらから送付する「運転技能講習のご案内」に記載されている、<br>口座へ振込みをお願いいたします。なお、手数料はお客様負担になります。</p>
-            <p>●現金の場合は、初日に持参いただきますよう、よろしくお願いいたします。<br>※講習開始後の受講料は返金できませんので、ご注意ください。</p>
-            <br>
-            <b>受講資格</b>
-            <p>●満18歳以上の男女(個人の方でも受講できます。学歴は不問です。)</p>
-            <p>●各コースの受講資格欄に該当される方</p>
-
-        </div>
-        <div class="pay_explanation_right" style="font-size: 2rem;">
-            <b>その他</b>
-            <p>●定員がありますので、ご注意ください。</p>
-            <p>●受講開始後の返金はできません。</p>
-            <p>●日程等、予告なく変更する場合があります。必ず画面上のカレンダーを確認してください。</p>
-            <p>※料金には、テキスト代・消費税を含みます。</p>
-            <b>申請は、受講日の2日前までに申請してください。</b>
-        </div>
-    </div>
-    <p class=form_explanation style="font-size:3rem;">何かご不明点や、わからないことがありましたら問い合わせお願いいたします。（Tel：0773-75-0652）
 
 </body>
 
