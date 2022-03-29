@@ -16,13 +16,13 @@ $button_value = [];
 try {
     // DB接続
     $pdo = new PDO(
-        // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-        // 'b2c2e6853ab5ee',
-        // '2f35b6a9',
+        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+        'b2c2e6853ab5ee',
+        '2f35b6a9',
 
-        'mysql:dbname=stsys;host=localhost;charset=utf8',
-        'root',
-        'shinei4005',
+        // 'mysql:dbname=stsys;host=localhost;charset=utf8',
+        // 'root',
+        // 'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -286,7 +286,7 @@ try {
                 </tr>
                 <tr>
                     <td><span class="color_red">会社名または個人情報<br>
-                    ※【会社名】または「個人名」を入力してください</span></td>
+                            ※【会社名】または「個人名」を入力してください</span></td>
                     <td><input type="text" name="inc_name" placeholder="例） 志摩機械 株式会社">
                     </td>
                 </tr>
@@ -377,7 +377,8 @@ try {
                         <td>' . $_SESSION["button_value"][2] . '</td> 
                         <td><select name="course_sub_code' . $i . '"><option value=""></option>' . $course_sub_code_final . '
                         <td>' . $_SESSION["button_value"][3] . '</td>
-                    </tr>';}
+                    </tr>';
+                    }
                     ?>
                 </table>
             </div>
@@ -409,7 +410,7 @@ try {
             <div class="explanation_image_child">
                 <div class="explanation_image_text">
                     <p><span class="color_red">特別教育受講申込書の場合</span><br>
-                    クレーンの場合
+                        クレーンの場合
                     </p>
                 </div>
                 <img src="img/stsys2_2.PNG" alt="特別教育受講申込書">
@@ -423,7 +424,8 @@ try {
             <div class="explanation_image_child">
                 <div class="explanation_image_text">
                     <p><span class="color_red">各コースのご案内(小型移動式クレーン K1の場合)<br>
-                    ⇒コースが混在の場合、2枚発行</spna></p>
+                            ⇒コースが混在の場合、2枚発行</spna>
+                    </p>
                 </div>
                 <img src="img/stsys2_4.PNG" alt="小型移動式クレーン運転技能講習のご案内（K1コース）">
             </div>
