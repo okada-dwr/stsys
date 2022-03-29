@@ -1,0 +1,299 @@
+html{
+  font-size: 62.5%;
+}
+/* stsys2 */
+body{
+
+}
+p {
+  font-size: 14px;
+}
+.underline_red{
+  color: red;
+  text-decoration: underline;
+  font-weight: bold;
+}
+.underline_black {
+  color:black;
+  text-decoration: underline;
+  font-weight: bold;
+}
+.color_red {
+  color:red;
+  font-weight: bold;
+}
+.color_black {
+  color:black;
+  font-weight: bold;
+}
+.main_container {
+  width:91%;
+  margin:0 auto;
+}
+  /*最初の説明*/
+  .explanation { 
+    margin: 50px auto 0;
+    border: 1px solid;
+    padding: 10px;
+  }
+  .explanation_text {
+    font-size: 2.0rem;
+    font-weight: bold;
+  }
+.row_table,
+.row_table td,
+.row_table th {
+  border: 1px solid #cbced2;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.row_table th {
+  background: #01214d;
+  color: #fff;
+  padding: 4px 12px;
+  display: block;
+  width: 100%;
+}
+
+.row_table td {
+  background: #f5f6f8;
+  padding: 4px 12px;
+  display: block;
+  width: 100%;
+}
+/*会社情報入力テーブル*/
+.table_01 {
+  margin: 20px auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 0.5rem;
+}
+.table_01:nth-child(last){
+  border-collapse: separate;
+    border-spacing: 0px 10px;
+}
+.table_01 th {
+  border: solid 1px #ccc;
+  color: #fff;
+  padding: 10px;
+  font-size: 14px;
+}
+.table_01 td {
+  border: solid 1px #ccc;
+  padding: 10px;
+  font-size: 14px;
+}
+.table_01 tbody tr td:nth-child(odd){
+  text-align: center;
+  width: 34%;
+}
+.table_subsidy {
+  margin-top: 10px;
+}
+.message_box {
+  padding: 5px 10px;
+  border: solid 2px #acee12;
+  align-content: center;
+  border-radius: 0.2em;
+  font-size: 0.5rem;
+}
+.table_01 td input{
+  font-size: 14px;
+  width: 90%;
+}
+.table_01 tbody tr:nth-child(3) td input{
+  font-size: 14px;
+  width: 30%;
+}
+.table_01 tbody tr:nth-child(4) td input{
+  font-size: 14px;
+  width: 30%;
+}
+.table_01 tbody tr:nth-child(5) td input{
+  font-size: 14px;
+  width: 30%;
+}
+.table_01 select {
+  font-size: 14px;
+  width: 7%;
+}
+/*受講者入力テーブル*/
+.table_02 {
+  margin: 20px auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 0.5rem;
+}
+.table_02 tr {
+  width: 100%;
+}
+.table_02 th {
+  border: solid 1px #ccc;
+  color: #fff;
+  padding: 5px;
+  font-size: 15px;
+  white-space: nowrap;
+}
+.table_02 td {
+  border: solid 1px #ccc;
+    font-size: 14px;
+    text-align: center;
+    width: 10%;
+}
+.table_02 td:nth-child(3){
+  width: 5%;
+}
+.table_02 td:nth-child(7){
+  width: 17%;
+}
+.table_02 td:nth-child(9){
+  width: 8%;
+}
+.table_02 td input{
+  font-size: 14px;
+  width: 90%;
+}
+.table_02 select {
+  font-size: 14px;
+  width: 100%;
+}
+/*申請、戻るボタン*/
+.example-r {
+  text-align: center;
+  margin: 5% auto 10%;
+}
+.example-r button{
+  padding: 4px 40px;
+  font-size: 16px;
+  margin: 0 25px;
+  color: #fff;
+  background: #2b74c2;
+  border: 0;
+}
+.example-r button a{
+  text-decoration: none;
+  color:#fff;
+}
+/*画像*/
+.explanation_image {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.explanation_image_child {
+  width: 45%;
+  margin: 0 auto;
+}
+.explanation_image_child img{
+  width: 100%;
+}
+.explanation_image_text {
+  min-height: 45px;
+  margin-bottom: 10px;
+}
+@media screen and (max-width: 640px) {
+  form {
+    margin: 0 auto;
+  }
+  .explanation {
+    margin: 0 auto;
+    border: 1px solid;
+    width: 90%;
+  }
+  .message_box {
+    padding: 5px 10px;
+    border: solid 2px #acee12;
+    border-radius: 0.2em;
+  }
+  img {
+    text-align: center;
+    width: 300px;
+  }
+  .last td:last-child {
+    border-bottom: solid 1px #ccc;
+    /* width: 100%; */
+  }
+  /* .table_01 {
+    width: 80%;
+  } */
+  .table_01 th,
+  .table_01 td {
+    border-bottom: none;
+    display: block;
+  }
+}
+.table_01 tbody tr td:nth-child(odd){
+  width: auto;
+}
+*/
+
+/* stsys3 */
+.search{
+  margin-top: 30px;
+  display: flex;
+  /* justify-content: center; */
+  flex-wrap: wrap; /*回り込み*/
+}
+.stsys3_table{
+  margin-top: 30px;
+}
+.table_01 tbody tr:nth-child(3) td input{
+  width: 90%;
+}
+.table_01 tbody tr:nth-child(4) td input{
+  width: 90%;
+}
+.table_01 tbody tr:nth-child(5) td input{
+  width: 90%;
+}
+   /* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:500px) and (max-width:800px) {
+  /*カレンダー*/
+  .container1 form {
+    overflow: scroll;
+  }
+  .container1 form table {
+    white-space: nowrap;
+  }
+  /*下記の表*/
+  .crane_child th {
+    white-space: nowrap;
+  }
+}
+/* スマホ縦対応  */
+@media screen and (max-width:499px) { 
+  /*カレンダー*/
+  /* スクロール */
+  .table_02 {
+    display: block;
+    overflow-x: scroll;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  /*下記の表*/
+  .crane_child th {
+    white-space: nowrap;
+  }
+  /*申請、戻るボタン*/
+.example-r button{
+  padding: 4px 40px;
+  font-size: 16px;
+  margin: 10px 25px;
+  color: #fff;
+  background: #2b74c2;
+  border: 0;
+}
+.explanation_image{
+  display: block;
+}
+.explanation_image_child {
+  width: auto;
+}
+}
