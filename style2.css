@@ -253,7 +253,10 @@ p {
   }
   /*会社情報入力テーブル*/
   .table_01 select{
-    width: 20%;
+    width: 30%;
+  }
+  .table_01 td {
+    padding: 5px;
   }
   .table_01 td input {
     width: 95%!important;
@@ -267,6 +270,9 @@ p {
   }
   .table_02 td input {
     width: auto;
+  }
+  .table_02 tbody tr th:nth-child(3){
+    min-width: 50px;
   }
   /*参考画像*/
   .explanation_image {
