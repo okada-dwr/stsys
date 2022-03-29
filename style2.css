@@ -61,7 +61,7 @@ p {
 }
   /*最初の説明*/
   .explanation { 
-    margin: 50px auto 0;
+    margin: 30px auto 0;
     border: 1px solid;
     padding: 10px;
   }
@@ -249,7 +249,7 @@ p {
 @media screen and (max-width:499px) { 
   /*全体*/
   .main_container{
-    width:95%;
+    width:98%;
   }
   /*会社情報入力テーブル*/
   .table_01 select{
@@ -270,6 +270,9 @@ p {
   }
   .table_02 td input {
     width: auto;
+  }
+  .table_01 tbody tr td:nth-child(odd){
+    padding:5px 0;
   }
   .table_02 tbody tr th:nth-child(3){
     min-width: 50px;
