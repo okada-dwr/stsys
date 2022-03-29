@@ -1,6 +1,35 @@
 html{
   font-size: 62.5%;
 }
+/* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:500px) and (max-width:800px) {
+
+}
+/* スマホ縦対応  */
+@media screen and (max-width:499px) { 
+  html{
+    font-size: 55.5%;
+  }
+}
+/*******改行********/
+  /* タブレット横＆ＰＣ対応 */
+  @media screen and (min-width:801px){
+    .view_sp {
+      display: none;
+    }
+  }
+  /* スマホ横＆タブレット縦対応 */
+  @media screen and (min-width:500px) and (max-width:800px) {
+    .view_sp {
+      display: none;
+    }
+  }
+  /* スマホ縦対応  */
+  @media screen and (max-width:499px) { 
+    .view_pc {
+      display: none;
+    }
+  }
 /* stsys2 */
 body{
 
@@ -198,40 +227,7 @@ p {
   min-height: 45px;
   margin-bottom: 10px;
 }
-@media screen and (max-width: 640px) {
-  form {
-    margin: 0 auto;
-  }
-  .explanation {
-    margin: 0 auto;
-    border: 1px solid;
-    width: 90%;
-  }
-  .message_box {
-    padding: 5px 10px;
-    border: solid 2px #acee12;
-    border-radius: 0.2em;
-  }
-  img {
-    text-align: center;
-    width: 300px;
-  }
-  .last td:last-child {
-    border-bottom: solid 1px #ccc;
-    /* width: 100%; */
-  }
-  /* .table_01 {
-    width: 80%;
-  } */
-  .table_01 th,
-  .table_01 td {
-    border-bottom: none;
-    display: block;
-  }
-}
-.table_01 tbody tr td:nth-child(odd){
-  width: auto;
-}
+
 */
 
 /* stsys3 */
@@ -244,56 +240,39 @@ p {
 .stsys3_table{
   margin-top: 30px;
 }
-.table_01 tbody tr:nth-child(3) td input{
-  width: 90%;
-}
-.table_01 tbody tr:nth-child(4) td input{
-  width: 90%;
-}
-.table_01 tbody tr:nth-child(5) td input{
-  width: 90%;
-}
-   /* スマホ横＆タブレット縦対応 */
+
+/* スマホ横＆タブレット縦対応 */
 @media screen and (min-width:500px) and (max-width:800px) {
-  /*カレンダー*/
-  .container1 form {
-    overflow: scroll;
-  }
-  .container1 form table {
-    white-space: nowrap;
-  }
-  /*下記の表*/
-  .crane_child th {
-    white-space: nowrap;
-  }
+
 }
 /* スマホ縦対応  */
 @media screen and (max-width:499px) { 
-  /*カレンダー*/
-  /* スクロール */
+  /*全体*/
+  .main_container{
+    width:95%;
+  }
+  /*会社情報入力テーブル*/
+  .table_01 select{
+    width: 20%;
+  }
+  .table_01 td input {
+    width: 95%!important;
+  }
+  /*受講者入力テーブル*/
+  .table_02_main {
+    overflow: scroll;
+  }
   .table_02 {
+    white-space: nowrap;
+  }
+  .table_02 td input {
+    width: auto;
+  }
+  /*参考画像*/
+  .explanation_image {
     display: block;
-    overflow-x: scroll;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
   }
-  /*下記の表*/
-  .crane_child th {
-    white-space: nowrap;
+  .explanation_image_child {
+    width: 95%;
   }
-  /*申請、戻るボタン*/
-.example-r button{
-  padding: 4px 40px;
-  font-size: 16px;
-  margin: 10px 25px;
-  color: #fff;
-  background: #2b74c2;
-  border: 0;
-}
-.explanation_image{
-  display: block;
-}
-.explanation_image_child {
-  width: auto;
-}
 }
