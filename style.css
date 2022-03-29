@@ -11,10 +11,10 @@ html{
     font-size: 55.5%;
   }
 }
-body {
+  body {
     /* font-size: 10px; */
   }
-  /*改行*/
+  /*******改行********/
   /* タブレット横＆ＰＣ対応 */
 @media screen and (min-width:801px){
   .view_sp {
@@ -40,6 +40,9 @@ body {
   }
   .title1 {
     margin-top: 20px;
+  }
+  .title1 h1 {
+    font-size: 2.4rem;
   }
   /*下線*/
   .underline_red{
