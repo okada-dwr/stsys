@@ -209,3 +209,32 @@ body {
 .R4{
   height: 50px;
 }
+
+  /* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:500px) and (max-width:800px) {
+  /*カレンダー*/
+  .container1 form {
+    overflow: scroll;
+  }
+  .container1 form table {
+    white-space: nowrap;
+  }
+  /*下記の表*/
+  .crane_child th {
+    white-space: nowrap;
+  }
+}
+/* スマホ縦対応  */
+@media screen and (max-width:499px) { 
+  /*カレンダー*/
+  .container1 form {
+    overflow: scroll;
+  }
+  .container1 form table {
+    white-space: nowrap;
+  }
+  /*下記の表*/
+  .crane_child th {
+    white-space: nowrap;
+  }
+}
