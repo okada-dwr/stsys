@@ -52,6 +52,9 @@ th{
 tr{
   font-size: 14px;
 }
+td{
+  padding: 3px;
+}
 .place{
   width: 14%;
 }
@@ -143,6 +146,31 @@ a.btn--silver:hover {
 }
 
 /****テーブルタイトル****/
+.stsys3_table_main {
+  overflow-x:auto;
+  padding-bottom: 10px;
+-webkit-overflow-scrolling: touch;
+}
+/*===========
+scrollbar
+===========*/
+/*スクロールバー全体の高さ*/
+.stsys3_table_main::-webkit-scrollbar {
+height: 10px;
+}
+/*スクロールバー全体の背景*/
+.stsys3_table_main::-webkit-scrollbar-track {
+background: #eee;
+}
+/*スクロールバーの動く部分*/
+.stsys3_table_main::-webkit-scrollbar-thumb {
+background: #aaa;
+border: none;
+}
+/*スクロールバーの動く部分のホバー（マウスオーバー）*/
+.stsys3_table_main::-webkit-scrollbar-thumb:hover {
+background: #999;
+}
 .stsys3_table{
   width: 100%;
   margin: 40px auto;
@@ -224,9 +252,6 @@ a.btn--silver:hover {
 
 /*テーブル入力情報*/
 /*テーブル*/
-.stsys3_table_main {
-  overflow: scroll;
-}
 .stsys3_table {
   white-space: nowrap;
 }
