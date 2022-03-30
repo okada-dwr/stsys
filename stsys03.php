@@ -273,30 +273,33 @@ if (isset($_POST['code'])) {
                 $("[name='check[]']:checked").each(function() {
                     checks.push(this.value);
                 })
-                //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
-                $.ajax({
-                        type: "POST", //　GETでも可
-                        url: "stsys03.php", //　送り先
-                        data: {
-                            'checks': checks,
-                            'code': 1, //削除
-                        }, //　渡したいデータをオブジェクトで渡す
-                        dataType: "json", //　データ形式を指定
-                        scriptCharset: 'utf-8' //　文字コードを指定
-                    })
+                if (checks.length != 0) {
+                    //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
+                    $.ajax({
+                            type: "POST", //　GETでも可
+                            url: "stsys03.php", //　送り先
+                            data: {
+                                'checks': checks,
+                                'code': 1, //削除
+                            }, //　渡したいデータをオブジェクトで渡す
+                            dataType: "json", //　データ形式を指定
+                            scriptCharset: 'utf-8' //　文字コードを指定
+                        })
 
-                    .done(
-                        function(date) { //　paramに処理後のデータが入って戻ってくる
-                            $("#search").trigger('click');
-                            // $("#return").find("tr").remove()
-                            // $("#return").append(date);
-                        },
-                    ).fail(function(XMLHttpRequest, status, e) {
-                        alert(e);
-                    });
-                // function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
-                //     console.log(XMLHttpRequest); //　エラー内容表示
-                // });
+                        .done(
+                            function(date) { //　paramに処理後のデータが入って戻ってくる
+                                $("#search").trigger('click');
+                                // $("#return").find("tr").remove()
+                                // $("#return").append(date);
+                            },
+                        ).fail(function(XMLHttpRequest, status, e) {
+                            alert(e);
+                        });
+                    // function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
+                    //     console.log(XMLHttpRequest); //　エラー内容表示
+                    // });
+                }
+
             })
         })
     </script>
@@ -356,6 +359,9 @@ if (isset($_POST['code'])) {
             // }
         </script>
         <!--Excel出力------------------------------------------------------------------>
+
+        <!-- </div> -->
+
         <div class="stsys3_table_main">
             <table border=" 1" id="return" style="border-collapse:collapse" class="stsys3_table" ;>
                 <tr class="table_tlt">
