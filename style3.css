@@ -1,0 +1,283 @@
+html{
+  font-size: 62.5%;
+}
+/* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:500px) and (max-width:800px) {
+  
+}
+/* スマホ縦対応  */
+@media screen and (max-width:499px) { 
+  html{
+    font-size: 55.5%;
+  }
+}
+body{
+  font-family:'メイリオ', 'Meiryo', sans-serif;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.main_container {
+  width:98%;
+  margin:0 auto;
+}
+h1{
+  font-size: 20px;
+  text-align: center;
+  text-decoration: underline;
+}
+.search{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+/*波線*/
+.day_select tbody tr td:nth-child(3){
+  font-size: 16px;
+}
+#course_code {
+  border: 0;
+  width: 100%;
+  text-align: center;
+}
+input{
+  border: 0;
+}
+th{
+  background-color: lightskyblue;
+  font-size: 14px;
+  font-weight: normal;
+  white-space: nowrap;
+
+}
+tr{
+  font-size: 14px;
+}
+.place{
+  width: 14%;
+}
+.day{
+  width: 6.8%;
+}
+.company{
+  width: 45%;
+}
+
+/*文字を小さく*/
+.small_text {
+  font-size: 10px;
+}
+
+/****上記メニュー****/
+form{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 30px;
+  justify-content: space-between;
+}
+form td {
+  padding: 3px 0;
+  line-height: 1.1;
+}
+/*講習名*/
+.course_name_select {
+  width: 23%;
+}
+.course_name_select tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: auto;
+}
+.course_name_select tbody tr td:nth-child(1) {
+  min-width: 50px;
+  background: #e8e8e8;
+}
+/*講習期間*/
+.day_select{
+  width: 35%;
+}
+.day_select tbody tr td {
+  border: 1px solid #000;
+  text-align: center;
+  width: auto;
+}
+.day_select tbody tr td:nth-child(1) {
+  min-width: 95px;
+  background: #e8e8e8;
+}
+.day_select tbody tr td:nth-child(3) {
+  border: initial;
+}
+/*ボタン*/
+.btn_main {
+  width: 32%;
+    text-align: end;
+}
+.btn {
+  width: 90px;
+  padding: 3px 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: none;
+  min-height: 36px;
+}
+.btn--orange,
+a.btn--orange {
+  color: #fff;
+  background-color: #005eeb;
+}
+.btn--orange:hover,
+a.btn--orange:hover {
+  color: #fff;
+  background: #007ff5;
+}
+.btn--silver,
+a.btn--silver {
+  color: #fff;
+  background-color: #9e9393;
+}
+.btn--silver:hover,
+a.btn--silver:hover {
+  color: #fff;
+  background: #c9beb8;
+}
+
+/****テーブルタイトル****/
+.stsys3_table{
+  width: 100%;
+  margin: 40px auto;
+}
+.stsys3_table tbody .table_tlt th{
+  width:6%;
+}
+.stsys3_table tbody .table_tlt th:nth-child(1){
+  width:2%;
+}
+.stsys3_table tbody .table_tlt th:nth-child(2){
+  width:3%;
+}
+.stsys3_table tbody .table_tlt th:nth-child(3){
+  width:3%;
+}
+.stsys3_table tbody .table_tlt th:nth-child(4){
+  width:5%;
+}
+.stsys3_table tbody .table_tlt th:nth-child(7){
+  width:15%;
+}
+.stsys3_table tbody .table_tlt th:nth-child(10){
+  width:48%;
+}
+/*テーブル入力情報*/
+.stsys3_table tbody .table_input td:nth-child(10){
+  width:10%;
+}
+.stsys3_table tbody .table_input td:nth-child(11){
+  width:7%;
+}
+.stsys3_table tbody .table_input td:nth-child(12){
+  width:15%;
+}
+.stsys3_table tbody .table_input td:nth-child(13){
+  width:8%;
+}
+.stsys3_table tbody .table_input td:nth-child(14){
+  width:8%;
+}
+.text-center{
+  text-align: center;
+}
+
+/*注意点*/
+.caution_text {
+  font-size: 1.4rem;
+}
+
+/* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:650px) and (max-width:900px) {
+/****上記メニュー****/
+
+/*講習名*/
+.course_name_select {
+  width: 36%;
+  min-width: 220px;
+  min-height: 36px;
+}
+.course_name_select tbody tr td:nth-child(1) {
+  min-width: 60px;
+}
+/*講習期間*/
+.day_select{
+  width: 60%;
+  min-height: 36px;
+  margin-right: 0;
+  margin-left: 2%;
+}
+/*ボタン*/
+.btn_main {
+  width: auto;
+  margin-top: 20px;
+  margin-right: 0;
+  margin-left: auto;
+}
+/****テーブルタイトル****/
+
+/*テーブル入力情報*/
+/*テーブル*/
+.stsys3_table_main {
+  overflow: scroll;
+}
+.stsys3_table {
+  white-space: nowrap;
+}
+}
+/* スマホ縦対応  */
+@media screen and (max-width:649px) { 
+/****上記メニュー****/
+
+.course_name_select {
+  width: 48%;
+  min-width: 220px;
+  min-height: 36px;
+  margin-left:0;
+  margin-right:auto;
+}
+.course_name_select tbody tr td:nth-child(1) {
+  min-width: 60px;
+}
+.course_name_select tbody tr td input{
+  font-size: 14px;
+}
+/*講習期間*/
+.day_select{
+  width: 60%;
+  min-height: 36px;
+  margin-right: auto;
+  margin-left: 0;
+  margin-top: 10px;
+}
+.day_select tbody tr td input {
+  width: 120px;
+  font-size: 14px;
+}
+/*ボタン*/
+.btn_main {
+  width: auto;
+  margin-top: 20px;
+  margin-right: 0;
+  margin-left: auto;
+}
+.btn {
+  margin-left: 10px;
+}
+
+/****テーブルタイトル****/
+
+/*テーブル入力情報*/
+.stsys3_table_main {
+  overflow: scroll;
+}
+.stsys3_table {
+  white-space: nowrap;
+}
+}
