@@ -1,13 +1,23 @@
 html{
   font-size: 62.5%;
 }
+/* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:500px) and (max-width:800px) {
+  
+}
+/* スマホ縦対応  */
+@media screen and (max-width:499px) { 
+  html{
+    font-size: 55.5%;
+  }
+}
 body{
   font-family:'メイリオ', 'Meiryo', sans-serif;
   max-width: 1300px;
   margin: 0 auto;
 }
 h1{
-  font-size: 1.6rem;
+  font-size: 20px;
   text-align: center;
   text-decoration: underline;
 }
@@ -41,12 +51,12 @@ form{
 }
 th{
   background-color: #eeeeee6e;
-  font-size: 1.4rem;
+  font-size: 14px;
   font-weight: normal;
   white-space: nowrap;
 }
 tr{
-  font-size: 1.4rem;
+  font-size: 14px;
 }
 .text_center{
   text-align: center;
