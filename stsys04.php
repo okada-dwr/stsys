@@ -2,13 +2,13 @@
 try {
     // DB接続
     $pdo = new PDO(
-        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-        'b2c2e6853ab5ee',
-        '2f35b6a9',
+        // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+        // 'b2c2e6853ab5ee',
+        // '2f35b6a9',
 
-        // 'mysql:dbname=stsys;host=localhost;charset=utf8',
-        // 'root',
-        // 'shinei4005',
+        'mysql:dbname=stsys;host=localhost;charset=utf8',
+        'root',
+        'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -164,7 +164,7 @@ $sql_reserve_array = [];
     <a href="stsys04.php">stsys04</a>
     <div class="main_container">
         <h1>期間登録・編集画面</h1>
-
+    
         <form action="stsys04.php" method="POST">
             <div class="flex">
                 <!--講習名選択-->
@@ -182,7 +182,7 @@ $sql_reserve_array = [];
                             </select></td>
                     </tr>
                 </table>
-
+    
                 <!--会場選択-->
                 <table class="place_table" style="border-collapse:collapse" ;>
                     <tr>
@@ -202,15 +202,15 @@ $sql_reserve_array = [];
                 <table class="day_table" style="border-collapse:collapse">
                     <tr>
                         <td>講習期間<br><span class="small_text">開始日付～終了日付</span></td>
-                        <?php echo '<td><input type="date" class="border_no" name="start_date" value= ' . $ymd . '></td>'; ?>
+                        <?php echo '<td><input type="date" class="border_no day_tr" name="start_date" value= ' . $ymd . '></td>'; ?>
                         <td> ～ </td>
-                        <?php echo '<td><input type="date" class="border_no" name="end_date" value= ' . $ymd1 . '></td>'; ?>
+                        <?php echo '<td><input type="date" class="border_no day_tr" name="end_date" value= ' . $ymd1 . '></td>'; ?>
                     </tr>
                     <!-- <tr>
                         <td colspan="3"> ※半角8桁のyyyymmdd形式で入力してください</td>
                     </tr> -->
                 </table>
-
+    
                 <!--制限人数-->
                 <table class="limited_table" style="border-collapse:collapse" ;>
                     <tr>
@@ -239,7 +239,7 @@ $sql_reserve_array = [];
         <div class="guide_text">
             <p class="guide_text_tlt">・講習期間一覧</p>
             <p class="guide_text_link">
-                <a href="./stsys03.php">登録情報管理画面へ</a>
+                <a href="">登録情報管理画面へ</a>
             </p>
         </div>
         <div class="stsys4_table_main">
@@ -258,9 +258,9 @@ $sql_reserve_array = [];
                 </tr>
             </table>
         </div>
-
+    
         <p class="caution_text">※必ず、<span class="color_red">月までに9月～12月、12月までに1月～4月、4月までに5月～8月</span>の講習詳細情報を登録してください。<br>
-            ※1度登録した講習情報を削除・変更したい場合は、デジタルワークレートまでご連絡お願いいたします。
+        ※1度登録した講習情報を削除・変更したい場合は、デジタルワークレートまでご連絡お願いいたします。
         </p>
     </div>
 </body>
