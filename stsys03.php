@@ -245,7 +245,7 @@ if (isset($_POST['code'])) {
                 //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
                 $.ajax({
                         type: "POST", //　GETでも可
-                        url: "stsys03.php", //　送り先
+                        url: "./stsys03.php", //　送り先
                         data: {
                             'course_code': course_code,
                             'start_date': start_date,
