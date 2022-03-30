@@ -429,6 +429,19 @@ a.btn--orange:hover {
   .stsys4_table_main {
     overflow: scroll;
   }
+  .stsys4_table_main::-webkit-scrollbar{ 
+    width: 15px;
+  }
+  .stsys4_table_main::-webkit-scrollbar-thumb{ 
+    background: #F70841;
+    border-radius: 10px;
+  }
+  .stsys4_table_main::-webkit-scrollbar-track-piece:start{
+    background: #ffa5ba;
+  }
+  .stsys4_table_main::-webkit-scrollbar-track-piece:end{
+    background: #fff;
+  }
   .stsys4_table {
     white-space: nowrap;
   }
