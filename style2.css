@@ -31,8 +31,13 @@ html{
     }
   }
 /* stsys2 */
-body{
 
+#error_message{
+  font-size: 1.4rem;
+  margin-top: 20px;
+  border: 1px solid #000000;
+  padding: 10px 20px;
+  border-radius: 0.5rem;
 }
 p {
   font-size: 14px;
@@ -165,7 +170,7 @@ p {
 }
 .table_02 th {
   border: solid 1px #ccc;
-  color: #fff;
+  background-color: #fff;
   padding: 5px;
   font-size: 15px;
   white-space: nowrap;
