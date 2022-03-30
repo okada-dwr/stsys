@@ -119,6 +119,9 @@ form td{
 .day_table{
   width: 35%;
 }
+.day_tr {
+
+}
 .day_table tbody tr td {
   border: 1px solid #000;
   text-align: center;
@@ -317,7 +320,7 @@ a.btn--orange:hover {
   
   /*講習名*/
 .course_table{
-  width: 80%;
+  width: 70%;
 }
 .course_table tbody tr td {
   width: auto;
@@ -325,10 +328,13 @@ a.btn--orange:hover {
 .course_table tbody tr td:nth-child(1) {
   width: 90px;
 }
+.course_tr{
+  font-size: 14px;
+}
 
 /*会場選択*/
 .place_table{
-  width: 80%;
+  width: 50%;
 }
 .place_table tbody tr td {
   width: auto;
@@ -336,10 +342,13 @@ a.btn--orange:hover {
 .place_table tbody tr td:nth-child(1) {
   width: 90px;
 }
+.place_tr{
+  font-size: 14px;
+}
 
 /*講習期間*/
 .day_table{
-  width: auto;
+  width: 98%;
   white-space: nowrap;
 }
 .day_table tbody tr td {
@@ -358,10 +367,13 @@ a.btn--orange:hover {
 .day_table tbody tr td input {
   width: 120px;
 }
+.day_tr {
+  font-size: 14px;
+}
 
 /*制限人数*/
 .limited_table{
-  width: 80%;
+  width: 50%;
 }
 .limited_tr{
   width: 100%;
@@ -376,12 +388,16 @@ a.btn--orange:hover {
   width: 90px;
   background: #e8e8e8;
 }
+.limited_tr{
+  font-size: 14px;
+}
 
 /*備考*/
 .biko_table{
   width: 100%;
 }
 .biko_tr{
+  font-size: 14px;
 }
 .biko_table tbody tr td {
   border: 1px solid #000;
