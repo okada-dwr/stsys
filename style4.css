@@ -155,7 +155,7 @@ form td{
   width: 81.6%;
 }
 .biko_tr{
-  width: 98.5%;
+  width: 100%;
   box-sizing: border-box;
 }
 .biko_table tbody tr td {
@@ -285,7 +285,6 @@ a.btn--orange:hover {
     min-width: 60px;
   }
   .biko_tr{
-    width: 98%;
     font-size: 14px;
   }
   
@@ -383,7 +382,6 @@ a.btn--orange:hover {
   width: 100%;
 }
 .biko_tr{
-  width: 98%;
 }
 .biko_table tbody tr td {
   border: 1px solid #000;
