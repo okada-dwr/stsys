@@ -220,10 +220,37 @@ a.btn--orange:hover {
   font-weight: bold;
 }
 /*テーブル*/
+.stsys4_table_main {
+  overflow-x:auto;
+  padding-bottom: 10px;
+-webkit-overflow-scrolling: touch;
+}
+/*===========
+scrollbar
+===========*/
+/*スクロールバー全体の高さ*/
+.stsys4_table_main::-webkit-scrollbar {
+height: 10px;
+}
+/*スクロールバー全体の背景*/
+.stsys4_table_main::-webkit-scrollbar-track {
+background: #eee;
+}
+/*スクロールバーの動く部分*/
+.stsys4_table_main::-webkit-scrollbar-thumb {
+background: #aaa;
+border: none;
+}
+/*スクロールバーの動く部分のホバー（マウスオーバー）*/
+.stsys4_table_main::-webkit-scrollbar-thumb:hover {
+background: #999;
+}
+
 .stsys4_table{
   width: 100%;
   margin: 0px auto;
 }
+
 .stsys4_th{
   background-color: #b0c1de9e;
   width:10%;
@@ -364,15 +391,16 @@ a.btn--orange:hover {
 .day_table tbody tr td {
   border: 1px solid #000;
   text-align: center;
-  width: 13%;
+  width: auto;
 }
 .day_table tbody tr td:nth-child(1) {
-  width: 96px;
+  max-width: 96px;
+  min-width: 96px;
   background: #e8e8e8;
 }
 .day_table tbody tr td:nth-child(3) {
   border: initial;
-  width: 14%;
+  width: 1%;
 }
 .day_table tbody tr td input {
   width: 120px;
@@ -425,23 +453,6 @@ a.btn--orange:hover {
   margin-top:20px;
 }
 
-  /*テーブル*/
-  .stsys4_table_main {
-    overflow: scroll;
-  }
-  .stsys4_table_main::-webkit-scrollbar{ 
-    width: 15px;
-  }
-  .stsys4_table_main::-webkit-scrollbar-thumb{ 
-    background: #F70841;
-    border-radius: 10px;
-  }
-  .stsys4_table_main::-webkit-scrollbar-track-piece:start{
-    background: #ffa5ba;
-  }
-  .stsys4_table_main::-webkit-scrollbar-track-piece:end{
-    background: #fff;
-  }
   .stsys4_table {
     white-space: nowrap;
   }
