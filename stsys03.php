@@ -273,42 +273,37 @@ if (isset($_POST['code'])) {
                 $("[name='check[]']:checked").each(function() {
                     checks.push(this.value);
                 })
-                if (checks.length != 0) {
-                    //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
-                    $.ajax({
-                            type: "POST", //　GETでも可
-                            url: "stsys03.php", //　送り先
-                            data: {
-                                'checks': checks,
-                                'code': 1, //削除
-                            }, //　渡したいデータをオブジェクトで渡す
-                            dataType: "json", //　データ形式を指定
-                            scriptCharset: 'utf-8' //　文字コードを指定
-                        })
+                //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
+                $.ajax({
+                        type: "POST", //　GETでも可
+                        url: "stsys03.php", //　送り先
+                        data: {
+                            'checks': checks,
+                            'code': 1, //削除
+                        }, //　渡したいデータをオブジェクトで渡す
+                        dataType: "json", //　データ形式を指定
+                        scriptCharset: 'utf-8' //　文字コードを指定
+                    })
 
-                        .done(
-                            function(date) { //　paramに処理後のデータが入って戻ってくる
-                                $("#search").trigger('click');
-                                // $("#return").find("tr").remove()
-                                // $("#return").append(date);
-                            },
-                        ).fail(function(XMLHttpRequest, status, e) {
-                            alert(e);
-                        });
-                    // function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
-                    //     console.log(XMLHttpRequest); //　エラー内容表示
-                    // });
-                }
-
+                    .done(
+                        function(date) { //　paramに処理後のデータが入って戻ってくる
+                            $("#search").trigger('click');
+                            // $("#return").find("tr").remove()
+                            // $("#return").append(date);
+                        },
+                    ).fail(function(XMLHttpRequest, status, e) {
+                        alert(e);
+                    });
+                // function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
+                //     console.log(XMLHttpRequest); //　エラー内容表示
+                // });
             })
         })
     </script>
     <div class="main_container">
         <h1>予約情報管理画面</h1>
-        <!-- <div class="search"> -->
-        <form name="form1">
+        <div class="table_content" name="form1">
             <table class="course_name_select" style="border-collapse:collapse;">
-
                 <tr>
                     <td> 講習名 </td>
                     <td>
@@ -319,19 +314,19 @@ if (isset($_POST['code'])) {
             </table>
             <table class="day_select" style="border-collapse:collapse ;">
                 <tr>
-                    <td> 講習期間<br>開始日付～終了日付 </td>
+                <td>講習期間<br><span class="small_text">開始日付～終了日付</span></td>
                     <?php echo '<td><input type="date" name="start_date" value= ' . $ymd . '></td>'; ?>
                     <td> ～ </td>
                     <?php echo '<td><input type="date" name="end_date" value= ' . $ymd1 . '></td>'; ?>
                 </tr>
             </table>
-        </form>
-        <div class="btn_main">
-            <button id="search" class="btn btn--orange"> 検索 </button>
-            <button id="cancel" class="btn btn--silver">キャンセル</button>
-
-            <!--Excel出力------------------------------------------------------------------>
-            <button id="btnExport" class="btn btn--silver" onclick=exportReportToExcel(this)>Excel出力</button>
+            <div class="btn_main">
+                <button id="search" class="btn btn--orange"> 検索 </button>
+                <button id="cancel" class="btn btn--silver">キャンセル</button>
+    
+                <!--Excel出力------------------------------------------------------------------>
+                <button id="btnExport" class="btn btn--silver" onclick=exportReportToExcel(this)>Excel出力</button>
+            </div>
         </div>
         <?php
         include('./vendor/autoload.php');
@@ -361,49 +356,48 @@ if (isset($_POST['code'])) {
             // }
         </script>
         <!--Excel出力------------------------------------------------------------------>
-
-        <!-- </div> -->
-
-        <table border=" 1" id="return" style="border-collapse:collapse" class="stsys3_table" ;>
-            <tr class="table_tlt">
-                <th rowspan="2">
-                    <input type="checkbox">
-                </th>
-                <th rowspan="2"> 助成金 </th>
-                <th rowspan="2"> コース </th>
-                <th rowspan="2"> 郵送希望 </th>
-                <th rowspan="2"> 受講者指名 </th>
-                <th rowspan="2"> 個人電話番号 </th>
-                <th rowspan="2" class="place"> 住所 </th>
-                <th rowspan="2" class="day"> 講習開始日 </th>
-                <th rowspan="2" class="day"> 講習終了日 </th>
-                <th colspan="6" class="company"> 会社情報 </th>
-            </tr>
-            <tr>
-                <th> 会社名 </th>
-                <th> 申請者氏名 </th>
-                <th> 住所 </th>
-                <th> 電話番号 </th>
-                <th> FAX番号 </th>
-            </tr>
-            <tr class="table_input">
-                <td><input type="checkbox"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-
-        </table>
-        <p> ※「申込書有無」「 入金日」「 金額」 のチェック後の登録は、「 当日受付チェックツール.xlsm」 を使用し登録を行ってください。 </p>
+        <div class="stsys3_table_main">
+            <table border=" 1" id="return" style="border-collapse:collapse" class="stsys3_table" ;>
+                <tr class="table_tlt">
+                    <th rowspan="2">
+                        <input type="checkbox">
+                    </th>
+                    <th rowspan="2"> 助成金 </th>
+                    <th rowspan="2"> コース </th>
+                    <th rowspan="2"> 郵送希望 </th>
+                    <th rowspan="2"> 受講者指名 </th>
+                    <th rowspan="2"> 個人電話番号 </th>
+                    <th rowspan="2" class="place"> 住所 </th>
+                    <th rowspan="2" class="day"> 講習開始日 </th>
+                    <th rowspan="2" class="day"> 講習終了日 </th>
+                    <th colspan="6" class="company"> 会社情報 </th>
+                </tr>
+                <tr>
+                    <th> 会社名 </th>
+                    <th> 申請者氏名 </th>
+                    <th> 住所 </th>
+                    <th> 電話番号 </th>
+                    <th> FAX番号 </th>
+                </tr>
+                <tr class="table_input">
+                    <td><input type="checkbox"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+        
+            </table>
+        </div>
+        <p class="caution_text"> ※「申込書有無」「 入金日」「 金額」 のチェック後の登録は、「 当日受付チェックツール.xlsm」 を使用し登録を行ってください。 </p>
     </div>
 </body>
 
