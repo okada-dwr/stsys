@@ -326,7 +326,7 @@ a.btn--orange:hover {
   width: auto;
 }
 .course_table tbody tr td:nth-child(1) {
-  width: 90px;
+  width: 96px;
 }
 .course_tr{
   font-size: 14px;
@@ -340,7 +340,7 @@ a.btn--orange:hover {
   width: auto;
 }
 .place_table tbody tr td:nth-child(1) {
-  width: 90px;
+  width: 96px;
 }
 .place_tr{
   font-size: 14px;
@@ -357,7 +357,7 @@ a.btn--orange:hover {
   width: 13%;
 }
 .day_table tbody tr td:nth-child(1) {
-  width: 90px;
+  width: 96px;
   background: #e8e8e8;
 }
 .day_table tbody tr td:nth-child(3) {
@@ -385,7 +385,7 @@ a.btn--orange:hover {
   width: auto;
 }
 .limited_table tbody tr td:nth-child(1){
-  width: 90px;
+  width: 96px;
   background: #e8e8e8;
 }
 .limited_tr{
@@ -405,13 +405,13 @@ a.btn--orange:hover {
   width: auto;
 }
 .biko_table tbody tr td:nth-child(1) {
-  width: 90px;
+  width: 96px;
   background: #e8e8e8;
 }
 
 /*ボタン*/
 .btn{
-  width: 90px;
+  width: 96px;
   margin-top:20px;
 }
 
