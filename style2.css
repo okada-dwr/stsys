@@ -283,7 +283,33 @@ scrollbar
 
 /* スマホ横＆タブレット縦対応 */
 @media screen and (min-width:500px) and (max-width:800px) {
-
+  /*受講者入力テーブル*/
+  .table_02 td input {
+    width: 90%;
+  }
+  .table_02 td {
+    min-width: 100px;
+  }
+  /*性別*/
+  .table_02 td:nth-child(3){
+    min-width: 50px;
+  }
+  /*個人電話番号*/
+  .table_02 td:nth-child(4){
+    min-width: 125px;
+  }
+  /*携帯電話番号*/
+  .table_02 td:nth-child(5){
+    min-width: 125px;
+  }
+  /*住所*/
+  .table_02 td:nth-child(7){
+    min-width: 200px;
+  }
+  /*希望コース*/
+  .table_02 td:nth-child(9){
+    min-width: 83px;
+  }
 }
 /* スマホ縦対応  */
 @media screen and (max-width:499px) { 
@@ -298,12 +324,35 @@ scrollbar
   .table_01 td input {
     width: 95%!important;
   }
+  .table_01 tbody tr td:nth-child(odd){
+    padding:5px 0;
+  }
   /*受講者入力テーブル*/
   .table_02 td input {
     width: 90%;
   }
-  .table_01 tbody tr td:nth-child(odd){
-    padding:5px 0;
+  .table_02 td {
+    min-width: 100px;
+  }
+  /*性別*/
+  .table_02 td:nth-child(3){
+    min-width: 50px;
+  }
+  /*個人電話番号*/
+  .table_02 td:nth-child(4){
+    min-width: 125px;
+  }
+  /*携帯電話番号*/
+  .table_02 td:nth-child(5){
+    min-width: 125px;
+  }
+  /*住所*/
+  .table_02 td:nth-child(7){
+    min-width: 200px;
+  }
+  /*希望コース*/
+  .table_02 td:nth-child(9){
+    min-width: 83px;
   }
   /*参考画像*/
   .explanation_image {
