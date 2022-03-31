@@ -373,12 +373,12 @@ try {
                     for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
                         echo '<tr>
                         <td><input name="students' . $i . '" type=text placeholder=例）志摩太郎></td>
-                        <td><input name="birthday' . $i . '" type=text placeholder=例）生年月日></td>
+                        <td><input name="birthday' . $i . '" type=text placeholder=例）19870401></td>
                         <td><select name="sex' . $i . '"><option value=""></option>' . $sex_final . '
-                        <td><input name="kojin_tel' . $i . '" type=text placeholder=例）個人電話番号></td>
-                        <td><input name="phone_tel' . $i . '" type=text placeholder=例）携帯番号></td>
+                        <td><input name="kojin_tel' . $i . '" type=text placeholder=例）0773750652></td>
+                        <td><input name="phone_tel' . $i . '" type=text placeholder=例）09098765432></td>
                         <td><input type=text name="kojin_post_no' . $i . '" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress");></td>
-                        <td><input name="kojin_address' . $i . '" type=text placeholder=例）住所></td>
+                        <td><input name="kojin_address' . $i . '" type=text placeholder=例）京都府舞鶴市上福井117></td>
                         <td>' . $_SESSION["button_value"][2] . '</td> 
                         <td><select name="course_sub_code' . $i . '"><option value=""></option>' . $course_sub_code_final . '
                         <td>' . $_SESSION["button_value"][3] . '</td>
