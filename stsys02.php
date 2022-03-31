@@ -372,7 +372,7 @@ try {
                                                     // エラー発生
                                                     echo $e->getMessage();
                                                 } catch (Exception $e) {
-                                                    header("Location: ./stsys06.php");
+//                                                     header("Location: ./stsys06.php");
                                                 }
                                             }
                                         }
@@ -390,7 +390,7 @@ try {
     catch (PDOException $e) {
         // エラー発生
         echo $e->getMessage();
-        header("Location: ./stsys06.php");
+//         header("Location: ./stsys06.php");
     } finally {
         // DB接続を閉じる
         $pdo = null;
@@ -430,7 +430,7 @@ try {
 } catch (PDOException $e) {
     // エラー発生
     echo $e->getMessage();
-    header("Location: ./stsys06.php");
+//     header("Location: ./stsys06.php");
 } finally {
     // DB接続を閉じる
     $pdo = null;
