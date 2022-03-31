@@ -22,16 +22,23 @@ $course_sub_code_check = "";
 $_SESSION["mode"]  = "input";
 $_SESSION["error_code"] = 0;
 
+// エラー時に例外をスローするように登録（エラーをcatchに入れる為に必要）
+set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+    if (!(error_reporting() & $errno)) {
+        return;
+    }
+    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+});
 try {
     // DB接続
     $pdo = new PDO(
-        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-        'b2c2e6853ab5ee',
-        '2f35b6a9',
+        // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+        // 'b2c2e6853ab5ee',
+        // '2f35b6a9',
 
-//         'mysql:dbname=stsys;host=localhost;charset=utf8',
-//         'root',
-//         'shinei4005',
+        'mysql:dbname=stsys;host=localhost;charset=utf8',
+        'root',
+        'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -157,8 +164,16 @@ try {
         }
     }
     $date = [];
-    //データベース書き込み
-    //申請ボタン押下時
+
+    // エラー時に例外をスローするように登録（エラーをcatchに入れる為に必要）
+    set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+        if (!(error_reporting() & $errno)) {
+            return;
+        }
+        throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+    });
+
+    //申請ボタン押下時データベース書き込み
     try {
         if (isset($_POST['request'])) {
 
@@ -340,11 +355,25 @@ try {
                                                 $stmt->bindValue(':end_date', $end_date);
 
                                                 // SQL実行
-                                                // $stmt->execute();
-                                                $_SESSION["error"] = "";
-                                                $_SESSION["mode"]  = "send";
-                                                header("Location: ./stsys05.php");
-                                                $course_sub_code_check = "99";
+                                                // エラー時に例外をスローするように登録（エラーをcatchに入れる為に必要）
+                                                set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+                                                    if (!(error_reporting() & $errno)) {
+                                                        return;
+                                                    }
+                                                    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+                                                });
+
+                                                try {
+                                                    $stmt1->execute();
+                                                    $_SESSION["error"] = "";
+                                                    $_SESSION["mode"]  = "send";
+                                                    header("Location: ./stsys05.php");
+                                                    $course_sub_code_check = "99";
+                                                    // エラー発生
+                                                    echo $e->getMessage();
+                                                } catch (Exception $e) {
+                                                    header("Location: ./stsys06.php");
+                                                }
                                             }
                                         }
                                     }
@@ -357,9 +386,11 @@ try {
         }
     }
     //insertデータベースエラー
+
     catch (PDOException $e) {
         // エラー発生
         echo $e->getMessage();
+        header("Location: ./stsys06.php");
     } finally {
         // DB接続を閉じる
         $pdo = null;
@@ -399,6 +430,7 @@ try {
 } catch (PDOException $e) {
     // エラー発生
     echo $e->getMessage();
+    header("Location: ./stsys06.php");
 } finally {
     // DB接続を閉じる
     $pdo = null;
