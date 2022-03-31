@@ -1,0 +1,92 @@
+html{
+  font-size: 62.5%;
+}
+body{
+  font-family:'メイリオ', 'Meiryo', sans-serif;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+h1{
+  font-size: 1.6rem;
+  text-align: center;
+  text-decoration: underline;
+}
+div, p, a, article, section, nav, ul, li, header, footer, input, h1, h2, h3, h4, h5 {
+  padding: 0;
+  margin: 0;
+  word-wrap: break-word;
+}
+  .pagetitle h2 {
+    font-size: 20px;
+    padding: 4px 0 4px 12px;
+    text-decoration: underline;
+}
+.container {
+    width: 100%;
+    margin: 30px auto 100px;
+}
+.container .main {
+    width: 100%;
+    text-align: center;
+}
+.pagetitle {
+  padding-bottom: 15px;
+}
+#complete .title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2b74c2;
+  padding: 30px 0;
+}
+#complete .copy {
+  font-size: 12px;
+  padding-bottom: 70px;
+}
+p {
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.5px;
+}
+#complete .btns {
+  padding-bottom: 70px;
+}
+.btns {
+  display: flex;
+  justify-content: center;
+}
+#complete .btns .btn {
+  padding: 4px 40px;
+  font-size: 16px;
+  margin: 0 25px;
+  color: #fff;
+  background: #2b74c2;
+  border: 0;
+}
+#complete .btns .btn img {
+  width: 5px;
+  margin-right: 10px;
+}
+a img {
+  outline-color: initial;
+}
+a img {
+  border-style: none;
+  outline: none;
+}
+
+.pagetitle .sideline .subtitle {
+  font-size: 16px;
+  color: #c8c8c8;
+  letter-spacing: 0;
+}
+a:link {
+    text-decoration: none;
+}
+/* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:500px) and (max-width:950px) {
+
+}
+/* スマホ縦対応  */
+@media screen and (max-width:499px) { 
+
+}
