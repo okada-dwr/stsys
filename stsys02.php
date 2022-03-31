@@ -369,8 +369,6 @@ try {
                                                     $_SESSION["mode"]  = "send";
                                                     header("Location: ./stsys05.php");
                                                     $course_sub_code_check = "99";
-                                                    // エラー発生
-                                                    echo $e->getMessage();
                                                 } catch (Exception $e) {
                                                     header("Location: ./stsys06.php");
                                                 }
