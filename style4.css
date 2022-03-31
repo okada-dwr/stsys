@@ -73,6 +73,10 @@ tr{
 .border_no{
   border: 0;
 }
+/*input 青色背景取り消し*/
+input:-webkit-autofill{
+	box-shadow: 0 0 0px 1000px #fff inset;
+}
 
 #course_code{
   border: 0;
