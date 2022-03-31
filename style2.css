@@ -305,7 +305,7 @@ scrollbar
 @media screen and (min-width:500px) and (max-width:800px) {
   /*受講者入力テーブル*/
   .table_02 td input {
-    width: 90%;
+    width: auto;
   }
   .table_02 td {
     min-width: 100px;
@@ -349,7 +349,7 @@ scrollbar
   }
   /*受講者入力テーブル*/
   .table_02 td input {
-    width: 90%;
+    width: auto;
   }
   .table_02 td {
     min-width: 100px;
