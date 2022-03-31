@@ -43,7 +43,7 @@ input{
   border: 0;
 }
 th{
-  background-color: lightskyblue;
+  background-color: #b8d5f2;
   font-size: 14px;
   font-weight: normal;
   white-space: nowrap;
@@ -144,6 +144,18 @@ a.btn--silver:hover {
   color: #fff;
   background: #c9beb8;
 }
+/*登録情報管理画面へ*/
+.guide_text {
+  display: flex;
+  justify-content: flex-end;
+}
+.guide_text_link{
+  font-size: 12px;
+  margin: 3rem 5.5rem 0 0px;
+}
+.guide_text_link a{
+
+}
 
 /****テーブルタイトル****/
 .stsys3_table_main {
@@ -173,7 +185,7 @@ background: #999;
 }
 .stsys3_table{
   width: 100%;
-  margin: 40px auto 0;
+  margin: 10px auto 0;
 }
 .stsys3_table tbody .table_tlt th{
   width:6%;
