@@ -518,7 +518,7 @@ try {
                 <tr>
                     <td><span class="color_red">郵便番号<br class="view_sp">(会社または個人)</span></td>
                     <td>
-                        <input type="text" name="post_no" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,'','adress','adress');" value=<?php echo $_SESSION["post_no"]; ?>>
+                        <input type="text" name="post_no" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,'','address1','address1');" value=<?php echo $_SESSION["post_no"]; ?>>
                         <!--〒<input type="text" size="8" maxlength="3" placeholder="例）624>-<input type=" text" size="8" maxlength="4" placeholder="例）0951">-->
                     </td>
                 </tr>
