@@ -116,6 +116,7 @@ html{
   .table-bordered td {
     /* height: 30px; */
     text-align: center;
+    white-space: nowrap;
   }
   /*人数選択*/
   .table_num {
