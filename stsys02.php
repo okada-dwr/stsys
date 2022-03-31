@@ -16,13 +16,13 @@ $button_value = [];
 try {
     // DB接続
     $pdo = new PDO(
-        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-        'b2c2e6853ab5ee',
-        '2f35b6a9',
+        // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+        // 'b2c2e6853ab5ee',
+        // '2f35b6a9',
 
-//         'mysql:dbname=stsys;host=localhost;charset=utf8',
-//         'root',
-//         'shinei4005',
+        'mysql:dbname=stsys;host=localhost;charset=utf8',
+        'root',
+        'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -358,7 +358,7 @@ try {
             <div class="table_02_main">
                 <table class="table_02">
                     <tr>
-                        <th><span class="color_red">受講者指名</span></th>
+                        <th><span class="color_red">受講者氏名</span></th>
                         <th><span class="color_red">生年月日</span></th>
                         <th><span class="color_red">性別</span></th>
                         <th><span class="color_red">個人電話番号</span></th>
