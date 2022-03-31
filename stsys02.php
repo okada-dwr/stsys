@@ -372,7 +372,7 @@ try {
                                                     // エラー発生
                                                     echo $e->getMessage();
                                                 } catch (Exception $e) {
-//                                                     header("Location: ./stsys06.php");
+                                                    header("Location: ./stsys06.php");
                                                 }
                                             }
                                         }
