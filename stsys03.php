@@ -49,13 +49,13 @@ if (isset($_POST['code'])) {
     try {
         // DB接続
         $pdo = new PDO(
-            'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-            'b2c2e6853ab5ee',
-            '2f35b6a9',
+            // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+            // 'b2c2e6853ab5ee',
+            // '2f35b6a9',
 
-//             'mysql:dbname=stsys;host=localhost;charset=utf8',
-//             'root',
-//             'shinei4005',
+            'mysql:dbname=stsys;host=localhost;charset=utf8',
+            'root',
+            'shinei4005',
 
             // レコード列名をキーとして取得させる
             [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -245,7 +245,7 @@ if (isset($_POST['code'])) {
                 //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
                 $.ajax({
                         type: "POST", //　GETでも可
-                        url: "./stsys03.php", //　送り先
+                        url: "stsys03.php", //　送り先
                         data: {
                             'course_code': course_code,
                             'start_date': start_date,
@@ -268,36 +268,45 @@ if (isset($_POST['code'])) {
                 //     console.log(XMLHttpRequest); //　エラー内容表示
                 // });
             })
-            $("#cancel").click(function() {
+            $("#cancel").click(function(e) {
                 var checks = [];
                 $("[name='check[]']:checked").each(function() {
                     checks.push(this.value);
                 })
-                //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
-                $.ajax({
-                        type: "POST", //　GETでも可
-                        url: "stsys03.php", //　送り先
-                        data: {
-                            'checks': checks,
-                            'code': 1, //削除
-                        }, //　渡したいデータをオブジェクトで渡す
-                        dataType: "json", //　データ形式を指定
-                        scriptCharset: 'utf-8' //　文字コードを指定
-                    })
+                if (checks.length != 0) {
+                    e.preventDefault();
+                    if (!window.confirm('本当に削除しますか？')) {
+                        // window.alert('キャンセルされました');
+                        return false;
+                    }
 
-                    .done(
-                        function(date) { //　paramに処理後のデータが入って戻ってくる
-                            $("#search").trigger('click');
-                            // $("#return").find("tr").remove()
-                            // $("#return").append(date);
-                        },
-                    ).fail(function(XMLHttpRequest, status, e) {
-                        alert(e);
-                    });
-                // function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
-                //     console.log(XMLHttpRequest); //　エラー内容表示
-                // });
+                    //ボタンの数をsession変数に入れる（javaの変数をphpで使うにはajaxを使う）
+                    $.ajax({
+                            type: "POST", //　GETでも可
+                            url: "stsys03.php", //　送り先
+                            data: {
+                                'checks': checks,
+                                'code': 1, //削除
+                            }, //　渡したいデータをオブジェクトで渡す
+                            dataType: "json", //　データ形式を指定
+                            scriptCharset: 'utf-8' //　文字コードを指定
+                        })
+
+                        .done(
+                            function(date) { //　paramに処理後のデータが入って戻ってくる
+                                $("#search").trigger('click');
+                                // $("#return").find("tr").remove()
+                                // $("#return").append(date);
+                            },
+                        ).fail(function(XMLHttpRequest, status, e) {
+                            alert(e);
+                        });
+                    // function(XMLHttpRequest, textStatus, errorThrown) { //　エラーが起きた時はこちらが実行される
+                    //     console.log(XMLHttpRequest); //　エラー内容表示
+                    // });
+                }
             })
+
         })
     </script>
     <div class="main_container">
@@ -314,7 +323,7 @@ if (isset($_POST['code'])) {
             </table>
             <table class="day_select" style="border-collapse:collapse ;">
                 <tr>
-                <td>講習期間<br><span class="small_text">開始日付～終了日付</span></td>
+                    <td>講習期間<br><span class="small_text">開始日付～終了日付</span></td>
                     <?php echo '<td><input type="date" name="start_date" value= ' . $ymd . '></td>'; ?>
                     <td> ～ </td>
                     <?php echo '<td><input type="date" name="end_date" value= ' . $ymd1 . '></td>'; ?>
@@ -323,7 +332,7 @@ if (isset($_POST['code'])) {
             <div class="btn_main">
                 <button id="search" class="btn btn--orange"> 検索 </button>
                 <button id="cancel" class="btn btn--silver">キャンセル</button>
-    
+
                 <!--Excel出力------------------------------------------------------------------>
                 <button id="btnExport" class="btn btn--silver" onclick=exportReportToExcel(this)>Excel出力</button>
             </div>
@@ -357,6 +366,11 @@ if (isset($_POST['code'])) {
         </script>
         <!--Excel出力------------------------------------------------------------------>
         <div class="stsys3_table_main">
+            <div class="guide_text">
+                <p class="guide_text_link">
+                    <a href="">期間登録・編集画面へ</a>
+                </p>
+            </div>
             <table border=" 1" id="return" style="border-collapse:collapse" class="stsys3_table" ;>
                 <tr class="table_tlt">
                     <th rowspan="2">
@@ -394,7 +408,7 @@ if (isset($_POST['code'])) {
                     <td></td>
                     <td></td>
                     <td></td>
-        
+
             </table>
         </div>
         <p class="caution_text"> ※「申込書有無」「 入金日」「 金額」 のチェック後の登録は、「 当日受付チェックツール.xlsm」 を使用し登録を行ってください。 </p>
