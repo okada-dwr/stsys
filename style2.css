@@ -312,7 +312,7 @@ scrollbar
   }
   /*性別*/
   .table_02 td:nth-child(3){
-    min-width: auto;
+    min-width: 50px;
   }
   /*個人電話番号*/
   .table_02 td:nth-child(4){
@@ -354,9 +354,17 @@ scrollbar
   .table_02 td {
     min-width: 100px;
   }
+  /*受講者氏名*/
+  .table_02 td:nth-child(1)){
+    min-width: auto;
+  }
+  /*生年月日*/
+  .table_02 td:nth-child(2){
+    min-width: auto;
+  }
   /*性別*/
   .table_02 td:nth-child(3){
-    min-width: auto;
+    min-width: 50px;
   }
   /*個人電話番号*/
   .table_02 td:nth-child(4){
