@@ -58,7 +58,7 @@ p {
   font-weight: bold;
 }
 .main_container {
-  width:91%;
+  width:96%;
   margin:0 auto;
 }
   /*最初の説明*/
@@ -205,25 +205,15 @@ scrollbar
     font-size: 14px;
     text-align: center;
     width: 10%;
-    min-width: 100px;
 }
 .table_02 td:nth-child(3){
-  width: 5%;
-  min-width: 50px;
-}
-.table_02 td:nth-child(4){
-  min-width: 125px;
-}
-.table_02 td:nth-child(5){
-  min-width: 125px;
+  width: auto;
 }
 .table_02 td:nth-child(7){
   width: 17%;
-  min-width: 200px;
 }
 .table_02 td:nth-child(9){
-  width: 8%;
-  min-width: 83px;
+  width: auto;
 }
 .table_02 td input{
   font-size: 14px;
@@ -282,6 +272,36 @@ scrollbar
 }
 
 /* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:801px) and (max-width:1200px) {
+  /*受講者入力テーブル*/
+  .table_02 td input {
+    width: 90%;
+  }
+  .table_02 td {
+    min-width: 100px;
+  }
+  /*性別*/
+  .table_02 td:nth-child(3){
+    min-width: auto;
+  }
+  /*個人電話番号*/
+  .table_02 td:nth-child(4){
+    min-width: 125px;
+  }
+  /*携帯電話番号*/
+  .table_02 td:nth-child(5){
+    min-width: 100px;
+  }
+  /*住所*/
+  .table_02 td:nth-child(7){
+    min-width: 200px;
+  }
+  /*希望コース*/
+  .table_02 td:nth-child(9){
+    min-width: auto;
+  }
+}
+/* スマホ横＆タブレット縦対応 */
 @media screen and (min-width:500px) and (max-width:800px) {
   /*受講者入力テーブル*/
   .table_02 td input {
@@ -292,7 +312,7 @@ scrollbar
   }
   /*性別*/
   .table_02 td:nth-child(3){
-    min-width: 50px;
+    min-width: auto;
   }
   /*個人電話番号*/
   .table_02 td:nth-child(4){
@@ -300,7 +320,7 @@ scrollbar
   }
   /*携帯電話番号*/
   .table_02 td:nth-child(5){
-    min-width: 125px;
+    min-width: 100px;
   }
   /*住所*/
   .table_02 td:nth-child(7){
@@ -308,7 +328,7 @@ scrollbar
   }
   /*希望コース*/
   .table_02 td:nth-child(9){
-    min-width: 83px;
+    min-width: auto;
   }
 }
 /* スマホ縦対応  */
@@ -336,7 +356,7 @@ scrollbar
   }
   /*性別*/
   .table_02 td:nth-child(3){
-    min-width: 50px;
+    min-width: auto;
   }
   /*個人電話番号*/
   .table_02 td:nth-child(4){
@@ -344,7 +364,7 @@ scrollbar
   }
   /*携帯電話番号*/
   .table_02 td:nth-child(5){
-    min-width: 125px;
+    min-width: 100px;
   }
   /*住所*/
   .table_02 td:nth-child(7){
@@ -352,7 +372,7 @@ scrollbar
   }
   /*希望コース*/
   .table_02 td:nth-child(9){
-    min-width: 83px;
+    min-width: auto;
   }
   /*参考画像*/
   .explanation_image {
