@@ -3,6 +3,11 @@ session_start();
 ?>
 
 <?php
+//直リンクされた場合index.phpにリダイレクト
+// if ($_SERVER["REQUEST_METHOD"] != "POST") {
+//     header("Location: index.php");
+//     exit();
+// }
 $button_name_count = 0;
 $course_sub_code = [];
 $button_name_count = $_SESSION["button_person"];
@@ -13,6 +18,10 @@ $money_final = 0;
 $paper_final = 0;
 $sex_final = 0;
 $button_value = [];
+$course_sub_code_check = "";
+$_SESSION["mode"]  = "input";
+$_SESSION["error_code"] = 0;
+
 try {
     // DB接続
     $pdo = new PDO(
@@ -32,8 +41,33 @@ try {
     $sex_final = "";
     $course_sub_code_final = "";
 
+    //$bu~countはbuttonの数、fが押されたボタンのNoになればそのstsys1_click〇のデータを読み取り開始
     for ($f = 0; $f < $button_name_count + 1; $f++) {
         if (isset($_POST["stsys1_click" . $f])) {
+
+            //入力エラー時の引継ぎ用変数の初期化
+            $_SESSION["mail_flg"] = "";
+            $_SESSION["inc_name"] = "";
+            $_SESSION["app_name"]  = "";
+            $_SESSION["app_name_kana"] = "";
+            $_SESSION["post_no"] = "";
+            $_SESSION["address1"]  = "";
+            $_SESSION["address2"] = "";
+            $_SESSION["tel"] = "";
+            $_SESSION["fax"] = "";
+            $_SESSION["mail_address"] = "";
+
+            //10人分初期化
+            for ($i = 0; $i < 10; $i++) {
+                $_SESSION["students"][$i]  = "";
+                $_SESSION["birthday"][$i]  =  "";
+                $_SESSION["phone_tel"][$i]  = "";
+                $_SESSION["kojin_tel"][$i]  =  "";
+                $_SESSION["kojin_post_no"][$i]  =  "";
+                $_SESSION["kojin_address"][$i]  =  "";
+            }
+
+            $_SESSION["error"] = ""; //ボタンが押されて遷移した時はエラーを消す
             $_SESSION["mode"]  = "";
             $_SESSION["number_person"] = $_POST["number_person"]; //確認メッセージに対する答えを取得
 
@@ -71,6 +105,7 @@ try {
                 // $_SESSION["paper_final"] .= '<option value="' . $paper1[0] .  "," . $paper1[1] . '">' . $paper1[1] . '</option>';
                 $paper_final .= '<option value="' . $paper1[0] .  "," . $paper1[1] . '">' . $paper1[1] . '</option>';
             }
+            $_SESSION["paper_final"] = $paper_final;
 
             //助成金作成
             $s = 0;
@@ -85,6 +120,7 @@ try {
                 // $_SESSION["money_final"] .= '<option value="' . $money1[0] . "," . $money1[1] . '">' . $money1[1] . '</option>';
                 $money_final .= '<option value="' . $money1[0] . "," . $money1[1] . '">' . $money1[1] . '</option>';
             }
+            $_SESSION["money_final"] = $money_final;
 
             //性別作成
             $s = 0;
@@ -99,6 +135,7 @@ try {
                 // $_SESSION["sex_final"] .= '<option value="' . $sex1[0] . '">' . $sex1[1] . '</option>';
                 $sex_final .= '<option value="' . $sex1[0] . "," . $sex1[1] . '">' . $sex1[1] . '</option>';
             }
+            $_SESSION["sex_final"] = $sex_final;
 
 
             //検定コードの種類作成 K1,K2等
@@ -115,10 +152,13 @@ try {
                 // $_SESSION["course_sub_code_final"] .= '<option value="' . $course_sub_code1[0] . "," . $course_sub_code1[1] . '">' . $course_sub_code1[1] . '</option>';
                 $course_sub_code_final .= '<option value="' . $course_sub_code1[0] . "," . $course_sub_code1[1] . '">' . $course_sub_code1[1] . '</option>';
             }
+            $_SESSION["course_sub_code_final"] = $course_sub_code_final;
+            $course_sub_code_check = $course_sub_code[0][0];
         }
     }
     $date = [];
     //データベース書き込み
+    //申請ボタン押下時
     try {
         if (isset($_POST['request'])) {
 
@@ -126,100 +166,194 @@ try {
             $mail_flg_array = $_POST['mail_flg']; //申請書
             $mail_flg_array = explode(",", $mail_flg_array);
             $mail_flg = $mail_flg_array[0];
-            $mail_flg_name = $mail_flg_array[1];
-            $inc_name = $_POST['inc_name'];
-            $app_name = $_POST['app_name'];
-            $app_name_kana = $_POST['app_name_kana'];
-            $post_no = $_POST['post_no'];
-            $address1 = $_POST['address1'];
-            $address2 = $_POST['address2'];
-            $tel = $_POST['tel'];
-            $fax = $_POST['fax'];
-            $mail_address = $_POST['mail_address'];
-            $sub_flg_array = $_POST['sub_flg']; //助成金
-            $sub_flg_array = explode(",", $sub_flg_array);
-            $sub_flg = $sub_flg_array[0];
-            $sub_flg_name = $sub_flg_array[1];
-            $course_code = $_SESSION["button_value"][1];
-            $course_name = $_SESSION["button_value"][2];
-            $place_code = $_SESSION["button_value"][4];
-            $place_name = $_SESSION["button_value"][5];
-            $date = explode("~", $_SESSION["button_value"][3]);
-            $start_date = $date[0];
-            $end_date = $date[1];
 
-            // SQL文をセット
-            //データベース書き込みを人数分作成（６人なら６行登録）
-            for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
-
-
-
-                $stmt = $pdo->prepare('INSERT INTO st_reserve (mail_flg,mail_flg_name,inc_name,app_name,app_name_kana,' .
-                    'post_no,address1,address2,tel,fax,mail_address,sub_flg,sub_flg_name,students,birthday,sex,sex_name,' .
-                    'kojin_tel,phone_tel,kojin_post_no,kojin_address,course_code,course_name,' .
-                    'course_sub_code,course_sub_name,place_code,place_name,start_date,end_date)' .
-                    'VALUES(:mail_flg,:mail_flg_name,:inc_name,:app_name,:app_name_kana,:post_no,:address1,:address2,' .
-                    ':tel,:fax,:mail_address,:sub_flg,:sub_flg_name,:students,:birthday,:sex,:sex_name,:kojin_tel,:phone_tel,' .
-                    ':kojin_post_no,:kojin_address,:course_code,:course_name,:course_sub_code,:course_sub_name,' .
-                    ':place_code,:place_name,' .
-                    ':start_date,:end_date)');
-
-                $students = $_POST['students' . $i];
-                $birthday = $_POST['birthday' . $i];
-                $sex_array = $_POST['sex' . $i];
-                $sex_array = explode(",", $sex_array);
-                $sex = $sex_array[0];
-                $sex_name = $sex_array[1];
-                $kojin_tel = $_POST['kojin_tel' . $i];
-                $phone_tel = $_POST['phone_tel' . $i];
-                $kojin_post_no = $_POST['kojin_post_no' . $i];
-                $kojin_address = $_POST['kojin_address' . $i];
-
-                $course_sub_code_array = $_POST['course_sub_code' . $i];
-                $course_sub_code_array = explode(",", $course_sub_code_array);
-                $course_sub_code = $course_sub_code_array[0];
-                if (count($course_sub_code_array) === 2) {
-                    $course_sub_name = $course_sub_code_array[1];
-                } else {
-                    $course_sub_name = "";
-                }
-                // $course_sub_name = $_POST['course_sub_name' . $i];
-
-                $stmt->bindValue(':mail_flg', $mail_flg);
-                $stmt->bindValue(':mail_flg_name', $mail_flg_name);
-                $stmt->bindValue(':inc_name', $inc_name);
-                $stmt->bindValue(':app_name', $app_name);
-                $stmt->bindValue(':app_name_kana', $app_name_kana);
-                $stmt->bindValue(':post_no', $post_no);
-                $stmt->bindValue(':address1', $address1);
-                $stmt->bindValue(':address2', $address2);
-                $stmt->bindValue(':tel', $tel);
-                $stmt->bindValue(':fax', $fax);
-                $stmt->bindValue(':mail_address', $mail_address);
-                $stmt->bindValue(':sub_flg', $sub_flg);
-                $stmt->bindValue(':sub_flg_name', $sub_flg_name);
-                $stmt->bindValue(':students', $students);
-                $stmt->bindValue(':birthday', $birthday);
-                $stmt->bindValue(':sex', $sex);
-                $stmt->bindValue(':sex_name', $sex_name);
-                $stmt->bindValue(':kojin_tel', $kojin_tel);
-                $stmt->bindValue(':phone_tel', $phone_tel);
-                $stmt->bindValue(':kojin_post_no', $kojin_post_no);
-                $stmt->bindValue(':kojin_address', $kojin_address);
-                $stmt->bindValue(':course_code', $course_code);
-                $stmt->bindValue(':course_name', $course_name);
-                $stmt->bindValue(':course_sub_code', $course_sub_code);
-                $stmt->bindValue(':course_sub_name', $course_sub_name);
-                $stmt->bindValue(':place_code', $place_code);
-                $stmt->bindValue(':place_name', $place_name);
-                $stmt->bindValue(':start_date', $start_date);
-                $stmt->bindValue(':end_date', $end_date);
-
-                // SQL実行
-                $stmt->execute();
+            //エラーチェック（エラーならコードを１にして、エラー内容を変数に代入）
+            if ($mail_flg === "") {
+                $_SESSION["error_code"] = 1;
                 header("Location: ./stsys02.php");
+                $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※申込書郵送の有無を入力してください</span>";
+            } else {
+                $mail_flg_name = $mail_flg_array[1];
+                $inc_name = $_POST['inc_name'];
+                if ($inc_name === "") {
+                    $_SESSION["error_code"] = 1;
+                    header("Location: ./stsys02.php");
+                    $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※会社名または個人情報を入力してください</span>";
+                } else {
+                    $app_name = $_POST['app_name'];
+                    if ($app_name === "") {
+                        $_SESSION["error_code"] = 1;
+                        header("Location: ./stsys02.php");
+                        $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※申込者氏名を入力してください</span>";
+                    } else {
+                        $app_name_kana = $_POST['app_name_kana'];
+                        if ($app_name_kana === "") {
+                            $_SESSION["error_code"] = 1;
+                            header("Location: ./stsys02.php");
+                            $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※申込者氏名フリガナを入力してください</span>";
+                        } else {
+                            $post_no = $_POST['post_no'];
+                            if ($post_no === "") {
+                                $_SESSION["error_code"] = 1;
+                                header("Location: ./stsys02.php");
+                                $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※郵便番号を入力してください</span>";
+                            } else {
+                                $address1 = $_POST['address1'];
+                                if ($address1 === "") {
+                                    $_SESSION["error_code"] = 1;
+                                    header("Location: ./stsys02.php");
+                                    $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※住所1(番地まで)を入力してください</span>";
+                                } else {
+                                    $address2 = $_POST['address2'];
+                                    $tel = $_POST['tel'];
+                                    if ($tel === "") {
+                                        $_SESSION["error_code"] = 1;
+                                        header("Location: ./stsys02.php");
+                                        $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※電話番号(会社または個人)を入力してください</span>";
+                                    } else {
+                                        $fax = $_POST['fax'];
+                                        $mail_address = $_POST['mail_address'];
+                                        $sub_flg_array = $_POST['sub_flg']; //助成金
+                                        $sub_flg_array = explode(",", $sub_flg_array);
+                                        $sub_flg = $sub_flg_array[0];
+                                        if ($sub_flg === "") {
+                                            $_SESSION["error_code"] = 1;
+                                            header("Location: ./stsys02.php");
+                                            $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※助成金の有無を入力してください</span>";
+                                        } else {
+                                            $sub_flg_name = $sub_flg_array[1];
+                                            $course_code = $_SESSION["button_value"][1];
+                                            $course_name = $_SESSION["button_value"][2];
+                                            $place_code = $_SESSION["button_value"][4];
+                                            $place_name = $_SESSION["button_value"][5];
+                                            $date = explode("~", $_SESSION["button_value"][3]);
+                                            $start_date = $date[0];
+                                            $end_date = $date[1];
+
+                                            // SQL文をセット
+                                            //データベース書き込みを人数分作成（６人なら６行登録）
+                                            for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
+                                                $stmt = $pdo->prepare('INSERT INTO st_reserve (mail_flg,mail_flg_name,inc_name,app_name,app_name_kana,' .
+                                                    'post_no,address1,address2,tel,fax,mail_address,sub_flg,sub_flg_name,students,birthday,sex,sex_name,' .
+                                                    'kojin_tel,phone_tel,kojin_post_no,kojin_address,course_code,course_name,' .
+                                                    'course_sub_code,course_sub_name,place_code,place_name,start_date,end_date)' .
+                                                    'VALUES(:mail_flg,:mail_flg_name,:inc_name,:app_name,:app_name_kana,:post_no,:address1,:address2,' .
+                                                    ':tel,:fax,:mail_address,:sub_flg,:sub_flg_name,:students,:birthday,:sex,:sex_name,:kojin_tel,:phone_tel,' .
+                                                    ':kojin_post_no,:kojin_address,:course_code,:course_name,:course_sub_code,:course_sub_name,' .
+                                                    ':place_code,:place_name,' .
+                                                    ':start_date,:end_date)');
+
+                                                $students = $_POST['students' . $i];
+                                                if ($students === "") {
+                                                    $_SESSION["error_code"] = 1;
+                                                    header("Location: ./stsys02.php");
+                                                    $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※" . ($i + 1) . "行目の受講者氏名を入力してください</span>";
+                                                    break;
+                                                }
+                                                $birthday = $_POST['birthday' . $i];
+                                                if ($birthday === "") {
+                                                    $_SESSION["error_code"] = 1;
+                                                    header("Location: ./stsys02.php");
+                                                    $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※" . ($i + 1) . "行目の生年月日を入力してください</span>";
+                                                    break;
+                                                }
+                                                $sex_array = $_POST['sex' . $i];
+                                                $sex_array = explode(",", $sex_array);
+                                                $sex = $sex_array[0];
+                                                if ($sex === "") {
+                                                    $_SESSION["error_code"] = 1;
+                                                    header("Location: ./stsys02.php");
+                                                    $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※" . ($i + 1) . "行目の性別を入力してください</span>";
+                                                    break;
+                                                }
+                                                $sex_name = $sex_array[1];
+                                                $kojin_tel = $_POST['kojin_tel' . $i];
+                                                if ($kojin_tel === "") {
+                                                    $_SESSION["error_code"] = 1;
+                                                    header("Location: ./stsys02.php");
+                                                    $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※" . ($i + 1) . "行目の個人電話番号を入力してください</span>";
+                                                    break;
+                                                }
+                                                $phone_tel = $_POST['phone_tel' . $i];
+                                                $kojin_post_no = $_POST['kojin_post_no' . $i];
+                                                if ($kojin_post_no === "") {
+                                                    $_SESSION["error_code"] = 1;
+                                                    header("Location: ./stsys02.php");
+                                                    $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※" . ($i + 1) . "行目の住所を入力してください</span>";
+                                                    break;
+                                                }
+                                                $kojin_address = $_POST['kojin_address' . $i];
+                                                if ($kojin_address  === "") {
+                                                    $_SESSION["error_code"] = 1;
+                                                    header("Location: ./stsys02.php");
+                                                    $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※" . ($i + 1) . "行目の住所を入力してください</span>";
+                                                    break;
+                                                }
+
+                                                $course_sub_code_array = $_POST['course_sub_code' . $i];
+                                                //希望コースが選択されている場合
+
+
+                                                if ($course_sub_code_array <> "") {
+                                                    $course_sub_code_array = explode(",", $course_sub_code_array);
+                                                    $course_sub_code_insert = $course_sub_code_array[0];
+                                                    if (count($course_sub_code_array) === 2) {
+                                                        $course_sub_name = $course_sub_code_array[1];
+                                                    } else {
+                                                        $course_sub_name = "";
+                                                    }
+                                                } else { //99（安全教育）の場合
+                                                    $_SESSION["error_code"] = 1;
+                                                    header("Location: ./stsys02.php");
+                                                    $_SESSION["error"] = "エラーメッセージスペース　：　<span class=color_red>※" . ($i + 1) . "行目の希望コースを入力してください</span>";
+                                                    break;
+                                                }
+
+                                                $stmt->bindValue(':mail_flg', $mail_flg);
+                                                $stmt->bindValue(':mail_flg_name', $mail_flg_name);
+                                                $stmt->bindValue(':inc_name', $inc_name);
+                                                $stmt->bindValue(':app_name', $app_name);
+                                                $stmt->bindValue(':app_name_kana', $app_name_kana);
+                                                $stmt->bindValue(':post_no', $post_no);
+                                                $stmt->bindValue(':address1', $address1);
+                                                $stmt->bindValue(':address2', $address2);
+                                                $stmt->bindValue(':tel', $tel);
+                                                $stmt->bindValue(':fax', $fax);
+                                                $stmt->bindValue(':mail_address', $mail_address);
+                                                $stmt->bindValue(':sub_flg', $sub_flg);
+                                                $stmt->bindValue(':sub_flg_name', $sub_flg_name);
+                                                $stmt->bindValue(':students', $students);
+                                                $stmt->bindValue(':birthday', $birthday);
+                                                $stmt->bindValue(':sex', $sex);
+                                                $stmt->bindValue(':sex_name', $sex_name);
+                                                $stmt->bindValue(':kojin_tel', $kojin_tel);
+                                                $stmt->bindValue(':phone_tel', $phone_tel);
+                                                $stmt->bindValue(':kojin_post_no', $kojin_post_no);
+                                                $stmt->bindValue(':kojin_address', $kojin_address);
+                                                $stmt->bindValue(':course_code', $course_code);
+                                                $stmt->bindValue(':course_name', $course_name);
+                                                $stmt->bindValue(':course_sub_code', $course_sub_code_insert);
+                                                $stmt->bindValue(':course_sub_name', $course_sub_name);
+                                                $stmt->bindValue(':place_code', $place_code);
+                                                $stmt->bindValue(':place_name', $place_name);
+                                                $stmt->bindValue(':start_date', $start_date);
+                                                $stmt->bindValue(':end_date', $end_date);
+
+                                                // SQL実行
+                                                // $stmt->execute();
+                                                $_SESSION["error"] = "";
+                                                $_SESSION["mode"]  = "send";
+                                                header("Location: ./stsys05.php");
+                                                $course_sub_code_check = "99";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            $_SESSION["mode"]  = "send";
         }
     }
     //insertデータベースエラー
@@ -229,6 +363,37 @@ try {
     } finally {
         // DB接続を閉じる
         $pdo = null;
+
+        // エラーの時に前に打ったものを表示
+        if ($_SESSION["error_code"] === 1) {
+            $mail_flg_array = $_POST['mail_flg']; //申請書
+            $mail_flg_array = explode(",", $mail_flg_array);
+            $_SESSION["mail_flg"] = $mail_flg_array[0];
+            $_SESSION["inc_name"]  =  $_POST['inc_name'];
+            $_SESSION["app_name"]  =  $_POST['app_name'];
+            $_SESSION["app_name_kana"]  =  $_POST['app_name_kana'];
+            $_SESSION["post_no"]  =  $_POST['post_no'];
+            $_SESSION["address1"]  =  $_POST['address1'];
+            $_SESSION["address2"]  =  $_POST['address2'];
+            $_SESSION["tel"]  =  $_POST['tel'];
+            $_SESSION["fax"]  =  $_POST['fax'];
+            $_SESSION["mail_address"]  =  $_POST['mail_address'];
+
+            // $sub_flg_array = $_POST['sub_flg']; //助成金
+            // $sub_flg_array = explode(",", $sub_flg_array);
+            // $sub_flg = $sub_flg_array[0];
+            for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
+                $_SESSION["students"][$i]  =  $_POST['students' . $i];
+                $_SESSION["birthday"][$i]  =  $_POST['birthday' . $i];
+                $_SESSION["phone_tel"][$i]  =  $_POST['phone_tel' . $i];
+                $_SESSION["kojin_tel"][$i]  =  $_POST['kojin_tel' . $i];
+                $_SESSION["kojin_post_no"][$i]  =  $_POST['kojin_post_no' . $i];
+                $_SESSION["kojin_address"][$i]  =  $_POST['kojin_address' . $i];
+                // $_SESSION["birthday' . $i"]  =  $_POST['birthday' . $i];
+                // $_SESSION["phone_tel' . $i"]  =  $_POST['phone_tel' . $i];
+                // $_SESSION["kojin_address' . $i"]  =  $_POST['kojin_address' . $i];
+            }
+        }
     }
     //readデータベースエラー
 } catch (PDOException $e) {
@@ -256,7 +421,7 @@ try {
     <a href="stsys02.php">stsys02</a>
     <a href="stsys03.php">stsys03</a>
     <a href="stsys04.php">stsys04</a>
-
+    <a href="stsys05.php">stsys05</a>
 
     <div class="main_container">
         <div class="title1">
@@ -275,70 +440,86 @@ try {
             </div>
         </div>
 
+        <!-- エラーメッセージがなければ非表示 -->
+        <?php
+        if (!empty($_SESSION["error"]))
+            echo "<div id=error_message>" .
+                $_SESSION["error"] . "</div>";
+        ?>
+
         <form action="stsys02.php" method="POST">
             <!-- 会社情報入力 -->
             <table class="table_01">
                 <tr>
                     <th><span class="color_red">申込書郵送の有無</span></th>
-                    <td><select name="mail_flg">
-                            <?php echo '<option value=""></option>' . $paper_final ?>
-                        </select>
-                        <p class="select_explain">※受講申込書の郵送を希望される方は、有を選択。(スマホしかない…など、印刷環境がない方用です)</p>
+                    <td><select name="mail_flg" id="mail_flg">
+                            <?php echo '<option value=""></option>' . $_SESSION["paper_final"] ?>
+                        </select>※受講申込書の郵送を希望される方は、有を選択。(スマホしかない…など、印刷環境がない方用です)
                     </td>
                 </tr>
+
+                <!-- 入力ミス後の引継ぎの場合、valueをみてそれを選択状態にさせる -->
+                <script type="text/javascript">
+                    if (1 === 71) {
+                        document.getElementById("mail_flg").querySelectorAll("option[value='<?= $_SESSION["mail_flg"]  ?>']").setAttribute("selected", "selected");
+                        $("#mail_flg").find("option[value='<?= $_SESSION["mail_flg"]  ?>']").attr("selected", "selected");
+                    }
+                </script>
+
                 <tr>
                     <td><span class="color_red">会社名または個人情報<br>
                             ※【会社名】または「個人名」を入力してください</span></td>
-                    <td><input type="text" name="inc_name" placeholder="例） 志摩機械 株式会社">
+                    <td><input type="text" name="inc_name" placeholder="例） 志摩機械 株式会社" value=<?php echo $_SESSION["inc_name"]; ?>>
+
                     </td>
                 </tr>
                 <tr>
                     <td><span class="color_red">申込者氏名</span></td>
-                    <td><input type="text" name="app_name" placeholder="例）志摩太郎">
+                    <td><input type="text" name="app_name" placeholder="例）志摩太郎" value=<?php echo $_SESSION["app_name"]; ?>>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="color_red">申込者氏名<br class="view_sp">フリガナ</span></td>
-                    <td><input type="text" name="app_name_kana" placeholder="例）シマタロウ">
+                    <td><input type="text" name="app_name_kana" placeholder="例）シマタロウ" value=<?php echo $_SESSION["app_name_kana"]; ?>>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="color_red">郵便番号<br class="view_sp">(会社または個人)</span></td>
                     <td>
-                        <input type="text" name="post_no" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,'','adress','adress');">
+                        <input type="text" name="post_no" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,'','adress','adress');" value=<?php echo $_SESSION["post_no"]; ?>>
                         <!--〒<input type="text" size="8" maxlength="3" placeholder="例）624>-<input type=" text" size="8" maxlength="4" placeholder="例）0951">-->
                     </td>
                 </tr>
                 <tr>
                     <td><span class="color_red">住所1<br class="view_sp">(番地まで)</span></td>
                     <td>
-                        <input type="text" name="address1" placeholder="例）京都府舞鶴市上福井117番地">
+                        <input type="text" name="address1" placeholder="例）京都府舞鶴市上福井117番地" value=<?php echo $_SESSION["address1"]; ?>>
                         <!--〒<input type="text" size="8" placeholder="例）京都府舞鶴市上福井１１７">-->
                     </td>
                 </tr>
                 <tr>
                     <td>住所2<br class="view_sp">(マンション名)</td>
                     <td>
-                        <input type="text" name="address2" placeholder="例）京都府舞鶴市上福井117番地">
+                        <input type="text" name="address2" placeholder="例）京都府舞鶴市上福井117番地" value=<?php echo $_SESSION["address2"]; ?>>
                         <!--〒<input type="text" size="8" placeholder="例）京都府舞鶴市上福井１１７">-->
                     </td>
                 </tr>
                 <tr>
                     <td><span class="color_red">電話番号<br class="view_sp">(会社または個人)</span></td>
                     <td>
-                        <input type="text" name="tel" placeholder="例）0773750652">
+                        <input type="text" name="tel" placeholder="例）0773750652" value=<?php echo $_SESSION["tel"]; ?>>
                     </td>
                 </tr>
                 <tr>
                     <td>FAX番号<br class="view_sp">(会社または個人)</td>
                     <td>
-                        <input type="text" name="fax" placeholder="例）0773755591">
+                        <input type="text" name="fax" placeholder="例）0773755591" value=<?php echo $_SESSION["fax"]; ?>>
                     </td>
                 </tr>
                 <tr class="last">
                     <td>mailアドレス</td>
                     <td>
-                        <input type="text" name="mail_address" placeholder="例）xxxx@gmail.com">
+                        <input type="text" name="mail_address" placeholder="例）xxxx@gmail.com" value=<?php echo $_SESSION["mail_address"]; ?>>
                     </td>
                 </tr>
             </table>
@@ -346,11 +527,8 @@ try {
                 <tr>
                     <td><span class="color_red">助成金の有無</span></td>
                     <td><select name="sub_flg">
-                            <?php echo '<option value=""></option>' . $money_final ?>
-                        </select>
-                        <P class="select_explain">
-                            ※助成金を受けるかの有無を選択してください。<br class="view_sp">(有：受ける　無：受けない)
-                        </p>
+                            <?php echo '<option value=""></option>' . $_SESSION["money_final"] ?>
+                        </select>※助成金を受けるかの有無を選択してください。<br class="view_sp">(有：受ける　無：受けない)
                     </td>
                 </tr>
             </table>
@@ -370,25 +548,50 @@ try {
                     </tr>
                     <?php
                     //人数分テキストボックスを表示する。
-                    for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
-                        echo '<tr>
-                        <td><input name="students' . $i . '" type=text placeholder=例）志摩太郎></td>
-                        <td><input name="birthday' . $i . '" type=text placeholder=例）19870401></td>
-                        <td><select name="sex' . $i . '"><option value=""></option>' . $sex_final . '
-                        <td><input name="kojin_tel' . $i . '" type=text placeholder=例）0773750652></td>
-                        <td><input name="phone_tel' . $i . '" type=text placeholder=例）09098765432></td>
-                        <td><input type=text name="kojin_post_no' . $i . '" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress");></td>
-                        <td><input name="kojin_address' . $i . '" type=text placeholder=例）京都府舞鶴市上福井117></td>
+
+                    if ($course_sub_code_check === "99") { //サブコードが９９ならセレクト出さない
+                        for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
+                            echo '<tr>
+                            <td><input name="students' . $i . '" type=text placeholder=例）志摩太郎 value=' . $_SESSION["students"][$i] . '></td>
+                            <td><input name="birthday' . $i . '" type=text placeholder=例）19920701 value=' . $_SESSION["birthday"][$i] . '></td>
+                            <td><select name="sex' . $i . '"><option value=""></option>' .  $_SESSION["sex_final"] . '
+                            <td><input name="kojin_tel' . $i . '" type=text placeholder=例）090XXXXXXXX value=' . $_SESSION["kojin_tel"][$i] . '></td>
+                            <td><input name="phone_tel' . $i . '" type=text placeholder=例）090XXXXXXXX value=' . $_SESSION["phone_tel"][$i] . '></td>
+                            <td><input type=text name="kojin_post_no' . $i . '" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress") value=' . $_SESSION["kojin_post_no"][$i] . '></td>
+                            <td><input name="kojin_address' . $i . '" type=text placeholder=例）京都府舞鶴市上福井118 value=' . $_SESSION["kojin_address"][$i] . '></td>
+                            <td>' . $_SESSION["button_value"][2] . '</td> 
+                            <td><select  id="course_sub_code" disabled="disabled"  name="course_sub_code' . $i . '"><option value="99"></option>
+                            <td>' . $_SESSION["button_value"][3] . '</td>
+                        </tr>';
+                        }
+                    } else {
+                        for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
+                            echo '<tr>
+                            <td><input name="students' . $i . '" type=text placeholder=例）志摩太郎 value=' . $_SESSION["students"][$i] . '></td>
+                            <td><input name="birthday' . $i . '" type=text placeholder=例）19920701 value=' . $_SESSION["birthday"][$i] . '></td>
+                            <td><select name="sex' . $i . '"><option value=""></option>' .  $_SESSION["sex_final"] . '
+                            <td><input name="kojin_tel' . $i . '" type=text placeholder=例）090XXXXXXXX value=' . $_SESSION["kojin_tel"][$i] . '></td>
+                            <td><input name="phone_tel' . $i . '" type=text placeholder=例）090XXXXXXXX value=' . $_SESSION["phone_tel"][$i] . '></td>
+                            <td><input type=text name="kojin_post_no' . $i . '" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress") value=' . $_SESSION["kojin_post_no"][$i] . '></td>
+                            <td><input name="kojin_address' . $i . '" type=text placeholder=例）京都府舞鶴市上福井118 value=' . $_SESSION["kojin_address"][$i] . '></td>
                         <td>' . $_SESSION["button_value"][2] . '</td> 
-                        <td><select name="course_sub_code' . $i . '"><option value=""></option>' . $course_sub_code_final . '
+                        <td><select id="course_sub_code" name="course_sub_code' . $i . '"><option value=""></option>' . $_SESSION["course_sub_code_final"] . '
                         <td>' . $_SESSION["button_value"][3] . '</td>
                     </tr>';
+                        }
                     }
                     ?>
                 </table>
             </div>
             <div class="example-r">
-                <button type="submit" name="request">申請</button>
+                <button type="submit" name="request" onclick="javascript:undisabled();">申請</button>
+
+                <script type="text/javascript">
+                    function undisabled() {
+                        document.getElementById("course_sub_code").disabled = false;
+                        return true;
+                    }
+                </script>
 
                 <!-- <button type="submit"><a href="pdf/sample.pdf" name="request" download="sample.pdf">申請</a></button> -->
                 <button><a href="index.php">戻る</a></button>
