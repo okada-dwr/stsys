@@ -262,7 +262,7 @@ background: #999;
 }
 
 .stsys4_th{
-  background-color: #b0c1de9e;
+  background-color: #b8d5f2;
   width:10%;
   padding: 2px;
 }
@@ -339,9 +339,6 @@ background: #999;
   }
   
   /*テーブル*/
-  .stsys4_table_main {
-    overflow: scroll;
-  }
   .stsys4_table {
     white-space: nowrap;
   }
