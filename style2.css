@@ -330,6 +330,13 @@ scrollbar
   .table_02 td:nth-child(9){
     min-width: auto;
   }
+  /*画像*/
+  .explanation_image{
+    display: block;
+  }
+  .explanation_image_child{
+    width: 80%;
+  }
 }
 /* スマホ縦対応  */
 @media screen and (max-width:499px) { 
