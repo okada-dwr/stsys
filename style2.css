@@ -31,13 +31,10 @@ html{
     }
   }
 /* stsys2 */
-
-#error_message{
-  font-size: 1.4rem;
-  margin-top: 20px;
-  border: 1px solid #000000;
-  padding: 10px 20px;
-  border-radius: 0.5rem;
+body{
+  font-family:'メイリオ', 'Meiryo', sans-serif;
+  max-width: 2000px;
+  margin: 0 auto;
 }
 p {
   font-size: 14px;
@@ -153,24 +150,52 @@ p {
 }
 .table_01 select {
   font-size: 14px;
-  width: 7%;
+  width: 50px;
+}
+.select_explain{
+  margin:0;
 }
 /*受講者入力テーブル*/
+.table_02_main {
+  overflow-x: auto;
+}
+/*===========
+scrollbar
+===========*/
+/*スクロールバー全体の高さ*/
+.table_02_main::-webkit-scrollbar {
+  height: 10px;
+  }
+  /*スクロールバー全体の背景*/
+  .table_02_main::-webkit-scrollbar-track {
+  background: #eee;
+  }
+  /*スクロールバーの動く部分*/
+  .table_02_main::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border: none;
+  }
+  /*スクロールバーの動く部分のホバー（マウスオーバー）*/
+  .table_02_main::-webkit-scrollbar-thumb:hover {
+  background: #999;
+  }
+
 .table_02 {
-  margin: 20px auto;
+  margin: 0 auto 5px;
   border-collapse: collapse;
   border-spacing: 0;
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
   font-size: 0.5rem;
+  white-space: nowrap;
 }
 .table_02 tr {
   width: 100%;
 }
 .table_02 th {
   border: solid 1px #ccc;
-  background-color: #fff;
+  color: #fff;
   padding: 5px;
   font-size: 15px;
   white-space: nowrap;
@@ -180,15 +205,25 @@ p {
     font-size: 14px;
     text-align: center;
     width: 10%;
+    min-width: 100px;
 }
 .table_02 td:nth-child(3){
   width: 5%;
+  min-width: 50px;
+}
+.table_02 td:nth-child(4){
+  min-width: 125px;
+}
+.table_02 td:nth-child(5){
+  min-width: 125px;
 }
 .table_02 td:nth-child(7){
   width: 17%;
+  min-width: 200px;
 }
 .table_02 td:nth-child(9){
   width: 8%;
+  min-width: 83px;
 }
 .table_02 td input{
   font-size: 14px;
@@ -254,12 +289,9 @@ p {
 @media screen and (max-width:499px) { 
   /*全体*/
   .main_container{
-    width:98%;
+    width:96%;
   }
   /*会社情報入力テーブル*/
-  .table_01 select{
-    width: 30%;
-  }
   .table_01 td {
     padding: 5px;
   }
@@ -267,20 +299,11 @@ p {
     width: 95%!important;
   }
   /*受講者入力テーブル*/
-  .table_02_main {
-    overflow: scroll;
-  }
-  .table_02 {
-    white-space: nowrap;
-  }
   .table_02 td input {
-    width: auto;
+    width: 90%;
   }
   .table_01 tbody tr td:nth-child(odd){
     padding:5px 0;
-  }
-  .table_02 tbody tr th:nth-child(3){
-    min-width: 50px;
   }
   /*参考画像*/
   .explanation_image {
