@@ -364,7 +364,7 @@ try {
                                                 });
 
                                                 try {
-                                                    $stmt1->execute();
+                                                    $stmt->execute();
                                                     $_SESSION["error"] = "";
                                                     $_SESSION["mode"]  = "send";
                                                     header("Location: ./stsys05.php");
@@ -532,7 +532,7 @@ try {
                 <tr>
                     <td>住所2<br class="view_sp">(マンション名)</td>
                     <td>
-                        <input type="text" name="address2" placeholder="例）京都府舞鶴市上福井117番地" value=<?php echo $_SESSION["address2"]; ?>>
+                        <input type="text" name="address2" placeholder="例）舞鶴ハイツ１１－７" value=<?php echo $_SESSION["address2"]; ?>>
                         <!--〒<input type="text" size="8" placeholder="例）京都府舞鶴市上福井１１７">-->
                     </td>
                 </tr>
