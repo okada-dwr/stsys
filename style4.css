@@ -46,6 +46,8 @@ select {
   outline: none;
   background: #fff;
   color: #000;
+  border-radius: 0px;
+  box-sizing: border-box;
 }
 
 form{
@@ -416,6 +418,7 @@ background: #999;
 }
 .day_tr {
   font-size: 14px;
+  width: 90%;
 }
 
 /*制限人数*/
@@ -423,7 +426,7 @@ background: #999;
   width: 50%;
 }
 .limited_tr{
-  width: 100%;
+  width: 90%;
   text-align: center;
 }
 .limited_table tbody tr td {
