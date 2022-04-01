@@ -613,10 +613,14 @@ try {
                     ?>
                 </table>
             </div>
-            <div class="example-r">
-                <button type="submit" name="request" onclick="javascript:undisabled();">申請</button>
-
+           <div class="example-r">
+                <button type="submit" id="request" class="request" name="request" onclick="javascript:undisabled();">申請</button>
                 <script type="text/javascript">
+                    $('#request').on('click', function() {
+                        $(this).css('pointer-events', 'none');
+                    });
+
+                    //    申請が押されたらコースサブコードはデータ取得のため一時的に解除する
                     function undisabled() {
                         document.getElementById("course_sub_code").disabled = false;
                         return true;
