@@ -2,13 +2,13 @@
 try {
     // DB接続
     $pdo = new PDO(
-        'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
-        'b2c2e6853ab5ee',
-        '2f35b6a9',
+        // 'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
+        // 'b2c2e6853ab5ee',
+        // '2f35b6a9',
 
-//         'mysql:dbname=stsys;host=localhost;charset=utf8',
-//         'root',
-//         'shinei4005',
+        'mysql:dbname=stsys;host=localhost;charset=utf8',
+        'root',
+        'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -163,7 +163,7 @@ $sql_reserve_array = [];
     <a href="stsys03.php">stsys03</a>
     <a href="stsys04.php">stsys04</a>
     <div class="main_container">
-        <h1>期間登録履歴画面</h1>
+        <h1>期間登録・編集画面</h1>
     
         <form action="stsys04.php" method="POST">
             <div class="flex">
