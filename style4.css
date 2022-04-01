@@ -100,7 +100,7 @@ form td{
   width: 23%;
 }
 .course_tr{
-  width: 98%;
+  width: 96%;
   text-align: center;
 }
 .course_table tbody tr td {
@@ -118,7 +118,7 @@ form td{
   width: 17%;
 }
 .place_tr{
-  width: 98%;
+  width: 96%;
   text-align: center;
 }
 .place_table tbody tr td {
@@ -136,7 +136,7 @@ form td{
   width: 35%;
 }
 .day_tr {
-  width: 98%;
+  width: 96%;
 }
 .day_table tbody tr td {
   border: 1px solid #000;
@@ -156,7 +156,7 @@ form td{
   width: 15%;
 }
 .limited_tr{
-  width: 98%;
+  width: 96%;
   text-align: center;
 }
 .limited_table tbody tr td {
@@ -174,7 +174,7 @@ form td{
   width: 81.6%;
 }
 .biko_tr{
-  width: 98%;
+  width: 96%;
   box-sizing: border-box;
 }
 .biko_table tbody tr td {
