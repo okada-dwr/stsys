@@ -835,9 +835,11 @@ function display_to_Holidays($date, $Holidays_array)
                     //カレンダー表示
                     //$course_day3の中身↓
                     //0:場所コード、1:場所名、2:コースコード、3:コース名、4:Start_day、5:End_day、6:可能人数
+                    $table_td_check = 0; //ひとつでも予約があれば下で1にする、0のままなら予約なしと表示
                     foreach ($course_day as $course_day3) {
                         //予約ないやつは配列の数が5以下なので非表示
                         if (count($course_day3) > 5) {
+                            $table_td_check = 1;
                             $test_after = $course_day3[0];
                             if ($test_before === 0) { //初表示
                                 $test_after = $course_day3[0]; //最初のコードを入れる
@@ -887,6 +889,11 @@ function display_to_Holidays($date, $Holidays_array)
                                 $test_before = $test_after;
                             }
                         }
+                    }
+
+                    //予約ない場合は予約なしと出す
+                    if ($table_td_check === 0) {
+                        echo '<tr><td>予約なし</td></tr>';
                     }
                     ?>
                 </table>
