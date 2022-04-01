@@ -367,7 +367,7 @@ if (isset($_POST['code'])) {
         <!--Excel出力------------------------------------------------------------------>
         <div class="guide_text">
             <p class="guide_text_link">
-                <a href="./stsys04.php">期間登録・編集画面へ</a>
+                <a href="./stsys04.php">期間登録履歴画面へ</a>
             </p>
         </div>
         <div class="stsys3_table_main">
