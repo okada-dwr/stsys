@@ -12,37 +12,24 @@ html{
   }
 }
   body {
-    /* font-size: 10px; */
+    font-family:'メイリオ', 'Meiryo', sans-serif;
   }
-  /*******改行********/
-  /* タブレット横＆ＰＣ対応 */
-@media screen and (min-width:801px){
-  .view_sp {
-    display: none;
-  }
-}
-/* スマホ横＆タブレット縦対応 */
-@media screen and (min-width:500px) and (max-width:800px) {
-  .view_sp {
-    display: none;
-  }
-}
-/* スマホ縦対応  */
-@media screen and (max-width:499px) { 
-  .view_pc {
-    display: none;
-  }
-}
-
-  .main_container {
-    width:91%;
-    margin:0 auto;
+  h1 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+    display: block;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
   }
   .title1 {
-    margin-top: 20px;
+    
   }
   .title1 h1 {
-    font-size: 2.4rem;
+    font-size: 20px;
   }
   /*下線*/
   .underline_red{
@@ -66,7 +53,7 @@ html{
     /* カレンダー */
     .container1 {
       font-family: "Noto Sans", sans-serif;
-      margin: 50px auto 0;
+      margin: 50px auto 20px;
   }
   .table > thead > tr > th,
   .table > tbody > tr > th,
@@ -79,34 +66,40 @@ html{
     vertical-align: middle;
     border-top: 1px solid #ddd;
   }
-
-  .h1,
-  .h2,
-  .h3,
-  h1,
-  h2,
-  h3 {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-  .h1,
-  .h2,
-  .h3,
-  .h4,
-  .h5,
-  .h6,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: inherit;
-    font-weight: 500;
-    line-height: 1.1;
-    color: inherit;
+  h2,h3{
+    margin:0!important;
   }
   
+  /*******改行********/
+  /* タブレット横＆ＰＣ対応 */
+@media screen and (min-width:801px){
+  .view_sp {
+    display: none;
+  }
+}
+/* スマホ横＆タブレット縦対応 */
+@media screen and (min-width:500px) and (max-width:800px) {
+  .view_sp {
+    display: none;
+  }
+}
+/* スマホ縦対応  */
+@media screen and (max-width:499px) { 
+  .view_pc {
+    display: none;
+  }
+}
+  /* 全体 */
+  .main_container {
+    width:96%;
+    margin:0 auto;
+  }
+  .container1 form {
+    overflow-x: auto;
+  }
+  .container1 form table {
+    white-space: nowrap;
+  }
   /*テーブル*/
   .table-bordered th {
     /* height: 50px; */
@@ -118,6 +111,7 @@ html{
     text-align: center;
     white-space: nowrap;
   }
+  
   /*人数選択*/
   .table_num {
     text-align: left!important;
@@ -250,26 +244,36 @@ html{
   /* スマホ横＆タブレット縦対応 */
 @media screen and (min-width:500px) and (max-width:800px) {
   /*カレンダー*/
-  .container1 form {
-    overflow: scroll;
-  }
-  .container1 form table {
-    white-space: nowrap;
-  }
   /*下記の表*/
   .crane_child th {
     white-space: nowrap;
+  }
+  /*下記の表*/
+  #Exam_details {
+    display: block;
+  }
+  .crane {
+    width: 100%;
+    margin: 0 auto;
+}
+  .crane_child th {
+    white-space: nowrap;
+  }
+  /*注意点*/
+  .pay_explanation_flex {
+    display: block;
+  }
+  .pay_explanation_box {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .pay_explanation_strong {
+    position: initial;
   }
 }
 /* スマホ縦対応  */
 @media screen and (max-width:499px) { 
   /*カレンダー*/
-  .container1 form {
-    overflow: scroll;
-  }
-  .container1 form table {
-    white-space: nowrap;
-  }
   .table > thead > tr > th,
   .table > tbody > tr > th,
   .table > tfoot > tr > th,
