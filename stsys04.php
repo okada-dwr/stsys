@@ -163,7 +163,7 @@ $sql_reserve_array = [];
     <a href="stsys03.php">stsys03</a>
     <a href="stsys04.php">stsys04</a>
     <div class="main_container">
-        <h1>期間登録・編集画面</h1>
+        <h1>期間登録履歴画面</h1>
     
         <form action="stsys04.php" method="POST">
             <div class="flex">
