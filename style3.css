@@ -34,8 +34,10 @@ h1{
 .day_select tbody tr td:nth-child(3){
   font-size: 16px;
 }
-input,section{
+input,select{
   border: 0;
+}
+.table_content input,select{
   outline: none;
   background: #fff;
   color: #000;
@@ -330,11 +332,14 @@ background: #999;
   margin-top: 10px;
 }
 .day_select tbody tr td input {
-  width: 110px;
+  width: 90%;
   font-size: 14px;
 }
-input{
-  width: 90%;
+.day_select tbody tr td:nth-child(2){
+  max-width: 110px;
+}
+.day_select tbody tr td:nth-child(4){
+  max-width: 110px;
 }
 /*ボタン*/
 .btn_main {
