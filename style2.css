@@ -74,6 +74,11 @@ p {
   width:96%;
   margin:0 auto;
 }
+select{
+  background: #e6e6e6;
+  color: #000;
+  border: 1px solid #000;
+}
   /*最初の説明*/
   .explanation { 
     margin: 30px auto 0;
