@@ -34,13 +34,13 @@ h1{
 .day_select tbody tr td:nth-child(3){
   font-size: 16px;
 }
-#course_code {
+input,section{
   border: 0;
-  width: 100%;
-  text-align: center;
-}
-input{
-  border: 0;
+  outline: none;
+  background: #fff;
+  color: #000;
+  border-radius: 0px;
+  box-sizing: border-box;
 }
 th{
   background-color: #b8d5f2;
@@ -94,6 +94,11 @@ td{
 .course_name_select tbody tr td:nth-child(1) {
   min-width: 50px;
   background: #e8e8e8;
+}
+#course_code {
+  border: 0;
+  width: 100%;
+  text-align: center;
 }
 /*講習期間*/
 .day_select{
@@ -313,6 +318,9 @@ background: #999;
 .course_name_select tbody tr td input{
   font-size: 14px;
 }
+#course_code {
+  width: 96%;
+}
 /*講習期間*/
 .day_select{
   width: 60%;
@@ -324,6 +332,9 @@ background: #999;
 .day_select tbody tr td input {
   width: 110px;
   font-size: 14px;
+}
+input{
+  width: 90%;
 }
 /*ボタン*/
 .btn_main {
