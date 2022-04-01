@@ -368,7 +368,7 @@ if (isset($_POST['code'])) {
         <div class="stsys3_table_main">
             <div class="guide_text">
                 <p class="guide_text_link">
-                    <a href="">期間登録・編集画面へ</a>
+                    <a href="./stsys04.php">期間登録・編集画面へ</a>
                 </p>
             </div>
             <table border=" 1" id="return" style="border-collapse:collapse" class="stsys3_table" ;>
