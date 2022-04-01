@@ -239,7 +239,8 @@ $sql_reserve_array = [];
         <div class="guide_text">
             <p class="guide_text_tlt">・講習期間一覧</p>
             <p class="guide_text_link">
-                <a href="">登録情報管理画面へ</a>
+                       <a href="./stsys03.php">登録情報管理画面へ</a>
+
             </p>
         </div>
         <div class="stsys4_table_main">
