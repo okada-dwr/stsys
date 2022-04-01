@@ -44,9 +44,12 @@ input[type="text"],
 input[type="date"],
 select {
     outline: none;
-    background: #fff;
-    color: #000;
-    width: 90%;
+}
+
+select{
+  background: #fff;
+  color: #000;
+  width: 98%;
 }
 
 form{
