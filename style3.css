@@ -34,16 +34,16 @@ h1{
 .day_select tbody tr td:nth-child(3){
   font-size: 16px;
 }
-input,section{
+#course_code {
   border: 0;
-  outline: none;
-  background: #fff;
-  color: #000;
-  border-radius: 0px;
-  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+}
+input{
+  border: 0;
 }
 th{
-  background-color: #b8d5f2;
+  background-color: lightskyblue;
   font-size: 14px;
   font-weight: normal;
   white-space: nowrap;
@@ -95,11 +95,6 @@ td{
   min-width: 50px;
   background: #e8e8e8;
 }
-#course_code {
-  border: 0;
-  width: 100%;
-  text-align: center;
-}
 /*講習期間*/
 .day_select{
   width: 35%;
@@ -149,18 +144,6 @@ a.btn--silver:hover {
   color: #fff;
   background: #c9beb8;
 }
-/*登録情報管理画面へ*/
-.guide_text {
-  display: flex;
-  justify-content: flex-end;
-}
-.guide_text_link{
-  font-size: 12px;
-  margin: 3rem 5.5rem 0 0px;
-}
-.guide_text_link a{
-
-}
 
 /****テーブルタイトル****/
 .stsys3_table_main {
@@ -190,7 +173,7 @@ background: #999;
 }
 .stsys3_table{
   width: 100%;
-  margin: 10px auto 0;
+  margin: 40px auto 0;
 }
 .stsys3_table tbody .table_tlt th{
   width:6%;
@@ -318,9 +301,6 @@ background: #999;
 .course_name_select tbody tr td input{
   font-size: 14px;
 }
-#course_code {
-  width: 96%;
-}
 /*講習期間*/
 .day_select{
   width: 60%;
@@ -332,9 +312,6 @@ background: #999;
 .day_select tbody tr td input {
   width: 110px;
   font-size: 14px;
-}
-input{
-  width: 90%;
 }
 /*ボタン*/
 .btn_main {
