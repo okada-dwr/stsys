@@ -75,9 +75,11 @@ p {
   margin:0 auto;
 }
 select{
-  background: #e6e6e6;
+  background: #fff;
   color: #000;
-  border: 1px solid #000;
+}
+select:hover{
+  background:none;
 }
   /*最初の説明*/
   .explanation { 
