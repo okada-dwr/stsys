@@ -325,7 +325,7 @@ background: #999;
 }
 /*講習期間*/
 .day_select{
-  width: 60%;
+  width: 100%;
   min-height: 36px;
   margin-right: auto;
   margin-left: 0;
