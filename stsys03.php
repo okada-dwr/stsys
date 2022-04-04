@@ -332,7 +332,30 @@ if (isset($_POST['code'])) {
             <div class="btn_main">
                 <button id="search" class="btn btn--orange"> 検索 </button>
                 <button id="cancel" class="btn btn--silver">キャンセル</button>
+<!--Excel出力------------------------------------------------------------------>
+                <button id="btnExport" class="btn btn--silver" onclick=exportReportToExcel(this)>Excel出力</button>
+            </div>
+        </div>
 
+        <script>
+            function exportReportToExcel() {
+                <?php
+
+                require 'vendor/autoload.php';
+
+                use PhpOffice\PhpSpreadsheet\Spreadsheet;
+                use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+                $spreadsheet = new Spreadsheet();
+                $sheet = $spreadsheet->getActiveSheet();
+                $sheet->setCellValue('A1', 'Hello World !');
+
+                $writer = new Xlsx($spreadsheet);
+                $writer->save('hello world.xlsx');
+                ?>
+            }
+        </script>
+        <!--Excel出力------------------------------------------------------------------>
                   
         <div class="guide_text">
             <p class="guide_text_link">
