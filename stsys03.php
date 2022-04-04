@@ -337,21 +337,49 @@ if (isset($_POST['code'])) {
             </div>
         </div>
 
-        <script>
+      <script>
             function exportReportToExcel() {
                 <?php
 
+                echo "test0";
                 require 'vendor/autoload.php';
+
+                echo "test1";
 
                 use PhpOffice\PhpSpreadsheet\Spreadsheet;
                 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+                use \App\Lib\excel2pdf;
 
+                echo "test2";
                 $spreadsheet = new Spreadsheet();
                 $sheet = $spreadsheet->getActiveSheet();
                 $sheet->setCellValue('A1', 'Hello World !');
 
+                echo "test3";
                 $writer = new Xlsx($spreadsheet);
                 $writer->save('hello world.xlsx');
+
+                // pdf化
+                // $ex = new excel2pdf();
+                // $fname  = '..\storage\app\public/test.xlsx';    //帳票のレイアウトのエクセル
+
+                // $ex->setExcelFilename($fname);
+                // $book   = $ex->getBook();           //ブックオブジェクトも取得出来るよ
+
+                // $sheet  = null;
+                // if ($book != null) {                 //念のため
+                //     $sheet = $ex->getSheet();       //シートオブジェクトを取得
+                //     //セルに値をセットなどを行う
+                //     $sheet->setCellValue('A18', 'まつもと');
+                //     $sheet->setCellValue('D18', 15);        //数量
+                //     $sheet->setCellValue('E18', 1200);      //単価
+                //     //・・・・
+                //     //・・・・
+
+                //     $ex->setSheet($sheet);      //出力するシートを指定(ここでセルの修飾情報を取得していたと思う)
+
+                //     $ex->writePDF();            //PDF出力・・・この後 exit()?
+                // }
                 ?>
             }
         </script>
