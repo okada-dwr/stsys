@@ -1,13 +1,12 @@
 <?php
 session_start();
-?>
 
-<?php
 //直リンクされた場合index.phpにリダイレクト
 // if ($_SERVER["REQUEST_METHOD"] != "POST") {
 //     header("Location: index.php");
 //     exit();
 // }
+
 $button_name_count = 0;
 $course_sub_code = [];
 $button_name_count = $_SESSION["button_person"];
@@ -19,8 +18,8 @@ $paper_final = 0;
 $sex_final = 0;
 $button_value = [];
 $course_sub_code_check = "";
-$_SESSION["mode"]  = "input";
-$_SESSION["error_code"] = 0;
+$_SESSION["error_code"] = 0; //入力ミス時使用
+// $_SESSION["mode"]  = "input"; 送信完了チェック用
 
 // エラー時に例外をスローするように登録（エラーをcatchに入れる為に必要）
 set_error_handler(function ($errno, $errstr, $errfile, $errline) {
@@ -32,10 +31,13 @@ set_error_handler(function ($errno, $errstr, $errfile, $errline) {
 try {
     // DB接続
     $pdo = new PDO(
+
+        //サーバー
         'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
         'b2c2e6853ab5ee',
         '2f35b6a9',
 
+        //ローカル
 //         'mysql:dbname=stsys;host=localhost;charset=utf8',
 //         'root',
 //         'shinei4005',
@@ -63,6 +65,7 @@ try {
             $_SESSION["tel"] = "";
             $_SESSION["fax"] = "";
             $_SESSION["mail_address"] = "";
+            $_SESSION["sub_flg"] = ""; //助成金
 
             //10人分初期化
             for ($i = 0; $i < 10; $i++) {
@@ -72,10 +75,12 @@ try {
                 $_SESSION["kojin_tel"][$i]  =  "";
                 $_SESSION["kojin_post_no"][$i]  =  "";
                 $_SESSION["kojin_address"][$i]  =  "";
+                $_SESSION["sex"][$i]  =  "";
+                $_SESSION["course_sub_code"][$i]  =  "";
             }
 
             $_SESSION["error"] = ""; //ボタンが押されて遷移した時はエラーを消す
-            $_SESSION["mode"]  = "";
+            // $_SESSION["mode"]  = "";
             $_SESSION["number_person"] = $_POST["number_person"]; //確認メッセージに対する答えを取得
 
             //[0]受講可能人数、[1]コースコード、[2]コース名、[3]日付、[4]場所コード、[5]場所名（$button_value）
@@ -366,7 +371,7 @@ try {
                                                 try {
                                                     $stmt->execute();
                                                     $_SESSION["error"] = "";
-                                                    $_SESSION["mode"]  = "send";
+                                                    // $_SESSION["mode"]  = "send";
                                                     header("Location: ./stsys05.php");
                                                     $course_sub_code_check = "99";
                                                 } catch (Exception $e) {
@@ -388,16 +393,14 @@ try {
     catch (PDOException $e) {
         // エラー発生
         echo $e->getMessage();
-//         header("Location: ./stsys06.php");
+        header("Location: ./stsys06.php");
     } finally {
         // DB接続を閉じる
         $pdo = null;
 
         // エラーの時に前に打ったものを表示
         if ($_SESSION["error_code"] === 1) {
-            $mail_flg_array = $_POST['mail_flg']; //申請書
-            $mail_flg_array = explode(",", $mail_flg_array);
-            $_SESSION["mail_flg"] = $mail_flg_array[0];
+            $_SESSION["mail_flg"] = $_POST['mail_flg']; //申請書
             $_SESSION["inc_name"]  =  $_POST['inc_name'];
             $_SESSION["app_name"]  =  $_POST['app_name'];
             $_SESSION["app_name_kana"]  =  $_POST['app_name_kana'];
@@ -407,10 +410,8 @@ try {
             $_SESSION["tel"]  =  $_POST['tel'];
             $_SESSION["fax"]  =  $_POST['fax'];
             $_SESSION["mail_address"]  =  $_POST['mail_address'];
+            $_SESSION["sub_flg"] = $_POST['sub_flg']; //助成金
 
-            // $sub_flg_array = $_POST['sub_flg']; //助成金
-            // $sub_flg_array = explode(",", $sub_flg_array);
-            // $sub_flg = $sub_flg_array[0];
             for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
                 $_SESSION["students"][$i]  =  $_POST['students' . $i];
                 $_SESSION["birthday"][$i]  =  $_POST['birthday' . $i];
@@ -418,9 +419,8 @@ try {
                 $_SESSION["kojin_tel"][$i]  =  $_POST['kojin_tel' . $i];
                 $_SESSION["kojin_post_no"][$i]  =  $_POST['kojin_post_no' . $i];
                 $_SESSION["kojin_address"][$i]  =  $_POST['kojin_address' . $i];
-                // $_SESSION["birthday' . $i"]  =  $_POST['birthday' . $i];
-                // $_SESSION["phone_tel' . $i"]  =  $_POST['phone_tel' . $i];
-                // $_SESSION["kojin_address' . $i"]  =  $_POST['kojin_address' . $i];
+                $_SESSION["sex"][$i]  =  $_POST['sex' . $i];
+                $_SESSION["course_sub_code"][$i]  =  $_POST['course_sub_code' . $i];
             }
         }
     }
@@ -428,12 +428,13 @@ try {
 } catch (PDOException $e) {
     // エラー発生
     echo $e->getMessage();
-//     header("Location: ./stsys06.php");
+    header("Location: ./stsys06.php");
 } finally {
     // DB接続を閉じる
     $pdo = null;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -444,7 +445,6 @@ try {
     <title>Document</title>
     <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
     <link rel="stylesheet" href="/style2.css">
 </head>
 
@@ -471,14 +471,12 @@ try {
                 </p>
             </div>
         </div>
-
         <!-- エラーメッセージがなければ非表示 -->
         <?php
         if (!empty($_SESSION["error"]))
             echo "<div id=error_message>" .
                 $_SESSION["error"] . "</div>";
         ?>
-
         <form action="stsys02.php" method="POST">
             <!-- 会社情報入力 -->
             <table class="table_01">
@@ -489,12 +487,11 @@ try {
                         </select>※受講申込書の郵送を希望される方は、有を選択。(スマホしかない…など、印刷環境がない方用です)
                     </td>
                 </tr>
-
                 <!-- 入力ミス後の引継ぎの場合、valueをみてそれを選択状態にさせる -->
                 <script type="text/javascript">
-                    if (1 === 71) {
-                        document.getElementById("mail_flg").querySelectorAll("option[value='<?= $_SESSION["mail_flg"]  ?>']").setAttribute("selected", "selected");
-                        $("#mail_flg").find("option[value='<?= $_SESSION["mail_flg"]  ?>']").attr("selected", "selected");
+                    if ('<?= $_SESSION["mail_flg"]  ?>' != "") {
+                        document.getElementById("mail_flg").querySelectorAll("option[value='<?= $_SESSION["mail_flg"]  ?>']").selected = true;
+                        $("#mail_flg").find("option[value='<?= $_SESSION["mail_flg"]  ?>']").prop('selected', true);
                     }
                 </script>
 
@@ -558,12 +555,20 @@ try {
             <table class="table_01 table_subsidy">
                 <tr>
                     <td><span class="color_red">助成金の有無</span></td>
-                    <td><select name="sub_flg">
+                    <td><select name="sub_flg" id="sub_flg">
                             <?php echo '<option value=""></option>' . $_SESSION["money_final"] ?>
                         </select>※助成金を受けるかの有無を選択してください。<br class="view_sp">(有：受ける　無：受けない)
                     </td>
                 </tr>
             </table>
+            <!-- 入力ミス後の引継ぎの場合、valueをみてそれを選択状態にさせる -->
+            <script type="text/javascript">
+                if ('<?= $_SESSION["sub_flg"]  ?>' != "") {
+                    document.getElementById("sub_flg").querySelectorAll("option[value='<?= $_SESSION["sub_flg"]  ?>']").selected = true;
+                    $("#sub_flg").find("option[value='<?= $_SESSION["sub_flg"]  ?>']").prop('selected', true);
+                }
+            </script>
+
             <!-- 受講者入力 -->
             <div class="table_02_main">
                 <table class="table_02">
@@ -578,15 +583,15 @@ try {
                         <th><span class="color_red">希望コース</span></th>
                         <th>受講期間</th>
                     </tr>
+
                     <?php
                     //人数分テキストボックスを表示する。
-
                     if ($course_sub_code_check === "99") { //サブコードが９９ならセレクト出さない
                         for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
                             echo '<tr>
                             <td><input name="students' . $i . '" type=text placeholder=例）志摩太郎 value=' . $_SESSION["students"][$i] . '></td>
                             <td><input name="birthday' . $i . '" type=text placeholder=例）19920701 value=' . $_SESSION["birthday"][$i] . '></td>
-                            <td><select name="sex' . $i . '"><option value=""></option>' .  $_SESSION["sex_final"] . '
+                            <td><select id="sex' . $i . '"  name="sex' . $i . '"><option value=""></option>' .  $_SESSION["sex_final"] . '
                             <td><input name="kojin_tel' . $i . '" type=text placeholder=例）090XXXXXXXX value=' . $_SESSION["kojin_tel"][$i] . '></td>
                             <td><input name="phone_tel' . $i . '" type=text placeholder=例）090XXXXXXXX value=' . $_SESSION["phone_tel"][$i] . '></td>
                             <td><input type=text name="kojin_post_no' . $i . '" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress") value=' . $_SESSION["kojin_post_no"][$i] . '></td>
@@ -601,21 +606,48 @@ try {
                             echo '<tr>
                             <td><input name="students' . $i . '" type=text placeholder=例）志摩太郎 value=' . $_SESSION["students"][$i] . '></td>
                             <td><input name="birthday' . $i . '" type=text placeholder=例）19920701 value=' . $_SESSION["birthday"][$i] . '></td>
-                            <td><select name="sex' . $i . '"><option value=""></option>' .  $_SESSION["sex_final"] . '
+                            <td><select id="sex' . $i . '"  name="sex' . $i . '"><option value=""></option>' .  $_SESSION["sex_final"] . '
                             <td><input name="kojin_tel' . $i . '" type=text placeholder=例）090XXXXXXXX value=' . $_SESSION["kojin_tel"][$i] . '></td>
                             <td><input name="phone_tel' . $i . '" type=text placeholder=例）090XXXXXXXX value=' . $_SESSION["phone_tel"][$i] . '></td>
                             <td><input type=text name="kojin_post_no' . $i . '" size="10" ime-mode:disabled maxlength="8" placeholder="例）6240951" onKeyUp=" AjaxZip3.zip2addr(this,"","adress","adress") value=' . $_SESSION["kojin_post_no"][$i] . '></td>
                             <td><input name="kojin_address' . $i . '" type=text placeholder=例）京都府舞鶴市上福井118 value=' . $_SESSION["kojin_address"][$i] . '></td>
                         <td>' . $_SESSION["button_value"][2] . '</td> 
-                        <td><select id="course_sub_code" name="course_sub_code' . $i . '"><option value=""></option>' . $_SESSION["course_sub_code_final"] . '
+                        <td><select id="course_sub_code' . $i . '"  name="course_sub_code' . $i . '"><option value=""></option>' . $_SESSION["course_sub_code_final"] . '
                         <td>' . $_SESSION["button_value"][3] . '</td>
                     </tr>';
                         }
                     }
+
                     ?>
                 </table>
             </div>
-           <div class="example-r">
+
+            <!-- 入力ミス後の引継ぎの場合、valueをみてそれを選択状態にさせる -->
+            <!-- 性別と希望コース分 -->
+            <script>
+                var i = 0;
+            </script>
+
+            <?php
+            for ($i = 0; $i < $_SESSION["number_person"]; $i++) {
+            ?>
+                <script type="text/javascript">
+                    if ('<?= $_SESSION["sex"][$i] ?>' != "") {
+                        document.getElementById("sex" + i).querySelectorAll("option[value='<?= $_SESSION["sex"][$i] ?>']").selected = true;
+                        $("#sex" + i).find("option[value='<?= $_SESSION["sex"][$i]  ?>']").prop('selected', true);
+                    }
+                    if ('<?= $_SESSION["course_sub_code"][$i] ?>' != "") {
+                        document.getElementById("course_sub_code" + i).querySelectorAll("option[value='<?= $_SESSION["course_sub_code"][$i] ?>']").selected = true;
+                        $("#course_sub_code" + i).find("option[value='<?= $_SESSION["course_sub_code"][$i]  ?>']").prop('selected', true);
+                    }
+                    i += 1;
+                </script>
+            <?php
+            }
+            ?>
+
+            <!-- ボタン類 -->
+            <div class="example-r">
                 <button type="submit" id="request" class="request" name="request" onclick="javascript:undisabled();">申請</button>
                 <script type="text/javascript">
                     $('#request').on('click', function() {
@@ -633,11 +665,13 @@ try {
                 <button><a href="index.php">戻る</a></button>
             </div>
             <?php
-            if ($_SESSION["mode"] === "send") {
-                echo '<p class=message_box>送信しました。お問い合わせありがとうございます。</p>';
-            }
+            // if ($_SESSION["mode"] === "send") {
+            //     echo '<p class=message_box>送信しました。お問い合わせありがとうございます。</p>';
+            // }
             ?>
         </form>
+
+        <!-- 画像類 -->
         <p>●「受講申込書」および「技能講習のご案内」</p>
         <p>「受講申込書」および「技能講習のご案内」のイメージです。
         <p>●登録ボタン押下後の処理</p>
