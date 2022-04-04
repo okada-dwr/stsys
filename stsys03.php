@@ -333,36 +333,28 @@ if (isset($_POST['code'])) {
                 <button id="search" class="btn btn--orange"> 検索 </button>
                 <button id="cancel" class="btn btn--silver">キャンセル</button>
 
-                <!--Excel出力------------------------------------------------------------------>
+                  <!--Excel出力------------------------------------------------------------------>
                 <button id="btnExport" class="btn btn--silver" onclick=exportReportToExcel(this)>Excel出力</button>
             </div>
         </div>
-        <?php
-        include('./vendor/autoload.php');
 
-        use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
+        <script>
+            function exportReportToExcel() {
+                <?php
 
-        function exportReportToExcel()
-        {
+                require 'vendor/autoload.php';
 
-            $filePath = './99_mail/技能講習申込書';
-            // $reader = new XlsxReader();
-            // $spreadsheet = $reader->load($filePath);
+                use PhpOffice\PhpSpreadsheet\Spreadsheet;
+                use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-            // $worksheet = $spreadsheet->getSheetByName('請求書');
-        }
+                $spreadsheet = new Spreadsheet();
+                $sheet = $spreadsheet->getActiveSheet();
+                $sheet->setCellValue('A1', 'Hello World !');
 
-        ?>
-        <script type="text/javascript">
-            // function exportReportToExcel() {
-            //     let table = document.getElementById("return");
-            //     TableToExcel.convert(table[0], {
-            //         name: `file.xlsx`,
-            //         sheet: {
-            //             name: 'Sheet 1'
-            //         }
-            //     });
-            // }
+                $writer = new Xlsx($spreadsheet);
+                $writer->save('hello world.xlsx');
+                ?>
+            }
         </script>
         <!--Excel出力------------------------------------------------------------------>
         <div class="guide_text">
