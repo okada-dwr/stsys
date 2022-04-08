@@ -1,6 +1,6 @@
 <?php
 echo "a";
-include("./TCPDF/TCPDF-main/tcpdf.php");
+include("./tcpdf/TCPDF-main/tcpdf.php");
 
 define("MY_PDF_PAGE_ORIENTATION", "P");  // P:Portrait, L:Landscape
 define("MY_PDF_FONT_NAME", "msmincho");  // kozminproregular
