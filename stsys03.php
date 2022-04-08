@@ -218,7 +218,7 @@ if (isset($_POST['code'])) {
     <a href="stsys02.php"> stsys02 </a>
     <a href="stsys03.php"> stsys03 </a>
     <a href="stsys04.php"> stsys04 </a>
-
+    <a href="test.php"> test </a>
     <?php
     //タイムゾーンを設定
     date_default_timezone_set('Asia/Tokyo');
