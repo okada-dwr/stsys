@@ -31,6 +31,7 @@ echo "b";
 
 echo "c";
 $pdf = new TCPDF(MY_PDF_PAGE_ORIENTATION, MY_PDF_UNIT, MY_PDF_PAGE_FORMAT, true, 'UTF-8', false);
+echo "d";
 $pdf->SetTitle('PDF出力テスト');
 //$pdf->SetSubject('TCPDF Tutorial');
 //$pdf->SetHeaderData(null, null, null, null);
