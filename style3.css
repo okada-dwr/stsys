@@ -1,69 +1,80 @@
-html{
+html {
   font-size: 62.5%;
 }
+
 /* スマホ横＆タブレット縦対応 */
-@media screen and (min-width:500px) and (max-width:800px) {
-  
-}
+@media screen and (min-width:500px) and (max-width:800px) {}
+
 /* スマホ縦対応  */
-@media screen and (max-width:499px) { 
-  html{
+@media screen and (max-width:499px) {
+  html {
     font-size: 55.5%;
   }
 }
-body{
-  font-family:'メイリオ', 'Meiryo', sans-serif;
+
+body {
+  font-family: 'メイリオ', 'Meiryo', sans-serif;
   max-width: 2000px;
   margin: 0 auto;
 }
+
 .main_container {
-  width:96%;
-  margin:0 auto;
+  width: 96%;
+  margin: 0 auto;
 }
-h1{
+
+h1 {
   font-size: 20px;
   text-align: center;
   text-decoration: underline;
 }
-.search{
+
+.search {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
 /*波線*/
-.day_select tbody tr td:nth-child(3){
+.day_select tbody tr td:nth-child(3) {
   font-size: 16px;
 }
-input,select{
+
+input,
+section {
   border: 0;
-}
-.table_content input,select{
   outline: none;
   background: #fff;
   color: #000;
   border-radius: 0px;
   box-sizing: border-box;
 }
-th{
+
+th {
   background-color: #b8d5f2;
   font-size: 14px;
   font-weight: normal;
   white-space: nowrap;
 
 }
-tr{
+
+tr {
   font-size: 12px;
 }
-td{
+
+td {
   padding: 3px;
 }
-.place{
+
+.place {
   width: 14%;
 }
-.day{
+
+.day {
   width: 6.8%;
 }
-.company{
+
+.company {
   width: 45%;
 }
 
@@ -73,56 +84,67 @@ td{
 }
 
 /****上記メニュー****/
-.table_content{
+.table_content {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-between;
   margin: 30px auto 0;
 }
+
 .table_content td {
   padding: 3px 0;
   line-height: 1.1;
 }
+
 /*講習名*/
 .course_name_select {
   width: 23%;
 }
+
 .course_name_select tbody tr td {
   border: 1px solid #000;
   text-align: center;
   width: auto;
 }
+
 .course_name_select tbody tr td:nth-child(1) {
   min-width: 50px;
   background: #e8e8e8;
 }
+
 #course_code {
   border: 0;
   width: 100%;
   text-align: center;
 }
+
 /*講習期間*/
-.day_select{
+.day_select {
   width: 35%;
 }
+
 .day_select tbody tr td {
   border: 1px solid #000;
   text-align: center;
   width: auto;
 }
+
 .day_select tbody tr td:nth-child(1) {
   min-width: 95px;
   background: #e8e8e8;
 }
+
 .day_select tbody tr td:nth-child(3) {
   border: initial;
 }
+
 /*ボタン*/
 .btn_main {
   width: 32%;
-    text-align: end;
+  text-align: end;
 }
+
 .btn {
   width: 90px;
   padding: 3px 10px;
@@ -131,135 +153,178 @@ td{
   border: none;
   min-height: 36px;
 }
+
 .btn--orange,
 a.btn--orange {
   color: #fff;
   background-color: #005eeb;
+  margin-left: 5px;
 }
+
 .btn--orange:hover,
 a.btn--orange:hover {
   color: #fff;
   background: #007ff5;
 }
+
 .btn--silver,
 a.btn--silver {
   color: #fff;
   background-color: #9e9393;
+  margin-left: 10px;
 }
+
 .btn--silver:hover,
 a.btn--silver:hover {
   color: #fff;
   background: #c9beb8;
 }
+
+.btn_main {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form {
+  margin-left: 10px;
+}
+
 /*登録情報管理画面へ*/
 .guide_text {
   display: flex;
   justify-content: flex-end;
 }
-.guide_text_link{
+
+.guide_text_link {
   font-size: 12px;
   margin: 3rem 5.5rem 0 0px;
 }
-.guide_text_link a{
 
-}
+.guide_text_link a {}
 
 /****テーブルタイトル****/
 .stsys3_table_main {
-  overflow-x:auto;
+  overflow-x: auto;
   padding-bottom: 10px;
--webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
 }
+
 /*===========
 scrollbar
 ===========*/
 /*スクロールバー全体の高さ*/
 .stsys3_table_main::-webkit-scrollbar {
-height: 10px;
+  height: 10px;
 }
+
 /*スクロールバー全体の背景*/
 .stsys3_table_main::-webkit-scrollbar-track {
-background: #eee;
+  background: #eee;
 }
+
 /*スクロールバーの動く部分*/
 .stsys3_table_main::-webkit-scrollbar-thumb {
-background: #aaa;
-border: none;
+  background: #aaa;
+  border: none;
 }
+
 /*スクロールバーの動く部分のホバー（マウスオーバー）*/
 .stsys3_table_main::-webkit-scrollbar-thumb:hover {
-background: #999;
+  background: #999;
 }
-.stsys3_table{
+
+.stsys3_table {
   width: 100%;
   margin: 10px auto 0;
 }
-.stsys3_table tbody .table_tlt th{
-  width:6%;
+
+.stsys3_table tbody .table_tlt th {
+  width: 6%;
 }
-.stsys3_table tbody .table_tlt th:nth-child(1){
-  width:2%;
+
+.stsys3_table tbody .table_tlt th:nth-child(1) {
+  width: 2%;
 }
-.stsys3_table tbody .table_tlt th:nth-child(2){
-  width:3%;
+
+.stsys3_table tbody .table_tlt th:nth-child(2) {
+  width: 3%;
 }
-.stsys3_table tbody .table_tlt th:nth-child(3){
-  width:3%;
+
+.stsys3_table tbody .table_tlt th:nth-child(3) {
+  width: 3%;
 }
-.stsys3_table tbody .table_tlt th:nth-child(4){
-  width:5%;
+
+.stsys3_table tbody .table_tlt th:nth-child(4) {
+  width: 5%;
 }
-.stsys3_table tbody .table_tlt th:nth-child(7){
-  width:15%;
+
+.stsys3_table tbody .table_tlt th:nth-child(7) {
+  width: 15%;
 }
-.stsys3_table tbody .table_tlt th:nth-child(10){
-  width:48%;
+
+.stsys3_table tbody .table_tlt th:nth-child(10) {
+  width: 48%;
 }
+
 /*テーブル入力情報*/
-.stsys3_table tbody tr:nth-child(3){
-  background: #fff!important;
+.stsys3_table tbody tr:nth-child(3) {
+  background: #fff !important;
 }
-.stsys3_table tbody tr:nth-child(odd){
+
+.stsys3_table tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
-.stsys3_table tbody .table_input td:nth-child(10){
-  width:10%;
+
+.stsys3_table tbody .table_input td:nth-child(10) {
+  width: 10%;
 }
-.stsys3_table tbody .table_input td:nth-child(11){
-  width:7%;
+
+.stsys3_table tbody .table_input td:nth-child(11) {
+  width: 7%;
 }
-.stsys3_table tbody .table_input td:nth-child(12){
-  width:15%;
+
+.stsys3_table tbody .table_input td:nth-child(12) {
+  width: 15%;
 }
-.stsys3_table tbody .table_input td:nth-child(13){
-  width:8%;
+
+.stsys3_table tbody .table_input td:nth-child(13) {
+  width: 8%;
 }
-.stsys3_table tbody .table_input td:nth-child(14){
-  width:8%;
+
+.stsys3_table tbody .table_input td:nth-child(14) {
+  width: 8%;
 }
-.text-center{
+
+.text-center {
   text-align: center;
 }
+
 /*セル*/
-.stsys3_table tbody tr td:nth-child(5){
+.stsys3_table tbody tr td:nth-child(5) {
   white-space: nowrap;
 }
-.stsys3_table tbody tr td:nth-child(6){
+
+.stsys3_table tbody tr td:nth-child(6) {
   white-space: nowrap;
 }
-.stsys3_table tbody tr td:nth-child(8){
+
+.stsys3_table tbody tr td:nth-child(8) {
   white-space: nowrap;
 }
-.stsys3_table tbody tr td:nth-child(9){
+
+.stsys3_table tbody tr td:nth-child(9) {
   white-space: nowrap;
 }
-.stsys3_table tbody tr td:nth-child(11){
+
+.stsys3_table tbody tr td:nth-child(11) {
   white-space: nowrap;
 }
-.stsys3_table tbody tr td:nth-child(13){
+
+.stsys3_table tbody tr td:nth-child(13) {
   white-space: nowrap;
 }
-.stsys3_table tbody tr td:nth-child(14){
+
+.stsys3_table tbody tr td:nth-child(14) {
   white-space: nowrap;
 }
 
@@ -270,91 +335,101 @@ background: #999;
 
 /* スマホ横＆タブレット縦対応 */
 @media screen and (min-width:650px) and (max-width:900px) {
-/****上記メニュー****/
+  /****上記メニュー****/
 
-/*講習名*/
-.course_name_select {
-  width: 36%;
-  min-width: 220px;
-  min-height: 36px;
-}
-.course_name_select tbody tr td:nth-child(1) {
-  min-width: 60px;
-}
-/*講習期間*/
-.day_select{
-  width: 60%;
-  min-height: 36px;
-  margin-right: 0;
-  margin-left: 2%;
-}
-/*ボタン*/
-.btn_main {
-  width: auto;
-  margin-top: 20px;
-  margin-right: 0;
-  margin-left: auto;
-}
-/****テーブルタイトル****/
+  /*講習名*/
+  .course_name_select {
+    width: 36%;
+    min-width: 220px;
+    min-height: 36px;
+  }
 
-/*テーブル入力情報*/
-/*テーブル*/
-.stsys3_table {
-  white-space: nowrap;
+  .course_name_select tbody tr td:nth-child(1) {
+    min-width: 60px;
+  }
+
+  /*講習期間*/
+  .day_select {
+    width: 60%;
+    min-height: 36px;
+    margin-right: 0;
+    margin-left: 2%;
+  }
+
+  /*ボタン*/
+  .btn_main {
+    width: auto;
+    margin-top: 20px;
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  /****テーブルタイトル****/
+
+  /*テーブル入力情報*/
+  /*テーブル*/
+  .stsys3_table {
+    white-space: nowrap;
+  }
 }
-}
+
 /* スマホ縦対応  */
-@media screen and (max-width:649px) { 
-/****上記メニュー****/
+@media screen and (max-width:649px) {
+  /****上記メニュー****/
 
-.course_name_select {
-  width: 48%;
-  min-width: 220px;
-  min-height: 36px;
-  margin-left:0;
-  margin-right:auto;
-}
-.course_name_select tbody tr td:nth-child(1) {
-  min-width: 60px;
-}
-.course_name_select tbody tr td input{
-  font-size: 14px;
-}
-#course_code {
-  width: 96%;
-}
-/*講習期間*/
-.day_select{
-  width: 100%;
-  min-height: 36px;
-  margin-right: auto;
-  margin-left: 0;
-  margin-top: 10px;
-}
-.day_select tbody tr td input {
-  width: 90%;
-  font-size: 14px;
-}
-.day_select tbody tr td:nth-child(2){
-  max-width: 110px;
-}
-.day_select tbody tr td:nth-child(4){
-  max-width: 110px;
-}
-/*ボタン*/
-.btn_main {
-  width: auto;
-  margin-top: 20px;
-  margin-right: 0;
-  margin-left: auto;
-}
-.btn {
-  margin-left: 10px;
-}
+  .course_name_select {
+    width: 48%;
+    min-width: 220px;
+    min-height: 36px;
+    margin-left: 0;
+    margin-right: auto;
+  }
 
-/****テーブルタイトル****/
+  .course_name_select tbody tr td:nth-child(1) {
+    min-width: 60px;
+  }
 
-.stsys3_table {
-  white-space: nowrap;
-}
+  .course_name_select tbody tr td input {
+    font-size: 14px;
+  }
+
+  #course_code {
+    width: 96%;
+  }
+
+  /*講習期間*/
+  .day_select {
+    width: 60%;
+    min-height: 36px;
+    margin-right: auto;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .day_select tbody tr td input {
+    width: 110px;
+    font-size: 14px;
+  }
+
+  input {
+    width: 90%;
+  }
+
+  /*ボタン*/
+  .btn_main {
+    width: auto;
+    margin-top: 20px;
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .btn {
+    margin-left: 10px;
+  }
+
+  /****テーブルタイトル****/
+
+  .stsys3_table {
+    white-space: nowrap;
+  }
 }
