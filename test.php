@@ -1,5 +1,5 @@
 <?php
-
+echo "a";
 include("./TCPDF/TCPDF-main/tcpdf.php");
 
 define("MY_PDF_PAGE_ORIENTATION", "P");  // P:Portrait, L:Landscape
@@ -15,6 +15,7 @@ define("MY_PDF_MARGIN_LEFT", 8); //余白
 define("MY_PDF_MARGIN_RIGHT", 8); //余白
 define("MY_PDF_MARGIN_BOTTOM", 13); //余白
 
+echo "b";
 class MYPDF extends TCPDF
 {
     // フッタのカスタマイズ(ページ番号を出力する)
@@ -26,6 +27,7 @@ class MYPDF extends TCPDF
     // }
 }
 
+echo "c";
 $pdf = new MYPDF(MY_PDF_PAGE_ORIENTATION, MY_PDF_UNIT, MY_PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->SetTitle('PDF出力テスト');
 //$pdf->SetSubject('TCPDF Tutorial');
@@ -43,9 +45,11 @@ $pdf->setPrintFooter(true);
 $pdf->setImageScale(MY_PDF_IMAGE_SCALE_RATIO);
 $pdf->SetFont(MY_PDF_FONT_NAME, "", 10);
 
+echo "d";
 // ページを追加
 $pdf->AddPage();
 
+echo "e";
 // PDFに変換するHTML
 $html = <<<_EO_HTML_
 <style>
@@ -69,9 +73,10 @@ $html = <<<_EO_HTML_
 
 .font_weight1{
     font_weight: bold;}
-    
+
 </style>
 
+<p class="f11px right">年　月　日</p>
 <p class="f14px right font_weight1">志摩機械株式会社
 <br><span class="f11px right">北近畿教習センター</span></p>
 <p class="f14px under center">小型移動式クレーン運転技能講習のご案内（K1コース）</p>
@@ -89,17 +94,15 @@ $html = <<<_EO_HTML_
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEL 0773 - 75 - 0652   FAX 0773 - 76 - 5591</p>
 <p class="f11px M_item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5. 受&nbsp;講&nbsp;料&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35,000円（受講料及びテキスト代消費税込み）が未納の方は、至急下記の口座まで
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;お振込み下さい。（当日現金にて持参可）</p>
+
 <div>
-<table border="1" width="250px" cellpadding="3" align="center" style="margin:0 auto;">
-<tr>
-<td class="f11px">
+<table border="1" width="250px" cellpadding="3">
+<tr><td class="f11px">
 &nbsp;&nbsp;&nbsp;&nbsp;･  京都銀行   西舞鶴支店   普通預金
 <br>&nbsp;&nbsp;&nbsp; ･  口座番号  　３０３４３５７　　
 <br>&nbsp;&nbsp;&nbsp; ･  志摩機械株式会社
-</td>
-</tr>
-</table>
-</div>
+</td></tr></table>
+
 <p class="f11px M_item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6. 持参して&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1)  本人確認書類（氏名、生年月日、現住所の確認できる公的な書類）
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;いただく物&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;例（車の免許証、住民票等）
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2)  印鑑・筆記用具（鉛筆、シャープペンシル、消しゴム）
@@ -147,13 +150,14 @@ $data = $pdf->Output(null, 'S');     // PDFドキュメントを文字列とし�
 //$pdf->Output($fileName, 'FI');    // ファイルに保存して、ブラウザにも表示
 //$pdf->Output($fileName, 'FD');    // ファイルに保存して、ダウンロードダイアログを表示
 //$data = $pdf->Output(null, 'E');  // Base64エンコード済みのPDFドキュメントを返却(メールに添付するmultipartコンテンツ用なのでContent-Typeなどのヘッダーが付く)
-
+echo "i";
 if ($data != null) {
-//     // ブラウザにそのまま表示
-//     header('Content-Type: application/pdf');
-//     header('Content-Disposition: inline; filename="' . basename($fileName) . '"');
-//     ダウンロード
-    header('Content-Type: application/octet-stream', false);
-    header('Content-Disposition: attachment; filename="'.basename($fileName).'"');
+    // ブラウザにそのまま表示
+    echo "H";
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: inline; filename="' . basename($fileName) . '"');
+    // ダウンロード
+    //header('Content-Type: application/octet-stream', false);
+    //header('Content-Disposition: attachment; filename="'.basename($fileName).'"');
     echo $data;
 }
