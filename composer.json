@@ -1,5 +1,8 @@
 {
     "require": {
-        "phpoffice/phpspreadsheet": "^1.22"
+        "phpoffice/phpspreadsheet": "^1.22",
+            "dompdf/dompdf": "^0.8.3",
+        "mpdf/mpdf": "^8.0",
+        "tecnickcom/tcpdf": "^6.4"
     }
 }
