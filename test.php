@@ -149,11 +149,11 @@ $data = $pdf->Output(null, 'S');     // PDFドキュメントを文字列とし�
 //$data = $pdf->Output(null, 'E');  // Base64エンコード済みのPDFドキュメントを返却(メールに添付するmultipartコンテンツ用なのでContent-Typeなどのヘッダーが付く)
 
 if ($data != null) {
-    // ブラウザにそのまま表示
-    header('Content-Type: application/pdf');
-    header('Content-Disposition: inline; filename="' . basename($fileName) . '"');
-    // ダウンロード
-    //header('Content-Type: application/octet-stream', false);
-    //header('Content-Disposition: attachment; filename="'.basename($fileName).'"');
+//     // ブラウザにそのまま表示
+//     header('Content-Type: application/pdf');
+//     header('Content-Disposition: inline; filename="' . basename($fileName) . '"');
+//     ダウンロード
+    header('Content-Type: application/octet-stream', false);
+    header('Content-Disposition: attachment; filename="'.basename($fileName).'"');
     echo $data;
 }
