@@ -17,16 +17,17 @@ define("MY_PDF_MARGIN_BOTTOM", 13); //余白
 
 echo "b";
 
-//class MYPDF extends TCPDF
-//{
-// フッタのカスタマイズ(ページ番号を出力する)
-// public function Footer()
-// {
-//     $this->SetY(-15);  // Position at 15 mm from bottom
-//     $this->SetFont('helvetica', 'I', 8);
-//     $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-// }
-//}
+class MYPDF extends TCPDF
+{
+    
+    // フッタのカスタマイズ(ページ番号を出力する)
+    public function Footer()
+    {
+        $this->SetY(-15);  // Position at 15 mm from bottom
+        $this->SetFont('helvetica', 'I', 8);
+        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+    }
+}
 
 echo "c";
 $pdf = new MYPDF(MY_PDF_PAGE_ORIENTATION, MY_PDF_UNIT, MY_PDF_PAGE_FORMAT, true, 'UTF-8', false);
