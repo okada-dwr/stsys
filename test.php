@@ -1,6 +1,6 @@
 <?php
-require_once('tcpdf/tcpdf.php');
-require_once('tcpdf/autoload.php');
+require_once('tcpdf/TCPDF-main/tcpdf.php');
+require_once('tcpdf/TCPDF-main/autoload.php');
 
 $pdf = new setasign\Fpdi\Tcpdf\Fpdi();
 
