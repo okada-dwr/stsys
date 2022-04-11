@@ -650,6 +650,7 @@ try {
             <div class="example-r">
                 <button type="submit" id="request" class="request" name="request" onclick="javascript:undisabled();">申請</button>
                 <script type="text/javascript">
+                    //    二重送信対策（次更新までボタンが非活性になる）
                     $('#request').on('click', function() {
                         $(this).css('pointer-events', 'none');
                     });
@@ -664,11 +665,6 @@ try {
                 <!-- <button type="submit"><a href="pdf/sample.pdf" name="request" download="sample.pdf">申請</a></button> -->
                 <button><a href="index.php">戻る</a></button>
             </div>
-            <?php
-            // if ($_SESSION["mode"] === "send") {
-            //     echo '<p class=message_box>送信しました。お問い合わせありがとうございます。</p>';
-            // }
-            ?>
         </form>
 
         <!-- 画像類 -->
