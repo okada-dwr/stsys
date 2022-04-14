@@ -97,13 +97,16 @@ try {
 
     // DB接続
     $pdo = new PDO(
+
+        //サーバー
         'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
         'b2c2e6853ab5ee',
         '2f35b6a9',
 
-        // 'mysql:dbname=stsys;host=localhost;charset=utf8',
-        // 'root',
-        // 'shinei4005',
+        //ローカル
+//         'mysql:dbname=stsys;host=localhost;charset=utf8',
+//         'root',
+//         'shinei4005',
 
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -377,6 +380,9 @@ try {
                                     $month1 = substr($month1, 1, 1);
                                 }
                                 $stsys2_start_day = $year . '/' . $month1 . '/' .  $Key;
+                                $youbi = getyoubi($year, $month1, $Key);
+                                $stsys3_start_day = $year . '年' . $month1 . '月' .  $Key . '日' . $youbi;
+
                                 if ($day === 5) {
                                     $day = $day;
                                 }
@@ -387,20 +393,28 @@ try {
                                         $month1 = 1;
                                         $year1 = $year + 1;
                                         $stsys2_end_day = $year1 . '/' .  $month1  . '/' . $hairetu_count[count($hairetu_count) - 1];
-
+                                        $youbi = getyoubi($year1, $month1, $hairetu_count[count($hairetu_count) - 1]);
+                                        $stsys3_end_day = $month1  . '月' . $hairetu_count[count($hairetu_count) - 1] . '日' . $youbi;
                                         //12月以外の月マタギは月を来月にする
                                     } else {
                                         $month1 += 1;
                                         $stsys2_end_day = $year1 . '/' .  $month1  . '/' . $hairetu_count[count($hairetu_count) - 1];
+                                        $youbi = getyoubi($year1, $month1, $hairetu_count[count($hairetu_count) - 1]);
+                                        $stsys3_end_day = $month1  . '月' . $hairetu_count[count($hairetu_count) - 1] . '日' . $youbi;
                                     }
                                 } elseif ($Key === (int)$hairetu_count[0]) { //１日だけの講習なら
                                     $stsys2_end_day = $year1 . '/' .  $month1  . '/' . (int)$Key;
+                                    $youbi = getyoubi($year1, $month1, (int)$Key);
+                                    $stsys3_end_day = $month1  . '月' . (int)$Key . '日' . $youbi;
                                     $finish_key_count = -1;
                                 } else {
                                     $stsys2_end_day = $year1 . '/' .  $month1  . '/' . (int)$Key + $finish_key_count;
+                                    $youbi = getyoubi($year1, $month1, (int)$Key + $finish_key_count);
+                                    $stsys3_end_day = $month1  . '月' . (int)$Key + $finish_key_count . '日' . $youbi;
                                 }
 
                                 $stsys2_day = $stsys2_start_day . '~' . $stsys2_end_day;
+                                $stsys3_day = $stsys3_start_day . ' ～　' . $stsys3_end_day;
 
                                 //人数表示する。
                                 $reset = 1; //予約日先頭なら1を入れる
@@ -431,10 +445,12 @@ try {
                 $course_code_button = $start_day_final[$final_count][2]; //コースコード
                 $course_name_button = $start_day_final[$final_count][3]; //コース名
 
-                if ((int)$limited_num_final === 0) { //登録人数が０ならボタン押せなくする
+                if ((int)$limited_num_final === 0) { //予約人数が０人ならボタン押せなくする
                     $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="0",' . $course_code_button . ',' . $course_name_button . ' disabled>x</button>';
-                } else {
-                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="' . $limited_num_final . ',' . $course_code_button . ',' . $course_name_button . ',' . $stsys2_day . ',' . $place_code_button . ',' . $place_name_button . '">' . $limited_num_final . '席' . '</button>';
+                } elseif ((int)$limited_num_final < 0) { //予約数がマイナスならエラー画面表示
+                    header("Location:stsys07.php");
+                } else { //ボタンを活性にして、予約可能人数を表示する
+                    $button_value = '<button type="submit" onclick="ckBtn(this)" name="' . $button_name . '" value="' . $limited_num_final . ',' . $course_code_button . ',' . $course_name_button . ',' . $stsys2_day . ',' . $place_code_button . ',' . $place_name_button . ',' . $stsys3_day . '">' . $limited_num_final . '席' . '</button>';
                 }
 
                 //ボタン作成
@@ -445,9 +461,6 @@ try {
                 }
                 $td_check[$final_count]  = 1;
             } elseif ($reset === 0 and $skip_check === 0) { //予約日先頭でないから普通に作成
-                // if ($day === 2) {
-                //     $day = $day;
-                // }
                 if ($td_check[$final_count]  === 0) {
                     $start_day_final[$final_count][count($start_day_final[$final_count])] = '<td></td>';
                 } else {
@@ -598,6 +611,28 @@ function youbi_create($youbi)
             echo '曜日エラーです';
     }
 }
+
+function getyoubi($y, $m, $d)
+{
+    //指定日の曜日を取得する
+    $timestamp = mktime(0, 0, 0, $m, $d, $y);
+    $date = date('w', $timestamp);
+
+    //配列を使用し、要素順に(日:0〜土:6)を設定する
+    $week = [
+        '日', //0
+        '月', //1
+        '火', //2
+        '水', //3
+        '木', //4
+        '金', //5
+        '土', //6
+    ];
+
+    //日本語で曜日を出力
+    return '（' . $week[$date] . '）';
+}
+
 function getHolidays($year)
 { //その年の祝日を全て取得する関数を作成
 
@@ -809,13 +844,16 @@ function display_to_Holidays($date, $Holidays_array)
                     {
                         // DB接続
                         $pdo = new PDO(
+
+                            //サーバー
                             'mysql:dbname=heroku_5e78f26ff50403d;host=us-cdbr-east-05.cleardb.net;charset=utf8',
                             'b2c2e6853ab5ee',
                             '2f35b6a9',
 
-                            // 'mysql:dbname=stsys;host=localhost;charset=utf8',
-                            // 'root',
-                            // 'shinei4005',
+                            //ローカル
+//                             'mysql:dbname=stsys;host=localhost;charset=utf8',
+//                             'root',
+//                             'shinei4005',
 
                             // レコード列名をキーとして取得させる
                             [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
